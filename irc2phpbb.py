@@ -5,16 +5,17 @@
 import sys 
 import socket 
 import string 
+import random 
 import os #not necassary but later on I am going to use a few features from this 
 
 #Settings
 HOST='irc.bsnet.se' 			#The server we want to connect to 
 PORT=6667 								#The connection port which is usually 6667 
 NICK='dbwebb' 						#The bot's nickname 
-IDENT='****' 
+IDENT='***' 
 REALNAME='Mr All Mighty DbWebb Bot' 
 OWNER='mos' 							#The bot owner's nick 
-CHANNELINIT='#dbwebb'			#The default channel for the bot 
+CHANNEL='#dbwebb'			    #The default channel for the bot 
 readbuffer='' 						#Here we store all the messages from server 
 
 #Function to parse incoming messages
@@ -59,23 +60,28 @@ def syscmd(commandline,channel):
 #Connect 
 #Create the socket  & Connect to the server
 s=socket.socket( ) 																		
-print "Connecting..."
+print "Connecting: %s:%d" % (HOST, PORT)
 s.connect((HOST, PORT)) 
 
 #Send the nick to server 
-msg='NICK '+NICK+'\n'
+msg='NICK %s\r\n' % NICK
 print "Send: "+msg
 s.send(msg)
 
 #Identify to server 
-msg='USER '+IDENT+' '+HOST+' dbwebb.se :'+REALNAME+'\n'
+msg='USER  %s %s dbwebb.se :%s\r\n' % (NICK, HOST, REALNAME)
 print "Send: "+msg
 s.send(msg) 
 
 #This is my nick, i promise!
-msg='PRIVMSG nick IDENTIFY '+IDENT+'\n'
+msg='PRIVMSG nick IDENTIFY %s\r\n' % IDENT
 print "Send: "+msg
-s.send(msg) 	#Identify to server 
+s.send(msg) 	
+
+#Join a channel 
+msg='JOIN %s\r\n' % CHANNEL
+print msg
+s.send(msg) 		
 
 
 #Wait and listen
@@ -86,23 +92,31 @@ s.send(msg) 	#Identify to server
 #To make it active we use the parsemsg function. 
 #PRIVMSG are usually of this form: 
 # :nick!username@host PRIVMSG channel/nick :Message 
+msgs=['Ja, vad kan jag göra för Dig?', 'Låt mig hjälpa dig.', 'Ursäkta, vad önskas?', 
+'Kan jag stå till din tjänst?', 'Jag kan svara på alla dina frågor.', 'Ge me hög-fem!',
+'Jag svara endast inför mos och ake1, de är mina herrar.']
+
 while 1: 
-	line=s.recv(500) 	#recieve server messages 
-	if line:
-		print "mumin"+line 				#server message is output 
+  readbuffer=readbuffer+s.recv(1024)
+  temp=string.split(readbuffer, "\n")
+  readbuffer=temp.pop( )
+  
+  for line in temp:
+    line=string.rstrip(line)
+    line=string.split(line)
+    print "mumin: %s" % line
+  
+    if(line[0]=="PING"):
+      msg="PONG %s\r\n" % line[1]
+      print msg
+      s.send(msg)
 
-	if line.find('End of /MOTD command.')!=-1: #This is Crap(I wasn't sure about it but it works) 
-		msg='JOIN '+CHANNELINIT+'\n'
-		print msg
-		s.send(msg) 		#Join a channel 
-
-	if line.find('PRIVMSG')!=-1: 	#Call a parsing function 
-		parsemsg(line) 
-		line=line.rstrip() 		#remove trailing '\r\n' 
-		line=line.split() 
-
-	if(line[0]=='PING'): 	#If server pings then pong 
-		msg='PONG '+line[1]+'\n'
-		print msg
-		s.send(msg) 		
-
+    if line[1]=='PRIVMSG' and line[2]==CHANNEL and line[3]==':%s:' % NICK:
+      print "Incoming message to me"
+      msg="PRIVMSG %s :%s\r\n" % (CHANNEL, msgs[random.randint(0,2)])
+      print msg
+      s.send(msg)
+      #parsemsg(line) 
+      #line=line.rstrip() 		#remove trailing '\r\n' 
+      #line=line.split() 
+  
