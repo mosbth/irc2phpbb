@@ -12,8 +12,8 @@ import feedparser # http://wiki.python.org/moin/RssLibraries
 #Settings
 HOST='irc.bsnet.se' 			#The server we want to connect to 
 PORT=6667 								#The connection port which is usually 6667 
-NICK='mrx' 						#The bot's nickname 
-IDENT='****' 
+NICK='dbwebbx' 						#The bot's nickname 
+IDENT='***' 
 REALNAME='Mr All Mighty DbWebb Bot' 
 OWNER='mos' 							#The bot owner's nick 
 CHANNEL='#dbwebb'			    #The default channel for the bot 
@@ -96,7 +96,10 @@ s.send(msg)
 # :nick!username@host PRIVMSG channel/nick :Message 
 msgs=['Ja, vad kan jag göra för Dig?', 'Låt mig hjälpa dig.', 'Ursäkta, vad önskas?', 
 'Kan jag stå till din tjänst?', 'Jag kan svara på alla dina frågor.', 'Ge me hög-fem!',
-'Jag svara endast inför mos och ake1, de är mina herrar.', 'ake1 är kungen!']
+'Jag svarar endast inför mos och ake1, de är mina herrar.', 'ake1 är kungen!',
+'Oh, ursäkta, jag slumrade visst till.']
+
+smile=[':D', ':P', ';P', ';)', ':)']
 
 while 1: 
   readbuffer=readbuffer+s.recv(1024)
@@ -114,9 +117,14 @@ while 1:
       s.send(msg)
 
     if line[1]=='PRIVMSG' and line[2]==CHANNEL and line[3]==':%s:' % NICK:
-      if line[4] and line[4]=='latest':
+      if line[4] and (line[4]=='latest' or line[4]=='senaste'):
         feed=feedparser.parse(FEED)
         msg="PRIVMSG %s :%s (%s)\r\n" % (CHANNEL, feed["items"][0]["title"].encode('ascii', 'ignore'), feed["items"][0]["link"])
+        print str(msg)
+        s.send(msg)
+      elif line[4] and (line[4]=='smile' or line[4]=='le'):
+        feed=feedparser.parse(FEED)
+        msg="PRIVMSG %s :%s\r\n" % (CHANNEL, smile[random.randint(0,len(smile)-1)])
         print str(msg)
         s.send(msg)
       else:
