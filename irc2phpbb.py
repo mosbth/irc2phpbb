@@ -7,16 +7,18 @@ import socket
 import string 
 import random 
 import os #not necassary but later on I am going to use a few features from this 
+import feedparser # http://wiki.python.org/moin/RssLibraries
 
 #Settings
 HOST='irc.bsnet.se' 			#The server we want to connect to 
 PORT=6667 								#The connection port which is usually 6667 
-NICK='dbwebb' 						#The bot's nickname 
-IDENT='***' 
+NICK='mrx' 						#The bot's nickname 
+IDENT='****' 
 REALNAME='Mr All Mighty DbWebb Bot' 
 OWNER='mos' 							#The bot owner's nick 
 CHANNEL='#dbwebb'			    #The default channel for the bot 
 readbuffer='' 						#Here we store all the messages from server 
+FEED='http://dbwebb.se/forum/feed.php'
 
 #Function to parse incoming messages
 def parsemsg(msg): 
@@ -94,7 +96,7 @@ s.send(msg)
 # :nick!username@host PRIVMSG channel/nick :Message 
 msgs=['Ja, vad kan jag göra för Dig?', 'Låt mig hjälpa dig.', 'Ursäkta, vad önskas?', 
 'Kan jag stå till din tjänst?', 'Jag kan svara på alla dina frågor.', 'Ge me hög-fem!',
-'Jag svara endast inför mos och ake1, de är mina herrar.']
+'Jag svara endast inför mos och ake1, de är mina herrar.', 'ake1 är kungen!']
 
 while 1: 
   readbuffer=readbuffer+s.recv(1024)
@@ -112,11 +114,16 @@ while 1:
       s.send(msg)
 
     if line[1]=='PRIVMSG' and line[2]==CHANNEL and line[3]==':%s:' % NICK:
-      print "Incoming message to me"
-      msg="PRIVMSG %s :%s\r\n" % (CHANNEL, msgs[random.randint(0,2)])
-      print msg
-      s.send(msg)
-      #parsemsg(line) 
-      #line=line.rstrip() 		#remove trailing '\r\n' 
-      #line=line.split() 
+      if line[4] and line[4]=='latest':
+        feed=feedparser.parse(FEED)
+        msg="PRIVMSG %s :%s (%s)\r\n" % (CHANNEL, feed["items"][0]["title"].encode('ascii', 'ignore'), feed["items"][0]["link"])
+        print str(msg)
+        s.send(msg)
+      else:
+        msg="PRIVMSG %s :%s\r\n" % (CHANNEL, msgs[random.randint(0,len(msgs)-1)])
+        print msg
+        s.send(msg)
+        #parsemsg(line) 
+        #line=line.rstrip() 		#remove trailing '\r\n' 
+        #line=line.split() 
   
