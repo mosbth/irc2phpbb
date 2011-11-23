@@ -12,13 +12,14 @@ import feedparser # http://wiki.python.org/moin/RssLibraries
 #Settings
 HOST='irc.bsnet.se' 			#The server we want to connect to 
 PORT=6667 								#The connection port which is usually 6667 
-NICK='dbwebbx' 						#The bot's nickname 
+NICK='marvin' 						#The bot's nickname 
 IDENT='***' 
-REALNAME='Mr All Mighty DbWebb Bot' 
+REALNAME='Mr Marvin Bot' 
 OWNER='mos' 							#The bot owner's nick 
-CHANNEL='#dbwebb'			    #The default channel for the bot 
+CHANNEL='#db-o-webb'			    #The default channel for the bot 
 readbuffer='' 						#Here we store all the messages from server 
 FEED='http://dbwebb.se/forum/feed.php'
+SEARCH='http://dbwebb.se/forum/search.php?keywords='
 
 #Function to parse incoming messages
 def parsemsg(msg): 
@@ -97,9 +98,17 @@ s.send(msg)
 msgs=['Ja, vad kan jag göra för Dig?', 'Låt mig hjälpa dig.', 'Ursäkta, vad önskas?', 
 'Kan jag stå till din tjänst?', 'Jag kan svara på alla dina frågor.', 'Ge me hög-fem!',
 'Jag svarar endast inför mos och ake1, de är mina herrar.', 'ake1 är kungen!',
-'Oh, ursäkta, jag slumrade visst till.']
+'Oh, ursäkta, jag slumrade visst till.', 'fråga, länka till kod och source.php och vänta på svaret.']
 
-smile=[':D', ':P', ';P', ';)', ':)']
+smile=[':-D', ':-P', ';-P', ';-)', ':-)', '8-)']
+
+lunch=['ska vi ta boden uppe på parkeringen idag? en pasta, ris eller kebabrulle?', 
+'ska vi dra ned till den indiska och ta en 1:a, den är stark o fin, man får ju bröd också.', 
+'thairestaurangen var inte så dum borta vid korsningen.', 
+'jag har med mig en matlåda hemmifrån så det är lugnt idag.', 
+'ska vi chansa och ta BTH-fiket? kan ju ta en färdig sallad om inte annat...', 
+'det är lite mysigt i fiket jämte demolabbet, där kan man hitta något enkelt.',
+'jag bantar så jag ligger lågt med maten idag. måste ha lite koll på vikten.']
 
 while 1: 
   readbuffer=readbuffer+s.recv(1024)
@@ -119,12 +128,29 @@ while 1:
     if line[1]=='PRIVMSG' and line[2]==CHANNEL and line[3]==':%s:' % NICK:
       if line[4] and (line[4]=='latest' or line[4]=='senaste'):
         feed=feedparser.parse(FEED)
-        msg="PRIVMSG %s :%s (%s)\r\n" % (CHANNEL, feed["items"][0]["title"].encode('ascii', 'ignore'), feed["items"][0]["link"])
+        msg="PRIVMSG %s :Senast hänt i forumet: %s (%s)\r\n" % (CHANNEL, feed["items"][0]["title"].encode('utf-8', 'ignore'), feed["items"][0]["link"].encode('utf-8', 'ignore'))
+        print str(msg)
+        s.send(msg)
+      elif line[4] and (line[4]=='sök' or line[4]=='search'):
+        search='%20'.join(line[5:])
+        if search:        
+          msg="PRIVMSG %s :Det kan hjälpa att söka i forumet: %s%s\r\n" % (CHANNEL, SEARCH, search)
+        else:
+          msg="PRIVMSG %s :Vad vill du söka efter för nyckelord?\r\n" % CHANNEL
         print str(msg)
         s.send(msg)
       elif line[4] and (line[4]=='smile' or line[4]=='le'):
         feed=feedparser.parse(FEED)
         msg="PRIVMSG %s :%s\r\n" % (CHANNEL, smile[random.randint(0,len(smile)-1)])
+        print str(msg)
+        s.send(msg)
+      elif line[4] and (line[4]=='help' or line[4]=='hjälp'):
+        msg="PRIVMSG %s :Ställ din fråga, länka till exempel och source.php. Vänta på svar.\r\n" % (CHANNEL)
+        print str(msg)
+        s.send(msg)
+      elif line[4] and (line[4]=='lunch' or line[4]=='mat' or line[4]=='käk'):
+        feed=feedparser.parse(FEED)
+        msg="PRIVMSG %s :%s\r\n" % (CHANNEL, lunch[random.randint(0,len(lunch)-1)])
         print str(msg)
         s.send(msg)
       else:
