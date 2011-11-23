@@ -4,6 +4,10 @@ and developed from there.
 
 The rfc for the irc protocol is quite helpful: http://www.irchelp.org/irchelp/rfc/
 
+I'm using feedparser to parse the RSS feed.
+http://wiki.python.org/moin/RssLibraries
+http://code.google.com/p/feedparser/
+
 The bot is (will be) active in irc://irc.bsnet.se/#db-o-webb which is a irc channel for 
 teaching HTML, CSS, JavaScript, PHP, SQL and Unix. The forum is on http://dbwebb.se.
 
