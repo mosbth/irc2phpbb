@@ -22,6 +22,7 @@ CHANNEL='#db-o-webb'			    #The default channel for the bot
 INCOMING='incoming'			  #Directory for incoming messages 
 DONE='done'			  				#Directory to move all incoming messages once processed
 readbuffer='' 						#Here we store all the messages from server 
+HOME='https://github.com/mosbth/irc2phpbb'
 FEED='http://dbwebb.se/forum/feed.php'
 SEARCH='http://dbwebb.se/forum/search.php?keywords='
 
@@ -174,7 +175,11 @@ while 1:
         print str(msg)
         s.send(msg)
       elif line[4] and (line[4]=='hjälp' or line[4]=='help'):
-        msg="PRIVMSG %s :[senaste, sök, le, lunch, citat]\r\n"  % CHANNEL
+        msg="PRIVMSG %s :[ hem | senaste | sök | le | lunch | citat | hjälp | * ]\r\n"  % CHANNEL
+        print str(msg)
+        s.send(msg)
+      elif line[4] and (line[4]=='hem' or line[4]=='home'):
+        msg="PRIVMSG %s :Jag bor på github: %s\r\n"  % (CHANNEL, HOME)
         print str(msg)
         s.send(msg)
       elif line[4] and (line[4]=='smile' or line[4]=='le'):
