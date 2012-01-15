@@ -15,7 +15,7 @@ import codecs
 HOST='irc.bsnet.se' 			#The server we want to connect to 
 PORT=6667 								#The connection port which is usually 6667 
 NICK='marvin' 						#The bot's nickname 
-IDENT='pass' 
+IDENT='ircmarvin' 
 REALNAME='Mr Marvin Bot' 
 OWNER='mos' 							#The bot owner's nick 
 CHANNEL='#db-o-webb'			    #The default channel for the bot 
@@ -134,6 +134,7 @@ lunch=['ska vi ta boden uppe på parkeringen idag? en pasta, ris eller kebabrull
 quote=['I could calculate your chance of survival, but you won\'t like it.', 
 'I\'d give you advice, but you wouldn\'t listen. No one ever does.', 
 'I ache, therefore I am.', 
+'ake1 is poking around in my code, aaaaaaa, help!!11',
 'I\'ve seen it. It\'s rubbish. (About a Magrathean sunset that Arthur finds magnificent)', 
 'Not that anyone cares what I say, but the Restaurant is on the other end of the universe.', 
 'I think you ought to know I\'m feeling very depressed.',
@@ -175,7 +176,7 @@ while 1:
         print str(msg)
         s.send(msg)
       elif line[4] and (line[4]=='hjälp' or line[4]=='help'):
-        msg="PRIVMSG %s :[ hem | senaste | sök | le | lunch | citat | hjälp | * ]\r\n"  % CHANNEL
+        msg="PRIVMSG %s :[ hem | senaste | sök | le | lunch | citat | fråga | hjälp | * ]\r\n"  % CHANNEL
         print str(msg)
         s.send(msg)
       elif line[4] and (line[4]=='hem' or line[4]=='home'):
@@ -186,7 +187,7 @@ while 1:
         msg="PRIVMSG %s :%s\r\n" % (CHANNEL, smile[random.randint(0,len(smile)-1)])
         print str(msg)
         s.send(msg)
-      elif line[4] and (line[4]=='help' or line[4]=='hjälp'):
+      elif line[4] and (line[4]=='ask' or line[4]=='fråga'):
         msg="PRIVMSG %s :Ställ din fråga, länka till exempel och source.php. Vänta på svar.\r\n" % (CHANNEL)
         print str(msg)
         s.send(msg)

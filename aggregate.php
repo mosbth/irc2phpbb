@@ -8,13 +8,16 @@
  *
  */
 chdir(__DIR__);
+
+define('MAGPIE_INPUT_ENCODING', 'UTF-8');
+define('MAGPIE_OUTPUT_ENCODING', 'UTF-8');
 require(__DIR__ . '/magpierss/rss_fetch.inc');
 
 $feeds = array(
 	array(
 		'url'=>'http://dbwebb.se/forum/feed.php', 
 		'callback'=>function($item) {
-			file_put_contents(tempnam(__DIR__ . "/incoming", "forum"), "Nytt foruminlägg av " . utf8_encode($item['author_name']) . ": " . utf8_encode($item['title']) . " (" . utf8_encode($item['id']) . ")");
+			file_put_contents(tempnam(__DIR__ . "/incoming", "forum"), "Nytt foruminlägg av {$item['author_name']} i {$item['title']} ({$item['id']})");
 		},
 	),
 );
@@ -39,4 +42,4 @@ foreach($feeds as $val) {
 
 // Log last run to file
 date_default_timezone_set('Europe/Stockholm');
-file_put_contents(__DIR__ . "/aggregate.log", date(DATE_RFC822) . " $count new items.");
+file_put_contents(__DIR__ . "/aggregate.log", date(DATE_RFC822) . " $count new items.\n");
