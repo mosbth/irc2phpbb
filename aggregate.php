@@ -16,8 +16,36 @@ require(__DIR__ . '/magpierss/rss_fetch.inc');
 $feeds = array(
 	array(
 		'url'=>'http://dbwebb.se/forum/feed.php', 
-		'callback'=>function($item) {
-			file_put_contents(tempnam(__DIR__ . "/incoming", "forum"), "Nytt foruminlägg av {$item['author_name']} i {$item['title']} ({$item['id']})");
+    'ignore' => array(
+      // htmlphp
+      83,63,62,61,60,59,58,57,
+      // oophp
+      84,82,81,80,79,78,77,76,
+      // dbwebb1
+      85,70,69,68,67,66,65,64,
+      // dbwebb2
+      86,75,74,73,72,71,
+    ),
+		'callback'=>function($item, $ignore=array()) {
+		  global $success, $ignored, $error;
+      $matches = array();
+      preg_match('/t=(\d+)&p=(\d+)/', $item['id'], $matches);
+      //var_dump($item['id']);
+      //var_dump($matches);
+      $t = isset($matches[1]) ? $matches[1] : null;
+      $p = isset($matches[2]) ? $matches[2] : null;      
+      if(!($t && $p)) {
+        file_put_contents('aggregate.error', "{$item['id']}\n", FILE_APPEND);
+  			$error++;
+      }
+      else if(in_array($t, $ignore) == true) {
+  			file_put_contents('aggregate.ignore', "{$item['id']}\n", FILE_APPEND);
+  			$ignored++;
+  		}
+      else {
+  			file_put_contents(tempnam(__DIR__ . "/incoming", "forum"), html_entity_decode("Forumet \"{$item['title']}\" av {$item['author_name']} http://dbwebb.se/f/$p", ENT_QUOTES, 'UTF-8'));
+  			$success++;
+  		}
 		},
 	),
 );
@@ -28,13 +56,16 @@ $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING); // Display errors, b
 $stmt = $db->prepare("INSERT OR IGNORE INTO aggregate(feed,key) VALUES(?,?)");
 
 $count = 0;
+$success=0;
+$ignored=0;
+$error=0;
 // get feed, loop though all items and try to add key to database, if succeed then callback.
 foreach($feeds as $val) {
 	$rss = @fetch_rss($val['url']);
 	foreach ($rss->items as $item ) {
   	$stmt->execute(array($val['url'], $item['id']));
   	if($stmt->rowCount()) {
-			call_user_func($val['callback'], $item);
+			call_user_func($val['callback'], $item, $val['ignore']);
 			$count++;
   	}
 	}
@@ -42,4 +73,4 @@ foreach($feeds as $val) {
 
 // Log last run to file
 date_default_timezone_set('Europe/Stockholm');
-file_put_contents(__DIR__ . "/aggregate.log", date(DATE_RFC822) . " $count new items.\n");
+file_put_contents(__DIR__ . "/aggregate.log", date(DATE_RFC822) . " $count new items. Success=$success, ignored=$ignored, error=$error.\n", FILE_APPEND);
