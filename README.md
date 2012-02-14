@@ -48,7 +48,7 @@ irc-channel by the bot. You'll have to download and install the lib yourself.
 
 Run `aggregate.php` from crontab with regular intervalls, for example each 5 minute.
   
-  */5 * * * * /usr/local/bin/php /home/mos/git/irc2phpbb/aggregate.php
+    */5 * * * * /usr/local/bin/php /home/mos/git/irc2phpbb/aggregate.php
 
 The id of the feed items are stored in a SQLite database to avoid duplicates being posted.
 
