@@ -20,7 +20,7 @@ from bs4 import BeautifulSoup
 HOST='irc.bsnet.se' 			#The server we want to connect to 
 PORT=6667 								#The connection port which is usually 6667 
 NICK='marvin' 						#The bot's nickname 
-IDENT='ircmarvin' 
+IDENT='*******' 
 REALNAME='Mr Marvin Bot' 
 OWNER='mos' 							#The bot owner's nick 
 CHANNEL='#db-o-webb'			    #The default channel for the bot 
