@@ -9,7 +9,7 @@ forum and target irc-channel.
 The rfc for the irc protocol is quite helpful: http://www.irchelp.org/irchelp/rfc/
 
 
-Its customised for dbwebb.se
+Customised for dbwebb.se
 ----------------------------
 
 The bot is created for use in irc://irc.bsnet.se/#db-o-webb which is an irc channel for 
