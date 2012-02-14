@@ -10,12 +10,17 @@ import os #not necassary but later on I am going to use a few features from this
 import feedparser # http://wiki.python.org/moin/RssLibraries
 import shutil
 import codecs
+from collections import deque
+from datetime import datetime
+import re
+import urllib2
+from bs4 import BeautifulSoup
 
 #Settings
 HOST='irc.bsnet.se' 			#The server we want to connect to 
 PORT=6667 								#The connection port which is usually 6667 
 NICK='marvin' 						#The bot's nickname 
-IDENT='****' 
+IDENT='ircmarvin' 
 REALNAME='Mr Marvin Bot' 
 OWNER='mos' 							#The bot owner's nick 
 CHANNEL='#db-o-webb'			    #The default channel for the bot 
@@ -23,8 +28,15 @@ INCOMING='incoming'			  #Directory for incoming messages
 DONE='done'			  				#Directory to move all incoming messages once processed
 readbuffer='' 						#Here we store all the messages from server 
 HOME='https://github.com/mosbth/irc2phpbb'
-FEED='http://dbwebb.se/forum/feed.php'
-SEARCH='http://dbwebb.se/forum/search.php?keywords='
+FEED_FORUM='http://dbwebb.se/forum/feed.php'
+FEED_LISTEN='http://ws.audioscrobbler.com/1.0/user/mikaelroos/recenttracks.rss'
+
+SMHI_PROGNOS='http://www.smhi.se/vadret/vadret-i-sverige/Vaderoversikt-Sverige-meteorologens-kommentar?meteorologens-kommentar=http%3A%2F%2Fwww.smhi.se%2FweatherSMHI2%2Flandvader%2F.%2Fprognos15_2.htm'
+SUNRISE='http://www.timeanddate.com/worldclock/astronomy.html?n=1391'
+
+LOGFILE='irclog.txt' #Save a log with latest messages
+LOGFILEMAX=10
+irclog=deque([],LOGFILEMAX) #keep a log of the latest messages
 
 #Function to parse incoming messages
 def parsemsg(msg): 
@@ -52,7 +64,7 @@ def parsemsg(msg):
 
 
 #This piece of code takes the command and executes it printing the output to ot.txt. Then ot.txt is 
-#read and displayed to the given channel.Multiline output is shown by using '|'. 
+#read and displayed to the given channel. Multiline output is shown by using '|'. 
 def syscmd(commandline,channel): 
     cmd=commandline.replace('sys ','') 
     cmd=cmd.rstrip() 
@@ -65,7 +77,7 @@ def syscmd(commandline,channel):
     return 0 
 
 #Read all files in the directory incoming, send them as a message if they exists and then move the
-#file to direcotry done.
+#file to directory done.
 def readincoming(dir): 
 	listing = os.listdir(dir)
 	for infile in listing:
@@ -80,6 +92,14 @@ def readincoming(dir):
 		except Exception:
 			os.remove(filename)
 			
+#Write to logfile
+def writeToLogfile(logs):
+  f=open(LOGFILE, 'w')
+  for m in logs:
+    print m
+    f.write("%s\n" % m)
+  f.close()
+
 
 #Connect 
 #Create the socket  & Connect to the server
@@ -116,10 +136,14 @@ s.send(msg)
 #To make it active we use the parsemsg function. 
 #PRIVMSG are usually of this form: 
 # :nick!username@host PRIVMSG channel/nick :Message 
-msgs=['Ja, vad kan jag göra för Dig?', 'Låt mig hjälpa dig.', 'Ursäkta, vad önskas?', 
+msgs=['Ja, vad kan jag göra för Dig?', 'Låt mig hjälpa dig med dina strävanden.', 'Ursäkta, vad önskas?', 
 'Kan jag stå till din tjänst?', 'Jag kan svara på alla dina frågor.', 'Ge me hög-fem!',
 'Jag svarar endast inför mos och ake1, de är mina herrar.', 'ake1 är kungen!',
-'Oh, ursäkta, jag slumrade visst till.', 'fråga, länka till kod och source.php och vänta på svaret.']
+'Oh, ursäkta, jag slumrade visst till.', 'Fråga, länka till kod och source.php och vänta på svaret.']
+
+hello=['Hej själv! ', 'Trevligt att du bryr dig om mig. ', 'Det var länge sedan någon var trevlig mot mig. ', 
+'Tjena moss! ', 'Halloj, det ser ut att bli mulet idag. ',
+]
 
 smile=[':-D', ':-P', ';-P', ';-)', ':-)', '8-)']
 
@@ -134,7 +158,6 @@ lunch=['ska vi ta boden uppe på parkeringen idag? en pasta, ris eller kebabrull
 quote=['I could calculate your chance of survival, but you won\'t like it.', 
 'I\'d give you advice, but you wouldn\'t listen. No one ever does.', 
 'I ache, therefore I am.', 
-'ake1 is poking around in my code, aaaaaaa, help!!11',
 'I\'ve seen it. It\'s rubbish. (About a Magrathean sunset that Arthur finds magnificent)', 
 'Not that anyone cares what I say, but the Restaurant is on the other end of the universe.', 
 'I think you ought to know I\'m feeling very depressed.',
@@ -143,6 +166,9 @@ quote=['I could calculate your chance of survival, but you won\'t like it.',
 '"What\'s up?" [asked Ford.] "I don\'t know," said Marvin, "I\'ve never been there."',
 'Marvin: "I am at a rough estimate thirty billion times more intelligent than you. Let me give you an example. Think of a number, any number." Zem: "Er, five." Marvin: "Wrong. You see?"',
 'Zaphod: "Can it Trillian, I\'m trying to die with dignity. Marvin: "I\'m just trying to die."']
+
+lyssna=['Jag gillar låten', 'Senaste låten jag lyssnade på var', 'Jag lyssnar just nu på',
+'Har du hört denna låten :)', 'Jag kan tipsa om en bra låt ->']
 
 
 while 1: 
@@ -154,56 +180,56 @@ while 1:
   for line in temp:
     line=string.rstrip(line)
     line=string.split(line)
-    print "mumin: %s" % line
+    row=' '.join(line[3:]).replace(':',' ').replace(',',' ').replace('.',' ').replace('?',' ').strip().lower()
+    row=row.split()
+    print "%s # %s" % (line, row)
   
-    if(line[0]=="PING"):
-      msg="PONG %s\r\n" % line[1]
+    msg=None
+    if line[0]=="PING":
+      msg="PONG %s" % line[1]
       print msg
       s.send(msg)
+      break
+    elif line[1]=='PRIVMSG' and line[2]==CHANNEL and NICK in row:
+      if 'lyssna' in row or 'lyssnar' in row or 'musik' in row:
+        feed=feedparser.parse(FEED_LISTEN)
+        msg="%s %s" % (lyssna[random.randint(0,len(lyssna)-1)], feed["items"][0]["title"].encode('utf-8', 'ignore'))
+      elif ('latest' in row or 'senaste' in row or 'senast' in row) and ('forum' in row or 'forumet' in row):
+        feed=feedparser.parse(FEED_FORUM)
+        msg="Forumet: \"%s\" av %s http://dbwebb.se/f/%s" % (feed["items"][0]["title"].encode('utf-8', 'ignore'), feed["items"][0]["author"].encode('utf-8', 'ignore'), re.search('(?<=p=)\d+', feed["items"][0]["id"].encode('utf-8', 'ignore')).group(0))
+      elif 'smile' in row or 'le' in row or 'skratta' in row or 'smilies' in row:
+        msg="%s" % (smile[random.randint(0,len(smile)-1)])
+      elif ('budord' in row or 'stentavla' in row) and ('1' in row or '#1' in row):
+        msg="Ställ din fråga, länka till exempel och source.php. Häng kvar och vänta på svar."
+      elif 'lunch' in row or 'mat' in row or 'äta' in row:
+        msg="%s" % (lunch[random.randint(0,len(lunch)-1)])
+      elif 'quote' in row or 'citat' in row or 'filosofi' in row or 'filosofera' in row:
+        msg="%s" % (quote[random.randint(0,len(quote)-1)])
+      elif ('vem' in row or 'vad' in row) and ('är' in row):
+        msg="Jag är en tjänstvillig själ som gillar webbprogrammering. Jag bor på github: %s och du kan diskutera mig i forumet http://dbwebb.se/forum/viewtopic.php?f=21&t=20"  % (HOME)
+      elif 'hjälp' in row or 'help' in row:
+        msg="[ vem | senaste | lyssna | le | lunch | citat | budord 1 | väder | solen | hjälp | * * ]" 
+      elif 'väder' in row or 'vädret' in row or 'prognos' in row or 'prognosen' in row or 'smhi' in row:
+        soup = BeautifulSoup(urllib2.urlopen(SMHI_PROGNOS))
+        msg="%s. %s. %s" % (soup.h1.text.encode('utf-8', 'ignore'), soup.h4.text.encode('utf-8', 'ignore'), soup.h4.findNextSibling('p').text.encode('utf-8', 'ignore')) 
+      elif 'sol' in row or 'solen' in row or 'solnedgång' in row or 'soluppgång' in row:
+        soup = BeautifulSoup(urllib2.urlopen(SUNRISE))
+        tr=soup('table', {'class' : 'spad'})[0].tbody('tr')[0]
+        tds=tr('td')
+        msg="%s går solen upp %s och ner %s. Solen är uppe %s och det skiljer sig från igår med %s. Solen står som högst klockan %s." % (tds[0].text.capitalize().encode('utf-8', 'ignore'), tds[1].text.encode('utf-8', 'ignore'), tds[2].text.encode('utf-8', 'ignore'), tds[3].text.encode('utf-8', 'ignore'), tds[4].text.encode('utf-8', 'ignore'), tds[5].text.encode('utf-8', 'ignore')) 
+      elif 'snälla' in row or 'hej' in row or 'tjena' in row or 'morsning' in row  or 'mår' in row  or 'hallå' in row or 'läget' in row or 'snäll' in row or 'duktig' in row  or 'träna' in row  or 'träning' in row  or 'utbildning' in row:
+        msg="%s %s" % (hello[random.randint(0,len(hello)-1)], msgs[random.randint(0,len(msgs)-1)])
 
-    if line[1]=='PRIVMSG' and line[2]==CHANNEL and line[3]==':%s:' % NICK:
-      if line[4] and (line[4]=='latest' or line[4]=='senaste'):
-        feed=feedparser.parse(FEED)
-        msg="PRIVMSG %s :Senast hänt i forumet: %s (%s) av %s\r\n" % (CHANNEL, feed["items"][0]["title"].encode('utf-8', 'ignore'), feed["items"][0]["link"].encode('utf-8', 'ignore'), feed["items"][0]["author"].encode('utf-8', 'ignore'))
-        print str(msg)
-        s.send(msg)
-      elif line[4] and (line[4]=='sök' or line[4]=='search'):
-        search='%20'.join(line[5:])
-        if search:        
-          msg="PRIVMSG %s :Det kan hjälpa att söka i forumet: %s%s\r\n" % (CHANNEL, SEARCH, search)
-        else:
-          msg="PRIVMSG %s :Vad vill du söka efter för nyckelord?\r\n" % CHANNEL
-        print str(msg)
-        s.send(msg)
-      elif line[4] and (line[4]=='hjälp' or line[4]=='help'):
-        msg="PRIVMSG %s :[ hem | senaste | sök | le | lunch | citat | fråga | hjälp | * ]\r\n"  % CHANNEL
-        print str(msg)
-        s.send(msg)
-      elif line[4] and (line[4]=='hem' or line[4]=='home'):
-        msg="PRIVMSG %s :Jag bor på github: %s\r\n"  % (CHANNEL, HOME)
-        print str(msg)
-        s.send(msg)
-      elif line[4] and (line[4]=='smile' or line[4]=='le'):
-        msg="PRIVMSG %s :%s\r\n" % (CHANNEL, smile[random.randint(0,len(smile)-1)])
-        print str(msg)
-        s.send(msg)
-      elif line[4] and (line[4]=='ask' or line[4]=='fråga'):
-        msg="PRIVMSG %s :Ställ din fråga, länka till exempel och source.php. Vänta på svar.\r\n" % (CHANNEL)
-        print str(msg)
-        s.send(msg)
-      elif line[4] and (line[4]=='lunch' or line[4]=='mat' or line[4]=='käk'):
-        msg="PRIVMSG %s :%s\r\n" % (CHANNEL, lunch[random.randint(0,len(lunch)-1)])
-        print str(msg)
-        s.send(msg)
-      elif line[4] and (line[4]=='quote' or line[4]=='citat' or line[4]=='filosofi'):
-        msg="PRIVMSG %s :%s\r\n" % (CHANNEL, quote[random.randint(0,len(quote)-1)])
-        print str(msg)
-        s.send(msg)
-      else:
-        msg="PRIVMSG %s :%s\r\n" % (CHANNEL, msgs[random.randint(0,len(msgs)-1)])
-        print msg
-        s.send(msg)
-        #parsemsg(line) 
-        #line=line.rstrip() 		#remove trailing '\r\n' 
-        #line=line.split() 
-  
+    if (line[1]=='PRIVMSG' and line[2]==CHANNEL):
+      irclog.append("%s %s %s" % (datetime.now().strftime("%H:%M").rjust(5), re.search('(?<=:)\w+', line[0]).group(0).ljust(8), ' '.join(line[3:]).lstrip(':')))
+      writeToLogfile(irclog)
+
+    if msg!=None and 'PONG' not in msg:
+      irclog.append("%s %s %s" % (datetime.now().strftime("%H:%M").rjust(5), NICK.ljust(8), msg))
+      writeToLogfile(irclog)
+        
+    if msg!=None:
+      msg="PRIVMSG %s :%s\r\n" % (CHANNEL, msg)
+      print msg
+      s.send(msg)
+      
