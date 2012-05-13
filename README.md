@@ -1,8 +1,17 @@
 Marvin, an IRC bot
 ==================
 
-The python script, `irc2phpbb.py`, is a implementation of an irc bot keeping track of latest posts in a
-phpbb forum. The basic code is from: http://osix.net/modules/article/?id=780 and 
+The python script, `irc2phpbb.py`, is a implementation of an irc bot. The bot can answer 
+simple questions and some more advanced features such as presenting the weather by 
+scraping an external website and keeping track of forum posts and posting new posts to 
+the channel. The bot is reading incoming entries from a directory and external scripts may 
+put information there that should be displayed in the irc-channel.
+
+The PHP-script `aggregate.php` is used to log in to the forum to get credentials to view 
+the latest posts through rss. A SQLite database is used to keep track on which posts 
+have been displayed in the irc-channel.
+
+The basic code is from: http://osix.net/modules/article/?id=780 and 
 http://oreilly.com/pub/h/1968. From there its further developed and customised to fit the target
 forum and target irc-channel.
 
@@ -15,7 +24,9 @@ Customised for dbwebb.se
 The bot is created for use in irc://irc.bsnet.se/#db-o-webb which is an irc channel for 
 teaching & learning HTML, CSS, JavaScript, PHP, SQL and Unix. The forum is http://dbwebb.se/forum. 
 
-This means that the code contains some settings to actually work in that environment.
+This means that the code contains some settings to work in that environment and can therefore
+not just be cloned and installed. Modifications are needen. The script may anyhow be useful 
+as a studyobject for those in need of simulare functionality.
 
 
 Using feedparser to get RSS-feeds
@@ -42,7 +53,7 @@ Using PHP to keep track on recent posts
 ---------------------------------------
 
 The file `aggregate.php` uses `magpierss` (http://magpierss.sourceforge.net/) to aggregate feeds from
-several places and while discovering new entries it stores messages in the directory `incoming
+several places and while discovering new entries it stores messages in the directory `incoming`
 where Marvin (the bot) is looking, when finding a file its content will be posted to the 
 irc-channel by the bot. You'll have to download and install the lib yourself.
 
@@ -58,7 +69,19 @@ History
 
 Todo.
 
+* Cache responses from smhi & sunrise services
+* Add logfile entry containing current online users in the irc-channel
+
+
+v0.2.0 (2012-05-13) 
+
+* log all traffic in irc-channel to irclog.txt as json-encoded format.
 * aggregate.php, remove duplicate post in same thread. Only show one.
+* created functions sendMsg and sendPrivMsg to gather all output, reduce codelines and centralise 
+  logging
+* corrected that occasionally only sent one entry from the incoming directory thought it was more 
+  to send.
+* Make \r\n in central sendMsg() for each request
 
 
 v0.1.0 (2012-02-14) 
