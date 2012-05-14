@@ -22,7 +22,7 @@ import json
 HOST='irc.bsnet.se' 			#The server we want to connect to 
 PORT=6667 								#The connection port which is usually 6667 
 NICK='marvin' 						#The bot's nickname 
-IDENT='*****' 
+IDENT='***' 
 REALNAME='Mr Marvin Bot' 
 OWNER='mos' 							#The bot owner's nick 
 CHANNEL='#dbwebb'			    #The default channel for the bot 
@@ -88,7 +88,8 @@ def sendMsg(s, msg):
 # Send and log a PRIV message
 def sendPrivMsg(s, msg):
   global irclog
-  irclog.append("%s %s %s" % (datetime.now().strftime("%H:%M").rjust(5), NICK.ljust(8), msg))
+  irclog.append({'time':datetime.now().strftime("%H:%M").rjust(5), 'user':NICK.ljust(8), 'msg':msg})
+  #irclog.append("%s %s %s" % (datetime.now().strftime("%H:%M").rjust(5), NICK.ljust(8), msg))
   sendMsg(s,"PRIVMSG %s :%s\r\n" % (CHANNEL, msg))
 
 
@@ -171,7 +172,7 @@ lyssna=['Jag gillar låten', 'Senaste låten jag lyssnade på var', 'Jag lyssnar
 
 
 while 1: 
-  json.dump(list(irclog), file(LOGFILE, 'w')) #Write IRC to logfile
+  json.dump(list(irclog), file(LOGFILE, 'w'), False, False) #Write IRC to logfile
   readincoming(INCOMING)
   readbuffer=readbuffer+s.recv(1024)
   temp=string.split(readbuffer, "\n")
@@ -209,7 +210,7 @@ while 1:
       elif 'hem' in row or (('vem' in row or 'vad' in row) and ('är' in row)):
         sendPrivMsg(s,"Jag är en tjänstvillig själ som gillar webbprogrammering. Jag bor på github: %s och du kan diskutera mig i forumet http://dbwebb.se/forum/viewtopic.php?f=21&t=20"  % (HOME))
       elif 'hjälp' in row or 'help' in row:
-        sendPrivMsg(s,"[ vem är | senaste | lyssna | le | lunch | citat | budord 1 | väder | solen | hjälp | * * ]")
+        sendPrivMsg(s,"[ vem är | forum senaste | lyssna | le | lunch | citat | budord 1 | väder | solen | hjälp | * * ]")
       elif 'väder' in row or 'vädret' in row or 'prognos' in row or 'prognosen' in row or 'smhi' in row:
         soup = BeautifulSoup(urllib2.urlopen(SMHI_PROGNOS))
         sendPrivMsg(s,"%s. %s. %s" % (soup.h1.text.encode('utf-8', 'ignore'), soup.h4.text.encode('utf-8', 'ignore'), soup.h4.findNextSibling('p').text.encode('utf-8', 'ignore')))
@@ -218,5 +219,5 @@ while 1:
         tr=soup('table', {'class' : 'spad'})[0].tbody('tr')[0]
         tds=tr('td')
         sendPrivMsg(s,"%s går solen upp %s och ner %s. Solen är uppe %s och det skiljer sig från igår med %s. Solen står som högst klockan %s." % (tds[0].text.capitalize().encode('utf-8', 'ignore'), tds[1].text.encode('utf-8', 'ignore'), tds[2].text.encode('utf-8', 'ignore'), tds[3].text.encode('utf-8', 'ignore'), tds[4].text.encode('utf-8', 'ignore'), tds[5].text.encode('utf-8', 'ignore'))) 
-      elif 'snälla' in row or 'hej' in row or 'tjena' in row or 'morsning' in row  or 'mår' in row  or 'hallå' in row or 'hallo' in row or 'läget' in row or 'snäll' in row or 'duktig' in row  or 'träna' in row  or 'träning' in row  or 'utbildning'  or 'tack' or 'tacka' or 'tackar' or 'tacksam' in row:
+      elif 'snälla' in row or 'hej' in row or 'tjena' in row or 'morsning' in row  or 'mår' in row  or 'hallå' in row or 'hallo' in row or 'läget' in row or 'snäll' in row or 'duktig' in row  or 'träna' in row  or 'träning' in row  or 'utbildning' in row or 'tack' in row or 'tacka' in row or 'tackar' in row or 'tacksam' in row:
         sendPrivMsg(s,"%s %s %s" % (smile[random.randint(0,len(smile)-1)], hello[random.randint(0,len(hello)-1)], msgs[random.randint(0,len(msgs)-1)]))

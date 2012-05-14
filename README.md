@@ -17,6 +17,8 @@ forum and target irc-channel.
 
 The rfc for the irc protocol is quite helpful: http://www.irchelp.org/irchelp/rfc/
 
+/Mikael Roos (mos@dbwebb.se)
+
 
 Customised for dbwebb.se
 ----------------------------
@@ -71,6 +73,11 @@ Todo.
 
 * Cache responses from smhi & sunrise services
 * Add logfile entry containing current online users in the irc-channel
+
+
+v0.2.1 (2012-05-14) 
+
+* Corrected. Failed to decode utf-8 to json.
 
 
 v0.2.0 (2012-05-13) 
