@@ -22,7 +22,7 @@ import json
 HOST='irc.bsnet.se' 			#The server we want to connect to 
 PORT=6667 								#The connection port which is usually 6667 
 NICK='marvin' 						#The bot's nickname 
-IDENT='***' 
+IDENT='*****' 
 REALNAME='Mr Marvin Bot' 
 OWNER='mos' 							#The bot owner's nick 
 CHANNEL='#dbwebb'			    #The default channel for the bot 
@@ -172,7 +172,7 @@ lyssna=['Jag gillar låten', 'Senaste låten jag lyssnade på var', 'Jag lyssnar
 
 
 while 1: 
-  json.dump(list(irclog), file(LOGFILE, 'w'), False, False) #Write IRC to logfile
+  json.dump(list(irclog), file(LOGFILE, 'w'), False, False, False, False, indent=2) #Write IRC to logfile
   readincoming(INCOMING)
   readbuffer=readbuffer+s.recv(1024)
   temp=string.split(readbuffer, "\n")
@@ -189,7 +189,9 @@ while 1:
       sendMsg(s,"PONG %s\r\n" % line[1])
     
     if line[1]=='PRIVMSG' and line[2]==CHANNEL:
-      irclog.append({'time':datetime.now().strftime("%H:%M").rjust(5), 'user':re.search('(?<=:)\w+', line[0]).group(0).ljust(8), 'msg':' '.join(line[3:]).lstrip(':')}) 
+      #irclog.append({'time':datetime.now().strftime("%H:%M").rjust(5), 'user':re.search('(?<=:)\w+', line[0]).group(0).ljust(8), 'msg':' '.join(line[3:]).lstrip(':')}) 
+      #irclog.append({'time':datetime.now().strftime("%H:%M").rjust(5), 'user':re.search('(?<=:)\w+', line[0]).group(0).encode('utf-8', 'ignore'), 'msg':' '.join(line[3:]).lstrip(':').encode('utf-8', 'ignore')}) 
+      irclog.append({'time':datetime.now().strftime("%H:%M").rjust(5), 'user':re.search('(?<=:)\w+', line[0]).group(0), 'msg':' '.join(line[3:]).lstrip(':')}) 
       #(datetime.now().strftime("%H:%M").rjust(5), re.search('(?<=:)\w+', line[0]).group(0).ljust(8), ' '.join(line[3:]).lstrip(':'))) 
 
     if line[1]=='PRIVMSG' and line[2]==CHANNEL and NICK in row:

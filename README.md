@@ -75,6 +75,11 @@ Todo.
 * Add logfile entry containing current online users in the irc-channel
 
 
+v0.2.x (latest) 
+
+* Issues with irclog, utf8 and json encoding to file. debugging.
+
+
 v0.2.1 (2012-05-14) 
 
 * Corrected. Failed to decode utf-8 to json.
