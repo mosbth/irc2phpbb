@@ -77,6 +77,9 @@ Todo.
 
 v0.2.x (latest) 
 
+* Logging as utf-8 to logfile in json format.
+* Managing all strings as unicode internally.
+* Improved encoding of incoming messages though `decode_irc`.
 * Issues with irclog, utf8 and json encoding to file. debugging.
 
 
