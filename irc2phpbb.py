@@ -27,8 +27,8 @@ import json
 #
 HOST='irc.bsnet.se' 			# The server we want to connect to 
 PORT=6667 								# The connection port which is usually 6667 
-NICK='marvin' 						# The bot's nickname 
-IDENT='******' 
+NICK='marvin1' 						# The bot's nickname 
+IDENT='***' 
 REALNAME='Mr Marvin Bot' 
 OWNER='mos' 							# The bot owner's nick 
 CHANNEL='#dbwebb'			    # The default channel for the bot 
@@ -171,7 +171,7 @@ sendMsg(s,'JOIN %s\r\n' % CHANNEL)
 # :nick!username@host PRIVMSG channel/nick :Message 
 msgs=['Ja, vad kan jag göra för Dig?', 'Låt mig hjälpa dig med dina strävanden.', 'Ursäkta, vad önskas?', 
 'Kan jag stå till din tjänst?', 'Jag kan svara på alla dina frågor.', 'Ge me hög-fem!',
-'Jag svarar endast inför mos och ake1, de är mina herrar.', 'ake1 är kungen!',
+'Jag svarar endast inför mos, det är min enda herre.', 'mos är kungen!',
 'Oh, ursäkta, jag slumrade visst till.', 'Fråga, länka till kod och source.php och vänta på svaret.']
 
 hello=['Hej själv! ', 'Trevligt att du bryr dig om mig. ', 'Det var länge sedan någon var trevlig mot mig. ', 
@@ -229,10 +229,13 @@ while 1:
       sendMsg(s,"PONG %s\r\n" % line[1])
     
     if line[1]=='PRIVMSG' and line[2]==CHANNEL:
-      #irclog.append({'time':datetime.now().strftime("%H:%M").rjust(5), 'user':re.search('(?<=:)\w+', line[0]).group(0).ljust(8), 'msg':' '.join(line[3:]).lstrip(':')}) 
-      #irclog.append({'time':datetime.now().strftime("%H:%M").rjust(5), 'user':re.search('(?<=:)\w+', line[0]).group(0).encode('utf-8', 'ignore'), 'msg':' '.join(line[3:]).lstrip(':').encode('utf-8', 'ignore')}) 
-      irclog.append({'time':datetime.now().strftime("%H:%M").rjust(5), 'user':re.search('(?<=:)\w+', line[0]).group(0).encode('utf-8', 'ignore'), 'msg':' '.join(line[3:]).lstrip(':').encode('utf-8', 'ignore')}) 
-      #(datetime.now().strftime("%H:%M").rjust(5), re.search('(?<=:)\w+', line[0]).group(0).ljust(8), ' '.join(line[3:]).lstrip(':'))) 
+      if line[3]==u':\x01ACTION':
+        irclog.append({'time':datetime.now().strftime("%H:%M").rjust(5), 'user':'* ' + re.search('(?<=:)\w+', line[0]).group(0).encode('utf-8', 'ignore'), 'msg':' '.join(line[4:]).lstrip(':').encode('utf-8', 'ignore')}) 
+      else:
+        #irclog.append({'time':datetime.now().strftime("%H:%M").rjust(5), 'user':re.search('(?<=:)\w+', line[0]).group(0).ljust(8), 'msg':' '.join(line[3:]).lstrip(':')}) 
+        #irclog.append({'time':datetime.now().strftime("%H:%M").rjust(5), 'user':re.search('(?<=:)\w+', line[0]).group(0).encode('utf-8', 'ignore'), 'msg':' '.join(line[3:]).lstrip(':').encode('utf-8', 'ignore')}) 
+        irclog.append({'time':datetime.now().strftime("%H:%M").rjust(5), 'user':re.search('(?<=:)\w+', line[0]).group(0).encode('utf-8', 'ignore'), 'msg':' '.join(line[3:]).lstrip(':').encode('utf-8', 'ignore')}) 
+        #(datetime.now().strftime("%H:%M").rjust(5), re.search('(?<=:)\w+', line[0]).group(0).ljust(8), ' '.join(line[3:]).lstrip(':'))) 
 
     if line[1]=='PRIVMSG' and line[2]==CHANNEL and NICK in row:
       if 'lyssna' in row or 'lyssnar' in row or 'musik' in row:
@@ -245,6 +248,10 @@ while 1:
         sendPrivMsg(s,"%s" % (smile[random.randint(0,len(smile)-1)]))
       elif ('budord' in row or 'stentavla' in row) and ('1' in row or '#1' in row):
         sendPrivMsg(s,"Ställ din fråga, länka till exempel och source.php. Häng kvar och vänta på svar.")
+      elif ('budord' in row or 'stentavla' in row) and ('2' in row or '#2' in row):
+        sendPrivMsg(s,"Var inte rädd för att fråga och fråga tills du får svar: http://dbwebb.se/f/6249")
+      elif ('budord' in row or 'stentavla' in row) and ('3' in row or '#3' in row):
+        sendPrivMsg(s,"Öva dig ställa smarta frågor: http://dbwebb.se/f/7802")
       elif 'lunch' in row or 'mat' in row or unicode('äta', 'utf-8') in row:
         sendPrivMsg(s,"%s" % (lunch[random.randint(0,len(lunch)-1)]))
       elif 'quote' in row or 'citat' in row or 'filosofi' in row or 'filosofera' in row:

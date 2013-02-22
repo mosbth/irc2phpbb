@@ -77,6 +77,7 @@ Todo.
 
 v0.2.x (latest) 
 
+* Fixed loggin of ACTION.
 * Logging as utf-8 to logfile in json format.
 * Managing all strings as unicode internally.
 * Improved encoding of incoming messages though `decode_irc`.
