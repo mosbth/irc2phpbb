@@ -53,6 +53,8 @@ $feeds = array(
 
       2470,2471,2472,2473,2474,2475,2476,2477,2478, // python
 
+      3448,3449,3450,3451,3452,3453, // uppropstrådar vt15
+
     ),
 		'callback'=>function($item, $ignore=array()) {
 		  global $success, $ignored, $error;

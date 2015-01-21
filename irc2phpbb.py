@@ -27,11 +27,12 @@ import json
 #
 HOST='irc.bsnet.se' 			# The server we want to connect to 
 PORT=6667 								# The connection port which is usually 6667 
-NICK='marvin1' 						# The bot's nickname 
-IDENT='***' 
+NICK='marvin' 						# The bot's nickname 
+IDENT='somepass'         # Password to identify for nick
 REALNAME='Mr Marvin Bot' 
 OWNER='mos' 							# The bot owner's nick 
-CHANNEL='#dbwebb'			    # The default channel for the bot 
+CHANNEL='#db-o-webb'      # The default channel for the bot 
+#CHANNEL='#db-o-webb-test'      # The default channel for the bot 
 INCOMING='incoming'			  # Directory for incoming messages 
 DONE='done'			  				# Directory to move all incoming messages once processed
 readbuffer='' 						# Here we store all the messages from server 
@@ -40,7 +41,7 @@ FEED_FORUM='http://dbwebb.se/forum/feed.php'
 FEED_LISTEN='http://ws.audioscrobbler.com/1.0/user/mikaelroos/recenttracks.rss'
 
 SMHI_PROGNOS='http://www.smhi.se/vadret/vadret-i-sverige/Vaderoversikt-Sverige-meteorologens-kommentar?meteorologens-kommentar=http%3A%2F%2Fwww.smhi.se%2FweatherSMHI2%2Flandvader%2F.%2Fprognos15_2.htm'
-SUNRISE='http://www.timeanddate.com/worldclock/astronomy.html?n=1391'
+SUNRISE='http://www.timeanddate.com/astronomy/sweden/jonkoping'
 
 LOGFILE='irclog.txt'        # Save a log with latest messages
 LOGFILEMAX=20
@@ -252,6 +253,10 @@ while 1:
         sendPrivMsg(s,"Var inte rädd för att fråga och fråga tills du får svar: http://dbwebb.se/f/6249")
       elif ('budord' in row or 'stentavla' in row) and ('3' in row or '#3' in row):
         sendPrivMsg(s,"Öva dig ställa smarta frågor: http://dbwebb.se/f/7802")
+      elif ('budord' in row or 'stentavla' in row) and ('4' in row or '#4' in row):
+        sendPrivMsg(s,"When in doubt - gör ett testprogram. http://dbwebb.se/f/13570")
+      elif ('budord' in row or 'stentavla' in row) and ('5' in row or '#5' in row):
+        sendPrivMsg(s,"Hey Luke - use the source! http://catb.org/jargon/html/U/UTSL.html")
       elif 'lunch' in row or 'mat' in row or unicode('äta', 'utf-8') in row:
         sendPrivMsg(s,"%s" % (lunch[random.randint(0,len(lunch)-1)]))
       elif 'quote' in row or 'citat' in row or 'filosofi' in row or 'filosofera' in row:
@@ -259,15 +264,16 @@ while 1:
       elif 'hem' in row or (('vem' in row or 'vad' in row) and (unicode('är', 'utf-8') in row)):
         sendPrivMsg(s,"Jag är en tjänstvillig själ som gillar webbprogrammering. Jag bor på github: %s och du kan diskutera mig i forumet http://dbwebb.se/forum/viewtopic.php?f=21&t=20"  % (HOME))
       elif unicode('hjälp', 'utf-8') in row or 'help' in row:
-        sendPrivMsg(s,"[ vem är | forum senaste | lyssna | le | lunch | citat | budord 1 | väder | solen | hjälp | * * ]")
+        sendPrivMsg(s,"[ vem är | forum senaste | lyssna | le | lunch | citat | budord 1 (2, 3, 4, 5) | väder | solen | hjälp | * * ]")
       elif unicode('väder', 'utf-8') in row or unicode('vädret', 'utf-8') in row or 'prognos' in row or 'prognosen' in row or 'smhi' in row:
         soup = BeautifulSoup(urllib2.urlopen(SMHI_PROGNOS))
         sendPrivMsg(s,"%s. %s. %s" % (soup.h1.text.encode('utf-8', 'ignore'), soup.h4.text.encode('utf-8', 'ignore'), soup.h4.findNextSibling('p').text.encode('utf-8', 'ignore')))
       elif 'sol' in row or 'solen' in row or unicode('solnedgång', 'utf-8') in row or unicode('soluppgång', 'utf-8') in row:
         soup = BeautifulSoup(urllib2.urlopen(SUNRISE))
-        tr=soup('table', {'class' : 'spad'})[0].tbody('tr')[0]
-        tds=tr('td')
-        sendPrivMsg(s,"%s går solen upp %s och ner %s. Solen är uppe %s och det skiljer sig från igår med %s. Solen står som högst klockan %s." % (tds[0].text.capitalize().encode('utf-8', 'ignore'), tds[1].text.encode('utf-8', 'ignore'), tds[2].text.encode('utf-8', 'ignore'), tds[3].text.encode('utf-8', 'ignore'), tds[4].text.encode('utf-8', 'ignore'), tds[5].text.encode('utf-8', 'ignore'))) 
+        div = soup.find(id="qfacts")
+        sunrise = div.p.next_sibling.span.next_sibling.text.encode('utf-8', 'ignore')
+        sunset = div.p.next_sibling.p.br.span.next_sibling.text.encode('utf-8', 'ignore')
+        sendPrivMsg(s,"Idag går solen upp %s och ner %s. Iallafall i trakterna kring Jönköping." % (sunrise, sunset))
       elif unicode('snälla', 'utf-8') in row or 'hej' in row or 'tjena' in row or 'morsning' in row  or unicode('mår', 'utf-8') in row  or unicode('hallå', 'utf-8') in row or 'hallo' in row or unicode('läget', 'utf-8') in row or unicode('snäll', 'utf-8') in row or 'duktig' in row  or unicode('träna', 'utf-8') in row  or unicode('träning', 'utf-8') in row  or 'utbildning' in row or 'tack' in row or 'tacka' in row or 'tackar' in row or 'tacksam' in row:
         sendPrivMsg(s,"%s %s %s" % (smile[random.randint(0,len(smile)-1)], hello[random.randint(0,len(hello)-1)], msgs[random.randint(0,len(msgs)-1)]))
 
