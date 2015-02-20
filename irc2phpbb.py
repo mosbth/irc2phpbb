@@ -18,6 +18,8 @@ from bs4 import BeautifulSoup
 import time
 import json
 
+#import phpmanual Not working right now
+
 # Local module file
 #import fix_bad_unicode
 
@@ -308,3 +310,8 @@ while 1:
         #print('\r\nSlap!\r\n')
         if len(row) >= 3 and row[1] == 'slap':
           sendPrivMsg(s, "\001ACTION slaps " + row[2] + slaps[random.randint(0,len(slaps)-1)] + "\001")
+      # This module is not working right now. Character encoding issues (when used with marvin)
+      # elif 'php' in row:
+      #   if len(row) >= 3 and row[1] == 'php':
+      #     result = phpmanual.getShortDescr(row[2])
+      #     sendPrivMsg(s, result)
