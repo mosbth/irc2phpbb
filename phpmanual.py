@@ -32,7 +32,8 @@ def cacheLookup(function):
     if os.path.isfile(CACHE_FILE):
         cacheFile = open(CACHE_FILE, 'r')
         for line in cacheFile:
-            if function in line:
+            endPos = line.index("http://p")
+            if function in line[12:endPos]:
                 return line.rstrip('\n')
         cacheFile.close()
     return None
@@ -44,7 +45,7 @@ def saveToCache(description):
     the function description.
     """
     cacheFile = open(CACHE_FILE, 'a')
-    cacheFile.write(description.encode('utf-8') + '\n')
+    cacheFile.write(description + '\n')
     cacheFile.close()
 
 
@@ -55,13 +56,16 @@ def getShortDescr(function):
     was found, or a pretty string with the information requested. 
     """
 
-    # Complete URL to the manual page (if it exists)
-    url = BASE_URL+function+ENDING_URL
-
     # If the function description is cached, return it
     cached = cacheLookup(function)
     if(cached is not None):
         return cached
+
+    # Replace '_' with '-'
+    function = function.replace('_', '-')
+
+    # Complete URL to the manual page (if it exists)
+    url = BASE_URL+function+ENDING_URL
 
     # Try to fetch the site. If a incorrect function name is 
     # used, this will fail and print an error code. 
@@ -100,6 +104,8 @@ def getShortDescr(function):
         # Put the text without html tags in my fancy string
         result = 'PHP-manualen: ' + shortDescrPtag.get_text() + ' - ' + url
 
+        result = result.encode('utf-8')
+
         # Cache the result (i.e. save it to the cache txt-file)
         saveToCache(result)
 
@@ -107,4 +113,4 @@ def getShortDescr(function):
     return result
 
 # Used for testing
-print(getShortDescr('substr'))
+#print(getShortDescr('substr'))

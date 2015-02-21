@@ -18,7 +18,7 @@ from bs4 import BeautifulSoup
 import time
 import json
 
-#import phpmanual Not working right now
+import phpmanual
 
 # Local module file
 #import fix_bad_unicode
@@ -44,7 +44,8 @@ FEED_FORUM='http://dbwebb.se/forum/feed.php'
 FEED_LISTEN='http://ws.audioscrobbler.com/1.0/user/djazzradio/recenttracks.rss'
 
 SMHI_PROGNOS='http://www.smhi.se/vadret/vadret-i-sverige/Vaderoversikt-Sverige-meteorologens-kommentar?meteorologens-kommentar=http%3A%2F%2Fwww.smhi.se%2FweatherSMHI2%2Flandvader%2F.%2Fprognos15_2.htm'
-SUNRISE='http://www.timeanddate.com/astronomy/sweden/jonkoping'
+#SUNRISE='http://www.timeanddate.com/astronomy/sweden/jonkoping' Stopped working
+SUNRISE='http://www.timeanddate.com/sun/sweden/jonkoping'
 
 LOGFILE='irclog.txt'        # Save a log with latest messages
 LOGFILEMAX=20
@@ -293,11 +294,20 @@ while 1:
         soup = BeautifulSoup(urllib2.urlopen(SMHI_PROGNOS))
         sendPrivMsg(s,"%s. %s. %s" % (soup.h1.text.encode('utf-8', 'ignore'), soup.h4.text.encode('utf-8', 'ignore'), soup.h4.findNextSibling('p').text.encode('utf-8', 'ignore')))
       elif 'sol' in row or 'solen' in row or unicode('solnedgång', 'utf-8') in row or unicode('soluppgång', 'utf-8') in row:
-        soup = BeautifulSoup(urllib2.urlopen(SUNRISE))
-        div = soup.find(id="qfacts")
-        sunrise = div.p.next_sibling.span.next_sibling.text.encode('utf-8', 'ignore')
-        sunset = div.p.next_sibling.p.br.span.next_sibling.text.encode('utf-8', 'ignore')
-        sendPrivMsg(s,"Idag går solen upp %s och ner %s. Iallafall i trakterna kring Jönköping." % (sunrise, sunset))
+        try:
+          soup = BeautifulSoup(urllib2.urlopen(SUNRISE))
+          spans = soup.find_all("span", { "class" : "three" })
+          sunrise = spans[0].text.encode('utf-8', 'ignore')
+          sunset = spans[1].text.encode('utf-8', 'ignore')
+          sendPrivMsg(s,"Idag går solen upp %s och ner %s. Iallafall i trakterna kring Jönköping." % (sunrise, sunset))
+        except:
+          sendPrivMsg(s,"Jag hittade tyvär inga solar idag :(")
+
+        #div = soup.find(id="qfacts")
+        #sunrise = div.p.next_sibling.span.next_sibling.text.encode('utf-8', 'ignore')
+        #sunset = div.p.next_sibling.p.br.span.next_sibling.text.encode('utf-8', 'ignore')
+        #endPrivMsg(s,"Idag går solen upp %s och ner %s. Iallafall i trakterna kring Jönköping." % (sunrise, sunset))
+
       elif unicode('snälla', 'utf-8') in row or 'hej' in row or 'tjena' in row or 'morsning' in row  or unicode('mår', 'utf-8') in row  or unicode('hallå', 'utf-8') in row or 'hallo' in row or unicode('läget', 'utf-8') in row or unicode('snäll', 'utf-8') in row or 'duktig' in row  or unicode('träna', 'utf-8') in row  or unicode('träning', 'utf-8') in row  or 'utbildning' in row or 'tack' in row or 'tacka' in row or 'tackar' in row or 'tacksam' in row:
         sendPrivMsg(s,"%s %s %s" % (smile[random.randint(0,len(smile)-1)], hello[random.randint(0,len(hello)-1)], msgs[random.randint(0,len(msgs)-1)]))
       elif 'attack' in row:
@@ -310,8 +320,8 @@ while 1:
         #print('\r\nSlap!\r\n')
         if len(row) >= 3 and row[1] == 'slap':
           sendPrivMsg(s, "\001ACTION slaps " + row[2] + slaps[random.randint(0,len(slaps)-1)] + "\001")
-      # This module is not working right now. Character encoding issues (when used with marvin)
-      # elif 'php' in row:
-      #   if len(row) >= 3 and row[1] == 'php':
-      #     result = phpmanual.getShortDescr(row[2])
-      #     sendPrivMsg(s, result)
+      elif 'php' in row:
+        if len(row) >= 3 and row[1] == 'php':
+          function = row[2].encode('utf-8', 'ignore')
+          result = phpmanual.getShortDescr(function)
+          sendPrivMsg(s, result)
