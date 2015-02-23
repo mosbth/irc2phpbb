@@ -291,7 +291,7 @@ while 1:
       elif 'hem' in row or (('vem' in row or 'vad' in row) and (unicode('är', 'utf-8') in row)):
         sendPrivMsg(s,"Jag är en tjänstvillig själ som gillar webbprogrammering. Jag bor på github: %s och du kan diskutera mig i forumet http://dbwebb.se/forum/viewtopic.php?f=21&t=20"  % (HOME))
       elif unicode('hjälp', 'utf-8') in row or 'help' in row:
-        sendPrivMsg(s,"[ vem är | forum senaste | lyssna | le | lunch | citat | budord 1 (2, 3, 4, 5) | väder | solen | hjälp | * * ]")
+        sendPrivMsg(s,"[ vem är | forum senaste | lyssna | le | lunch | citat | budord 1 (2, 3, 4, 5) | väder | solen | hjälp | php | js/javascript | attack | slap ]")
       elif unicode('väder', 'utf-8') in row or unicode('vädret', 'utf-8') in row or 'prognos' in row or 'prognosen' in row or 'smhi' in row:
         soup = BeautifulSoup(urllib2.urlopen(SMHI_PROGNOS))
         sendPrivMsg(s,"%s. %s. %s" % (soup.h1.text.encode('utf-8', 'ignore'), soup.h4.text.encode('utf-8', 'ignore'), soup.h4.findNextSibling('p').text.encode('utf-8', 'ignore')))
