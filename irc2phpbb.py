@@ -19,6 +19,7 @@ import time
 import json
 
 import phpmanual
+import dev_mozilla
 
 # Local module file
 #import fix_bad_unicode
@@ -239,6 +240,7 @@ while 1:
   readbuffer=temp.pop( )
   
   for line in temp:
+    untouchedLine = line #This is needed to preserve capital letters, otherwise dev_mozilla module does not work properly.
     line = decode_irc(line)
     #print "HERE %s" % (line.encode('utf-8', 'ignore'))
 
@@ -324,4 +326,10 @@ while 1:
         if len(row) >= 3 and row[1] == 'php':
           function = row[2].encode('utf-8', 'ignore')
           result = phpmanual.getShortDescr(function)
+          sendPrivMsg(s, result)
+      elif 'js' in row or 'javascript' in row:
+        if len(row) >= 3 and (row[1] == 'javascript' or row[1] == 'js'):
+          function = untouchedLine.split()
+          function = function[len(function)-1]
+          result = dev_mozilla.getResultString(function)
           sendPrivMsg(s, result)
