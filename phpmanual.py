@@ -30,12 +30,15 @@ def cacheLookup(function):
     returns it, otherwise it returns None.
     """
     if os.path.isfile(CACHE_FILE):
-        cacheFile = open(CACHE_FILE, 'r')
-        for line in cacheFile:
-            endPos = line.index("http://p")
-            if function in line[12:endPos]:
-                return line.rstrip('\n')
-        cacheFile.close()
+        try:
+            cacheFile = open(CACHE_FILE, 'r')
+            for line in cacheFile:
+                endPos = line.index("http://p")
+                if function in line[12:endPos]:
+                    return line.rstrip('\n')
+            cacheFile.close()
+        except:
+            return None
     return None
 
 
@@ -100,14 +103,14 @@ def getShortDescr(function):
         shortDescrPtag = soup.find("p", { "class" : "refpurpose" })
 
         #print('Done finding tag.')
-
-        # Put the text without html tags in my fancy string
-        result = 'PHP-manualen: ' + shortDescrPtag.get_text() + ' - ' + url
-
-        result = result.encode('utf-8')
-
-        # Cache the result (i.e. save it to the cache txt-file)
-        saveToCache(result)
+        try:
+            # Put the text without html tags in my fancy string
+            result = 'PHP-manualen: ' + shortDescrPtag.get_text() + ' - ' + url
+            result = result.encode('utf-8')
+            # Cache the result (i.e. save it to the cache txt-file)
+            saveToCache(result)
+        except:
+            result = 'Found nothing.'
 
     # Return the result
     return result
