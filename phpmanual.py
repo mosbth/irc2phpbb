@@ -48,6 +48,8 @@ def saveToCache(description):
     the function description.
     """
     cacheFile = open(CACHE_FILE, 'a')
+    #print('Saving the following to cache:') DEBUG
+    #print(description + '\n') DEBUG
     cacheFile.write(description + '\n')
     cacheFile.close()
 
@@ -74,10 +76,9 @@ def getShortDescr(function):
     # used, this will fail and print an error code. 
     siteData = None
     try:
-        print('Start to read')
+        #print('Start to read') DEBUG
         siteData = urllib2.urlopen(url)
-        #print(type(siteData))
-        print('Done reading.')
+        #print('Done reading.') DEBUG
     except urllib2.HTTPError, e:
         print(e.code)
     except urllib2.URLError, e:
@@ -91,21 +92,22 @@ def getShortDescr(function):
         # Use SoupStrainer to only parse what I need
         tagsWithClass = SoupStrainer('p',{'class': 'refpurpose'})
 
-        #print('Done creating SoupStrainer.')
+        #print('Done creating SoupStrainer.') DEBUG
 
         # Create the soup object, using the SoupStrainer.
         # This is what takes the most time (hence the .txt-file cache)
         soup = BeautifulSoup(siteData, "lxml",  parse_only=tagsWithClass)
 
-        #print('Done creating BeautifulSoup.')
+        #print('Done creating BeautifulSoup.') DEBUG
 
         # Get the specific tag I need
         shortDescrPtag = soup.find("p", { "class" : "refpurpose" })
 
-        #print('Done finding tag.')
+        #print('Done finding tag.') DEBUG
         try:
             # Put the text without html tags in my fancy string
             result = 'PHP-manualen: ' + shortDescrPtag.get_text() + ' - ' + url
+            result = result.replace('\n', '')
             result = result.encode('utf-8')
             # Cache the result (i.e. save it to the cache txt-file)
             saveToCache(result)
