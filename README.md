@@ -57,7 +57,12 @@ Using PHP to keep track on recent posts
 The file `aggregate.php` uses `magpierss` (http://magpierss.sourceforge.net/) to aggregate feeds from
 several places and while discovering new entries it stores messages in the directory `incoming`
 where Marvin (the bot) is looking, when finding a file its content will be posted to the 
-irc-channel by the bot. You'll have to download and install the lib yourself.
+irc-channel by the bot. You'll have to download and unpack the library in the 'magpierss' folder.
+You also need to create the folder 'incoming' and create the database file that will be used. The 
+database file should be named db.sqlite and reside in the same folder as aggregate.php. The table 
+needed in the database looks like this:
+
+CREATE TABLE aggregate (id INTEGER PRIMARY KEY AUTOINCREMENT, feed text, key text UNIQUE);
 
 Run `aggregate.php` from crontab with regular intervalls, for example each 5 minute.
   
