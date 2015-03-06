@@ -17,6 +17,7 @@ import urllib2
 from bs4 import BeautifulSoup
 import time
 import json
+from datetime import date
 
 import phpmanual
 import dev_mozilla
@@ -31,18 +32,18 @@ import dev_mozilla
 HOST='irc.bsnet.se' 			# The server we want to connect to 
 PORT=6667 								# The connection port which is usually 6667 
 NICK='marvin' 						# The bot's nickname 
-IDENT='somepass'         # Password to identify for nick
+IDENT='***'         # Password to identify for nick
 REALNAME='Mr Marvin Bot' 
-OWNER='thebiffman' 							# The bot owner's nick 
+OWNER='mos' 							# The bot owner's nick 
 CHANNEL='#db-o-webb'      # The default channel for the bot 
-#CHANNEL='#db-o-webb-test'      # The default channel for the bot 
+#CHANNEL='#dbwebb'        # The default channel for the bot 
 INCOMING='incoming'			  # Directory for incoming messages 
 DONE='done'			  				# Directory to move all incoming messages once processed
 readbuffer='' 						# Here we store all the messages from server 
 HOME='https://github.com/mosbth/irc2phpbb'
 FEED_FORUM='http://dbwebb.se/forum/feed.php'
-# FEED_LISTEN='http://ws.audioscrobbler.com/1.0/user/mikaelroos/recenttracks.rss'
-FEED_LISTEN='http://ws.audioscrobbler.com/1.0/user/djazzradio/recenttracks.rss'
+FEED_LISTEN='http://ws.audioscrobbler.com/1.0/user/mikaelroos/recenttracks.rss'
+#FEED_LISTEN='http://ws.audioscrobbler.com/1.0/user/djazzradio/recenttracks.rss'
 
 SMHI_PROGNOS='http://www.smhi.se/vadret/vadret-i-sverige/Vaderoversikt-Sverige-meteorologens-kommentar?meteorologens-kommentar=http%3A%2F%2Fwww.smhi.se%2FweatherSMHI2%2Flandvader%2F.%2Fprognos15_2.htm'
 #SUNRISE='http://www.timeanddate.com/astronomy/sweden/jonkoping' Stopped working
@@ -228,6 +229,36 @@ slaps=[' in the face with a rotten old fish.',
 ' about the head and shoulders with a rubber chicken.'
 ]
 
+weekdays = [
+  "Idag är det måndag.",
+  "Idag är det tisdag.",
+  "Idag är det onsdag.",
+  "Idag är det torsdag.",
+  "Idag är det fredag.",
+  "Idag är det lördag.",
+  "Idag är det söndag.",
+]
+
+
+
+def videoOfToday():
+  """
+  Check what day it is and provide a url to a suitable video together with a greeting.
+  """
+  dayNum = date.weekday(date.today())
+  msg = weekdays[dayNum]
+
+  if dayNum == 0:
+    msg += " En passande video är https://www.youtube.com/watch?v=lAZgLcK5LzI." 
+  elif dayNum == 4:
+    msg += " En passande video är https://www.youtube.com/watch?v=kfVsfOSbJY0." 
+  elif dayNum == 5:
+    msg += " En passande video är https://www.youtube.com/watch?v=GVCzdpagXOQ."
+  else:
+    msg += " Jag har ännu ingen passande video för denna dagen."
+
+  return msg
+
 
 #
 # Main loop
@@ -255,8 +286,10 @@ while 1:
       sendMsg(s,"PONG %s\r\n" % line[1])
     
     if line[1]=='PRIVMSG' and line[2]==CHANNEL:
+
       if line[3]==u':\x01ACTION':
         irclog.append({'time':datetime.now().strftime("%H:%M").rjust(5), 'user':'* ' + re.search('(?<=:)\w+', line[0]).group(0).encode('utf-8', 'ignore'), 'msg':' '.join(line[4:]).lstrip(':').encode('utf-8', 'ignore')}) 
+
       else:
         #irclog.append({'time':datetime.now().strftime("%H:%M").rjust(5), 'user':re.search('(?<=:)\w+', line[0]).group(0).ljust(8), 'msg':' '.join(line[3:]).lstrip(':')}) 
         #irclog.append({'time':datetime.now().strftime("%H:%M").rjust(5), 'user':re.search('(?<=:)\w+', line[0]).group(0).encode('utf-8', 'ignore'), 'msg':' '.join(line[3:]).lstrip(':').encode('utf-8', 'ignore')}) 
@@ -264,46 +297,66 @@ while 1:
         #(datetime.now().strftime("%H:%M").rjust(5), re.search('(?<=:)\w+', line[0]).group(0).ljust(8), ' '.join(line[3:]).lstrip(':'))) 
 
     if line[1]=='PRIVMSG' and line[2]==CHANNEL and NICK in row:
+
       if 'lyssna' in row or 'lyssnar' in row or 'musik' in row:
         feed=feedparser.parse(FEED_LISTEN)
         sendPrivMsg(s,"%s %s" % (lyssna[random.randint(0,len(lyssna)-1)], feed["items"][0]["title"].encode('utf-8', 'ignore')))
+
       elif ('latest' in row or 'senaste' in row or 'senast' in row) and ('forum' in row or 'forumet' in row):
         feed=feedparser.parse(FEED_FORUM)
         sendPrivMsg(s,"Forumet: \"%s\" av %s http://dbwebb.se/f/%s" % (feed["items"][0]["title"].encode('utf-8', 'ignore'), feed["items"][0]["author"].encode('utf-8', 'ignore'), re.search('(?<=p=)\d+', feed["items"][0]["id"].encode('utf-8', 'ignore')).group(0)))
+
       elif 'smile' in row or 'le' in row or 'skratta' in row or 'smilies' in row:
         sendPrivMsg(s,"%s" % (smile[random.randint(0,len(smile)-1)]))
+
       elif unicode('källkod', 'utf-8') in row or 'source' in row:
         sendPrivMsg(s,"I PHP-kurserna kan du länka till source.php. Annars fungerar sidor som pastebin bra. Om man vill kunna ändra på koden efter den är uppladdad  är www.codeshare.io en bra sida.")
+
       elif ('budord' in row or 'stentavla' in row) and ('1' in row or '#1' in row):
         sendPrivMsg(s,"Ställ din fråga, länka till exempel och source.php. Häng kvar och vänta på svar.")
+
       elif ('budord' in row or 'stentavla' in row) and ('2' in row or '#2' in row):
         sendPrivMsg(s,"Var inte rädd för att fråga och fråga tills du får svar: http://dbwebb.se/f/6249")
+
       elif ('budord' in row or 'stentavla' in row) and ('3' in row or '#3' in row):
         sendPrivMsg(s,"Öva dig ställa smarta frågor: http://dbwebb.se/f/7802")
+
       elif ('budord' in row or 'stentavla' in row) and ('4' in row or '#4' in row):
         sendPrivMsg(s,"When in doubt - gör ett testprogram. http://dbwebb.se/f/13570")
+
       elif ('budord' in row or 'stentavla' in row) and ('5' in row or '#5' in row):
         sendPrivMsg(s,"Hey Luke - use the source! http://catb.org/jargon/html/U/UTSL.html")
+
       elif 'lunch' in row or 'mat' in row or unicode('äta', 'utf-8') in row:
         sendPrivMsg(s,"%s" % (lunch[random.randint(0,len(lunch)-1)]))
+
       elif 'quote' in row or 'citat' in row or 'filosofi' in row or 'filosofera' in row:
         sendPrivMsg(s,"%s" % (quote[random.randint(0,len(quote)-1)]))
+
+      elif ('idag' in row or 'dagens' in row) and ('video' in row or 'youtube' in row or 'tube' in row):
+        sendPrivMsg(s,"%s" % videoOfToday())
+
       elif 'hem' in row or (('vem' in row or 'vad' in row) and (unicode('är', 'utf-8') in row)):
         sendPrivMsg(s,"Jag är en tjänstvillig själ som gillar webbprogrammering. Jag bor på github: %s och du kan diskutera mig i forumet http://dbwebb.se/forum/viewtopic.php?f=21&t=20"  % (HOME))
+
       elif unicode('hjälp', 'utf-8') in row or 'help' in row:
-        sendPrivMsg(s,"[ vem är | forum senaste | lyssna | le | lunch | citat | budord 1 (2, 3, 4, 5) | väder | solen | hjälp | php | js/javascript | attack | slap ]")
+        sendPrivMsg(s,"[ vem är | forum senaste | lyssna | le | lunch | citat | budord 1 (2, 3, 4, 5) | väder | solen | hjälp | php | js/javascript | attack | slap | dagens video ]")
+
       elif unicode('väder', 'utf-8') in row or unicode('vädret', 'utf-8') in row or 'prognos' in row or 'prognosen' in row or 'smhi' in row:
         soup = BeautifulSoup(urllib2.urlopen(SMHI_PROGNOS))
         sendPrivMsg(s,"%s. %s. %s" % (soup.h1.text.encode('utf-8', 'ignore'), soup.h4.text.encode('utf-8', 'ignore'), soup.h4.findNextSibling('p').text.encode('utf-8', 'ignore')))
+
       elif 'sol' in row or 'solen' in row or unicode('solnedgång', 'utf-8') in row or unicode('soluppgång', 'utf-8') in row:
+        
         try:
           soup = BeautifulSoup(urllib2.urlopen(SUNRISE))
           spans = soup.find_all("span", { "class" : "three" })
           sunrise = spans[0].text.encode('utf-8', 'ignore')
           sunset = spans[1].text.encode('utf-8', 'ignore')
           sendPrivMsg(s,"Idag går solen upp %s och ner %s. Iallafall i trakterna kring Jönköping." % (sunrise, sunset))
-        except:
-          sendPrivMsg(s,"Jag hittade tyvär inga solar idag :(")
+        
+        except Exception as e:
+          sendPrivMsg(s,"Jag hittade tyvär inga solar idag :( så jag håller på och lär mig hur Python kan räkna ut soluppgången, återkommer.")
 
         #div = soup.find(id="qfacts")
         #sunrise = div.p.next_sibling.span.next_sibling.text.encode('utf-8', 'ignore')
@@ -312,24 +365,40 @@ while 1:
 
       elif unicode('snälla', 'utf-8') in row or 'hej' in row or 'tjena' in row or 'morsning' in row  or unicode('mår', 'utf-8') in row  or unicode('hallå', 'utf-8') in row or 'hallo' in row or unicode('läget', 'utf-8') in row or unicode('snäll', 'utf-8') in row or 'duktig' in row  or unicode('träna', 'utf-8') in row  or unicode('träning', 'utf-8') in row  or 'utbildning' in row or 'tack' in row or 'tacka' in row or 'tackar' in row or 'tacksam' in row:
         sendPrivMsg(s,"%s %s %s" % (smile[random.randint(0,len(smile)-1)], hello[random.randint(0,len(hello)-1)], msgs[random.randint(0,len(msgs)-1)]))
+      
       elif 'attack' in row:
         sendPrivMsg(s,"%s" % (attack[random.randint(0,len(attack)-1)]))
+      
       elif 'upprop' in row:
         sendPrivMsg(s, "Titta vad jag hittade: 3v upprop vårterminen 2015 - http://dbwebb.se/forum/viewtopic.php?f=30&t=3613")
+      
       elif 'stats' in row or 'ircstats' in row:
         sendPrivMsg(s, "Statistik för kanalen finns här: http://dbwebb.se/irssistats/db-o-webb.html")
+      
       elif 'slap' in row:
         #print('\r\nSlap!\r\n')
         if len(row) >= 3 and row[1] == 'slap':
           sendPrivMsg(s, "\001ACTION slaps " + row[2] + slaps[random.randint(0,len(slaps)-1)] + "\001")
+      
       elif 'php' in row:
         if len(row) >= 3 and row[1] == 'php':
-          function = row[2].encode('utf-8', 'ignore')
-          result = phpmanual.getShortDescr(function)
-          sendPrivMsg(s, result)
+          
+          try:
+            function = row[2].encode('utf-8', 'ignore')
+            result = phpmanual.getShortDescr(function)
+            sendPrivMsg(s, result)
+
+          except:
+            sendPrivMsg(s, "js fungerar inte för tillfället. Ska fixa det.")
+
       elif 'js' in row or 'javascript' in row:
         if len(row) >= 3 and (row[1] == 'javascript' or row[1] == 'js'):
-          function = untouchedLine.split()
-          function = function[len(function)-1]
-          result = dev_mozilla.getResultString(function)
-          sendPrivMsg(s, result)
+          
+          try:
+            function = untouchedLine.split()
+            function = function[len(function)-1]
+            result = dev_mozilla.getResultString(function)
+            sendPrivMsg(s, result)
+
+          except:
+            sendPrivMsg(s, "js fungerar inte för tillfället. Ska fixa det.")
