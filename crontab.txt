@@ -1,0 +1,1 @@
+*/20 * * * * php /home/mos/htdocs/git/irc2phpbb/aggregate.php

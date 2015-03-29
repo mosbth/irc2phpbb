@@ -1,2 +1,6 @@
 *.pyc
 irclog.txt
+aggregate.error
+aggregate.ignore
+aggregate.log
+
