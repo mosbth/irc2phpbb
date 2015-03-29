@@ -178,8 +178,8 @@ sendMsg(s,'JOIN %s\r\n' % CHANNEL)
 # :nick!username@host PRIVMSG channel/nick :Message
 msgs=['Ja, vad kan jag göra för Dig?', 'Låt mig hjälpa dig med dina strävanden.', 'Ursäkta, vad önskas?',
 'Kan jag stå till din tjänst?', 'Jag kan svara på alla dina frågor.', 'Ge me hög-fem!',
-'Jag svarar endast inför thebiffman, det är min enda herre.', 'thebiffman är kungen!',
-'Oh, ursäkta, jag slumrade visst till.', 'Fråga, länka till kod och source.php och vänta på svaret.']
+'Jag svarar endast inför mos, det är min enda herre.', 'mos är kungen!',
+'Oh, ursäkta, jag slumrade visst till.', 'Fråga, länka till exempel samt source.php/gist/codeshare och vänta på svaret.']
 
 hello=['Hej själv! ', 'Trevligt att du bryr dig om mig. ', 'Det var länge sedan någon var trevlig mot mig. ',
 'Halloj, det ser ut att bli mulet idag. ',
@@ -263,6 +263,8 @@ weekdays = [
   "Idag är det söndag.",
 ]
 
+
+
 def lunch(where):
   """
   Generates where to eat either in centrum or around bth
@@ -275,6 +277,8 @@ def lunch(where):
       msg=qoute % lunchBTH[random.randint(0,len(lunchBTH)-1)]
 
   return msg;
+
+
 
 def videoOfToday():
   """
@@ -293,6 +297,8 @@ def videoOfToday():
     msg += " Jag har ännu ingen passande video för denna dagen."
 
   return msg
+
+
 
 #
 # Main loop
@@ -344,7 +350,7 @@ while 1:
         sendPrivMsg(s,"%s" % (smile[random.randint(0,len(smile)-1)]))
 
       elif unicode('källkod', 'utf-8') in row or 'source' in row:
-        sendPrivMsg(s,"I PHP-kurserna kan du länka till source.php. Annars fungerar sidor som pastebin bra. Om man vill kunna ändra på koden efter den är uppladdad  är www.codeshare.io en bra sida.")
+        sendPrivMsg(s,"I PHP-kurserna kan du länka till source.php. Annars delar du koden som en gist (https://gist.github.com) eller i CodeShare (http://codeshare.io).")
 
       elif ('budord' in row or 'stentavla' in row) and ('1' in row or '#1' in row):
         sendPrivMsg(s,"Ställ din fråga, länka till exempel och source.php. Häng kvar och vänta på svar.")
@@ -439,3 +445,4 @@ while 1:
 
           except:
             sendPrivMsg(s, "js fungerar inte för tillfället. Ska fixa det.")
+
