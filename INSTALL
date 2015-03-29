@@ -1,0 +1,7 @@
+# Install needed modules in local directory
+pip install --target modules/ feedparser
+pip install --target modules/ beautifulsoup4
+
+# Run
+PYTHONPATH=modules python irc2phpbb.py
+
