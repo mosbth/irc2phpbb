@@ -3,4 +3,5 @@ irclog.txt
 aggregate.error
 aggregate.ignore
 aggregate.log
+db.sqlite
 
