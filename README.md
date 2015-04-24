@@ -41,10 +41,10 @@ the forum. You'll have to download and install the lib yourself.
 * http://code.google.com/p/feedparser/
 
 
-Using BeautifulSoup to scrap web-pages
+Using BeautifulSoup to scrape web-pages
 --------------------------------------
 
-The bot uses the python lib `BeautifulSoup` to scrap information from webpages. Just to show it 
+The bot uses the python lib `BeautifulSoup` to scrape information from webpages. Just to show it 
 off how its done but it can of course be made into some useful stuff. 
 You'll have to download and install the lib yourself.
 
