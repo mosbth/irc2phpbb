@@ -88,6 +88,7 @@ Todo.
 
 v0.3.x (latest) 
 
+* Moved all strings to `marvin_strings.json`.
 * Improving documentation.
 
 
@@ -126,4 +127,4 @@ v0.1.0 (2012-02-14)
 * First tag after some live testing for a couple of months. Must start somewhere. 
 
  .   
-..:  Copyright 2011 by Mikael Roos (me@mikaelroos.se)
+..:  Copyright 2011-2015 by Mikael Roos (me@mikaelroos.se)

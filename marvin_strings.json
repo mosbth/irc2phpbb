@@ -8,12 +8,12 @@
         "8-)"
     ],
     "hitchhiker": [
-        "I could calculate your chance of survival, but you won\"t like it.",
-        "I\"d give you advice, but you wouldn\"t listen. No one ever does.",
+        "I could calculate your chance of survival, but you won't like it.",
+        "I'd give you advice, but you wouldn't listen. No one ever does.",
         "I ache, therefore I am.",
-        "I\"ve seen it. It\"s rubbish. (About a Magrathean sunset that Arthur finds magnificent)",
+        "I've seen it. It's rubbish. (About a Magrathean sunset that Arthur finds magnificent)",
         "Not that anyone cares what I say, but the Restaurant is on the other end of the universe.",
-        "I think you ought to know I\"m feeling very depressed.",
+        "I think you ought to know I'm feeling very depressed.",
         "\"My capacity for happiness,\" he added, \"you could fit into a matchbox without taking out the matches first.\"",
         "Arthur: \"Marvin, any ideas?\" Marvin: \"I have a million ideas. They all point to certain death.\"",
         "\"What's up?\" [asked Ford.] \"I don't know,\" said Marvin, \"I've never been there.\"",
@@ -79,7 +79,7 @@
         "Biobaren",
         "Michelangelo"
     ],
-    "lunch-bht": [
+    "lunch-bth": [
         "Thairestaurangen vid korsningen",
         "det är lite mysigt i fiket jämte demolabbet",
         "Indiska",
@@ -112,5 +112,7 @@
         "Jag lyssnar just nu på",
         "Har du hört denna låten :)",
         "Jag kan tipsa om en bra låt ->"
-    ]
+    ],
+    "sun": "Idag går solen upp {} och ner {}. Iallafall i trakterna kring Jönköping.",
+    "sun-no": "Jag hittade tyvär inga solar idag :( så jag håller på och lär mig hur Python kan räkna ut soluppgången, återkommer."
 }
