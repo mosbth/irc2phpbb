@@ -219,6 +219,20 @@ lunchStan=['Olles krovbar',
 'Biobaren',
 'Michelangelo']
 
+lunchHassleholm=['pastavagnen på torget',
+'Freds',
+'mcDonalds',
+'subway',
+'kinabuffé på Cats',
+'valentino',
+'lotterilådan',
+'casablance',
+'det där stället i gallerian',
+'infinity',
+'östervärn',
+'argentina',
+'T4']
+
 quote=['I could calculate your chance of survival, but you won\'t like it.',
 'I\'d give you advice, but you wouldn\'t listen. No one ever does.',
 'I ache, therefore I am.',
@@ -267,12 +281,14 @@ weekdays = [
 
 def lunch(where):
   """
-  Generates where to eat either in centrum or around bth
+  Generates where to eat either in centrum or around bth (or Hässleholm)
   """
   qoute=lunchQuote[random.randint(0, len(lunchQuote) - 1)]
   msg=''
   if where == 'stan':
       msg=qoute % lunchStan[random.randint(0, len(lunchStan) -1)]
+  elif where == 'hassleholm':
+      msg=quote % lunchHassleholm[random.randint(0, len(lunchHassleholm) -1]
   else:
       msg=qoute % lunchBTH[random.randint(0,len(lunchBTH)-1)]
 
@@ -370,6 +386,8 @@ while 1:
       elif 'lunch' in row or 'mat' in row or unicode('äta', 'utf-8') in row:
         if 'stan' in row or 'centrum' in row:
             sendPrivMsg(s,"%s" % lunch('stan'))
+        elif unicode('hässleholm', 'utf-8') in row:
+            sendPrivMsg(s,"%s" % lunch('hassleholm'))
         else:
             sendPrivMsg(s,"%s" % lunch('bth'))
 
