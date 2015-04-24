@@ -288,7 +288,7 @@ def lunch(where):
   if where == 'stan':
       msg=qoute % lunchStan[random.randint(0, len(lunchStan) -1)]
   elif where == 'hassleholm':
-      msg=quote % lunchHassleholm[random.randint(0, len(lunchHassleholm) -1]
+      msg=quote % lunchHassleholm[random.randint(0, len(lunchHassleholm) -1)]
   else:
       msg=qoute % lunchBTH[random.randint(0,len(lunchBTH)-1)]
 
