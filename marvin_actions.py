@@ -40,13 +40,15 @@ with open("marvin_strings.json") as f:
     STRINGS = json.load(f)
 
 
-def getString(key):
+def getString(key, key1=None):
     """
     Get a string from the string database.
     """
     data = STRINGS[key]
     if type(data) is list:
         res = data[random.randint(0, len(data) - 1)]
+    elif type(data) is dict:
+        res = data[key1]
     elif type(data) is str:
         res = data
 
@@ -82,15 +84,15 @@ def marvinBudord(line, row):
     msg = None
     if row.intersection(['budord', 'stentavla']):
         if row.intersection(['1', '#1']):
-            msg = getString("budord1")
+            msg = getString("budord", "#1")
         elif row.intersection(['2', '#2']):
-            msg = getString("budord2")
+            msg = getString("budord", "#2")
         elif row.intersection(['3', '#3']):
-            msg = getString("budord3")
+            msg = getString("budord", "#3")
         elif row.intersection(['4', '#4']):
-            msg = getString("budord4")
+            msg = getString("budord", "#4")
         elif row.intersection(['5', '#5']):
-            msg = getString("budord5")
+            msg = getString("budord", "#5")
     return msg
 
 
@@ -109,18 +111,8 @@ def videoOfToday():
     """
     Check what day it is and provide a url to a suitable video together with a greeting.
     """
-    weekdays = [
-      "Idag är det måndag.",
-      "Idag är det tisdag.",
-      "Idag är det onsdag.",
-      "Idag är det torsdag.",
-      "Idag är det fredag.",
-      "Idag är det lördag.",
-      "Idag är det söndag.",
-    ]
-
     dayNum = date.weekday(date.today())
-    msg = weekdays[dayNum]
+    msg = getString("weekdays", str(dayNum))
 
     if dayNum == 0:
         msg += " En passande video är https://www.youtube.com/watch?v=lAZgLcK5LzI."
