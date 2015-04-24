@@ -93,6 +93,7 @@ def marvinBudord(line, row):
             msg = getString("budord", "#4")
         elif row.intersection(['5', '#5']):
             msg = getString("budord", "#5")
+
     return msg
 
 
