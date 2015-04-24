@@ -1,6 +1,12 @@
 Marvin, an IRC bot
 ==================
 
+Get a quick start by checking out the main script `main.py`.
+
+
+
+History
+--------------------------
 The python script, `irc2phpbb.py`, is a implementation of an irc bot. The bot can answer 
 simple questions and some more advanced features such as presenting the weather by 
 scraping an external website and keeping track of forum posts and posting new posts to 
