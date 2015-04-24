@@ -32,7 +32,7 @@ import dev_mozilla
 HOST='irc.bsnet.se' 			# The server we want to connect to
 PORT=6667 								# The connection port which is usually 6667
 NICK='marvin' 						# The bot's nickname
-IDENT='ircmarvin'         # Password to identify for nick
+IDENT='********'         # Password to identify for nick
 REALNAME='Mr Marvin Bot'
 OWNER='mos' 							# The bot owner's nick
 CHANNEL='#db-o-webb1'      # The default channel for the bot
@@ -464,4 +464,3 @@ while 1:
 
           except:
             sendPrivMsg(s, "js fungerar inte för tillfället. Ska fixa det.")
-
