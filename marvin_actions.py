@@ -321,7 +321,7 @@ def getLunchHassleholm():
 
 def marvinLunch(line, row):
     """
-    Say hi with a nice message.
+    Help decide where to eat.
     """
     msg = None
     if row.intersection(['lunch', 'mat', 'äta']):

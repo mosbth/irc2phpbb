@@ -1,0 +1,116 @@
+{
+    "smile": [
+        ":-D",
+        ":-P",
+        ";-P",
+        ";-)",
+        ":-)",
+        "8-)"
+    ],
+    "hitchhiker": [
+        "I could calculate your chance of survival, but you won\"t like it.",
+        "I\"d give you advice, but you wouldn\"t listen. No one ever does.",
+        "I ache, therefore I am.",
+        "I\"ve seen it. It\"s rubbish. (About a Magrathean sunset that Arthur finds magnificent)",
+        "Not that anyone cares what I say, but the Restaurant is on the other end of the universe.",
+        "I think you ought to know I\"m feeling very depressed.",
+        "\"My capacity for happiness,\" he added, \"you could fit into a matchbox without taking out the matches first.\"",
+        "Arthur: \"Marvin, any ideas?\" Marvin: \"I have a million ideas. They all point to certain death.\"",
+        "\"What's up?\" [asked Ford.] \"I don't know,\" said Marvin, \"I've never been there.\"",
+        "Marvin: \"I am at a rough estimate thirty billion times more intelligent than you. Let me give you an example. Think of a number, any number.\" Zem: \"Er, five.\" Marvin: \"Wrong. You see?\"",
+        "Zaphod: \"Can it Trillian, I'm trying to die with dignity. Marvin: \"I'm just trying to die.\""
+    ],
+    "friendly": [
+        "Ja, vad kan jag göra för Dig?",
+        "Låt mig hjälpa dig med dina strävanden.",
+        "Ursäkta, vad önskas?",
+        "Kan jag stå till din tjänst?",
+        "Jag kan svara på alla dina frågor.",
+        "Ge me hög-fem!",
+        "Jag svarar endast inför mos, det är min enda herre.",
+        "mos är kungen!",
+        "Oh, ursäkta, jag slumrade visst till.",
+        "Fråga, länka till exempel samt source.php/gist/codeshare och vänta på svaret."
+    ],
+    "hello": [
+        "Hej själv!",
+        "Trevligt att du bryr dig om mig.",
+        "Det var länge sedan någon var trevlig mot mig.",
+        "Halloj, det ser ut att bli mulet idag."
+    ],
+    "source": "I PHP-kurserna kan du länka till source.php. Annars delar du koden som en gist (https://gist.github.com) eller i CodeShare, (http://codeshare.io).",
+    "budord1": "Ställ din fråga, länka till exempel och källkod. Häng kvar och vänta på svar.",
+    "budord2": "Var inte rädd för att fråga och fråga tills du får svar: http://dbwebb.se/f/6249",
+    "budord3": "Öva dig ställa smarta frågor: http://dbwebb.se/f/7802",
+    "budord4": "When in doubt - gör ett testprogram. http://dbwebb.se/f/13570",
+    "budord5": "Hey Luke - use the source! http://catb.org/jargon/html/U/UTSL.html",
+    "weekdays": [
+        "Idag är det måndag.",
+        "Idag är det tisdag.",
+        "Idag är det onsdag.",
+        "Idag är det torsdag.",
+        "Idag är det fredag.",
+        "Idag är det lördag.",
+        "Idag är det söndag."
+    ],
+    "whois": "Jag är en tjänstvillig själ som gillar webbprogrammering. Jag bor på GitHub https://github.com/mosbth/irc2phpbb och du kan diskutera mig i forumet http://dbwebb.se/t/20",
+    "menu": "[ vem är | forum senaste | lyssna | le | lunch | citat | budord 1 - 5 | väder | solen | hjälp | php | js/javascript | attack | slap | dagens video ]",
+    "ircstats": "Statistik för kanalen finns här: http://dbwebb.se/irssistats/db-o-webb.html",
+    "lunch-message": [
+        "Ska vi ta {}?",
+        "Ska vi dra ned till {}?",
+        "Jag tänkte käka på {}, ska du med?",
+        "På {} är det mysigt, ska vi ta där?"
+    ],
+    "lunch-karlskrona": [
+        "Olles krovbar",
+        "Lila thai stället",
+        "donken",
+        "tex mex stället vid subway",
+        "Subway",
+        "Nya peking",
+        "kebab house",
+        "Royal thai",
+        "thai stället vid hemmakväll",
+        "Gelato",
+        "Indian garden",
+        "Sumo sushi",
+        "Pasterian i stan",
+        "Biobaren",
+        "Michelangelo"
+    ],
+    "lunch-bht": [
+        "Thairestaurangen vid korsningen",
+        "det är lite mysigt i fiket jämte demolabbet",
+        "Indiska",
+        "Pappa curry",
+        "boden uppe på parkeringen",
+        "Bergåsa kebab",
+        "Pasterian",
+        "Villa Oscar",
+        "Eat here",
+        "Bistro J"
+    ],
+    "lunch-hassleholm": [
+        "pastavagnen på torget",
+        "Freds",
+        "mcDonalds",
+        "subway",
+        "kinabuffé på Cats",
+        "valentino",
+        "lotterilådan",
+        "casablance",
+        "det där stället i gallerian",
+        "infinity",
+        "östervärn",
+        "argentina",
+        "T4"
+    ],
+    "listen": [
+        "Jag gillar låten",
+        "Senaste låten jag lyssnade på var",
+        "Jag lyssnar just nu på",
+        "Har du hört denna låten :)",
+        "Jag kan tipsa om en bra låt ->"
+    ]
+}
