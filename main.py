@@ -13,10 +13,10 @@ pip3 install --target modules/ beautifulsoup4
 You start the program like this, including the path to the locally installed modules.
 
 # Run
-PYTHONPATH=modules marvin
+PYTHONPATH=modules python3 main.py
 
 # To get help
-PYTHONPATH=modules marvin --help
+PYTHONPATH=modules python3 main.py --help
 
 # Example
 PYTHONPATH=modules python3 main.py --server=irc.bsnet.se --channel=#db-o-webb
