@@ -3,6 +3,10 @@
 
 """
 Module for the IRC bot.
+
+Connecting, sending and receiving messages and doing custom actions.
+
+Keeping a log and reading incoming material.
 """
 
 

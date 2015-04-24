@@ -25,6 +25,9 @@ PYTHONPATH=modules python3 main.py --server=irc.bsnet.se --port=6667 --channel=#
 # Configuration
 Check out the file 'marvin_config_default.json' on how to configure, instead of using cli-options. The default configfile is 'marvin_config.json' but you can change that using cli-options.
 
+# Make own actions
+Check the file 'marvin_strings.json' for the file where most of the strings are defined and check out 'marvin_actions.py' to see how to write your own actions. Its just a small function.
+
 """
 
 
