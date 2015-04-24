@@ -35,7 +35,7 @@ NICK='marvin' 						# The bot's nickname
 IDENT='ircmarvin'         # Password to identify for nick
 REALNAME='Mr Marvin Bot'
 OWNER='mos' 							# The bot owner's nick
-CHANNEL='#db-o-webb'      # The default channel for the bot
+CHANNEL='#db-o-webb1'      # The default channel for the bot
 #CHANNEL='#dbwebb'        # The default channel for the bot
 INCOMING='incoming'			  # Directory for incoming messages
 DONE='done'			  				# Directory to move all incoming messages once processed
@@ -283,14 +283,15 @@ def lunch(where):
   """
   Generates where to eat either in centrum or around bth (or Hässleholm)
   """
-  qoute=lunchQuote[random.randint(0, len(lunchQuote) - 1)]
+  quote=lunchQuote[random.randint(0, len(lunchQuote) - 1)]
   msg=''
   if where == 'stan':
-      msg=qoute % lunchStan[random.randint(0, len(lunchStan) -1)]
+      msg=quote % lunchStan[random.randint(0, len(lunchStan) -1)]
   elif where == 'hassleholm':
-      msg=quote % lunchHassleholm[random.randint(0, len(lunchHassleholm) -1)]
+      index = random.randint(0, len(lunchHassleholm) - 1)
+      msg=quote % lunchHassleholm[index]
   else:
-      msg=qoute % lunchBTH[random.randint(0,len(lunchBTH)-1)]
+      msg=quote % lunchBTH[random.randint(0,len(lunchBTH)-1)]
 
   return msg;
 
