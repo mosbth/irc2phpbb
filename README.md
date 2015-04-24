@@ -86,6 +86,11 @@ Todo.
 * Add logfile entry containing current online users in the irc-channel
 
 
+v0.3.x (latest) 
+
+* Improving documentation.
+
+
 v0.3.0 (2015-04-24) 
 
 * Major rewrite to python3 and separating code into modules.

@@ -22,6 +22,9 @@ PYTHONPATH=modules python3 main.py --help
 PYTHONPATH=modules python3 main.py --server=irc.bsnet.se --channel=#db-o-webb
 PYTHONPATH=modules python3 main.py --server=irc.bsnet.se --port=6667 --channel=#db-o-webb --nick=marvin --ident=secret
 
+# Configuration
+Check out the file 'marvin_config_default.json' on how to configure, instead of using cli-options. The default configfile is 'marvin_config.json' but you can change that using cli-options.
+
 """
 
 
@@ -44,10 +47,17 @@ MSG_USAGE = """{program} - Act as an IRC bot and do useful things. By {author} (
 
 Usage:
   {program} [options]
-  
+
 Options:
-  -h --help     Display this help message.
-  -v --version  Print version and exit.
+  -h --help       Display this help message.
+  -v --version    Print version and exit.
+  --config=       Use this file as configfile.
+  --server=       Set the IRC server to connect to.
+  --port=         Set the port to use, default is 6667.
+  --channel=      Set what channel to join.
+  --nick=         Set nick to identify by.
+  --realname=     Set realname for verbose presentation.
+  --ident=        Set password for IDENTIFY for nick.
 
 GitHub: https://github.com/mosbth/irc2phpbb
 Issues: https://github.com/mosbth/irc2phpbb/issues
