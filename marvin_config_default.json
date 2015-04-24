@@ -1,0 +1,8 @@
+{
+    "server":   null,
+    "port":     6667,
+    "channel":  null,
+    "nick":     "marvin",
+    "realname": "Marvin The All Mighty dbwebb-bot",
+    "ident":    null,
+}

@@ -80,7 +80,12 @@ Todo.
 * Add logfile entry containing current online users in the irc-channel
 
 
-v0.2.x (latest) 
+v0.3.0 (2015-04-24) 
+
+* Major rewrite to python3 and separating code into modules.
+
+
+v0.2.2 (2015-04-24) 
 
 * Fixed loggin of ACTION.
 * Logging as utf-8 to logfile in json format.
