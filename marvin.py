@@ -124,15 +124,16 @@ def connectToServer():
     if channel:
         sendMsg('JOIN {CHANNEL}\r\n'.format(CHANNEL=channel))
     else:
-        print("Ignore joining channel, missing channelname in configuration.")
+        print("Ignore joining channel, missing channel name in configuration.")
 
 
-def sendPrivMsg(message):
+def sendPrivMsg(message, channel):
     """
     Send and log a PRIV message
     """
-    ircLogAppend(user=CONFIG["nick"].ljust(8), message=message)
-    channel = CONFIG["channel"]
+    if channel == CONFIG["channel"]:
+        ircLogAppend(user=CONFIG["nick"].ljust(8), message=message)
+
     msg = "PRIVMSG {CHANNEL} :{MSG}\r\n".format(CHANNEL=channel, MSG=message)
     sendMsg(msg)
 
@@ -201,6 +202,12 @@ def ircLogAppend(line=None, user=None, message=None):
         'msg': message
     })
 
+    """
+          if line[3]==u':\x01ACTION':
+            irclog.append({'time':datetime.now().strftime("%H:%M").rjust(5), 'user':'* ' + re.search('(?<=:)\w+', line[0]).group(0).encode('utf-8', 'ignore'), 'msg':' '.join(line[4:]).lstrip(':').encode('utf-8', 'ignore')})
+
+    """
+
 
 def ircLogWriteToFile():
     """
@@ -218,7 +225,7 @@ def readincoming():
     for infile in listing:
         filename = CONFIG["dirIncoming"] + '/' + infile
         msg = open(filename, "r").read()
-        sendPrivMsg(msg)
+        sendPrivMsg(msg, CONFIG["channel"])
         try:
             shutil.move(filename, CONFIG["dirDone"])
         except Exception:
@@ -250,12 +257,16 @@ def mainLoop():
             if line[0] == "PING":
                 sendMsg("PONG {ARG}\r\n".format(ARG=line[1]))
 
+            if line[1] == 'INVITE':
+                sendMsg('JOIN {CHANNEL}\r\n'.format(CHANNEL=line[3]))
+
             if line[1] == 'PRIVMSG' and line[2] == CONFIG["channel"]:
                 ircLogAppend(line)
 
+            if line[1] == 'PRIVMSG':
                 if CONFIG["nick"] in row:
                     for action in ACTIONS:
                         msg = action(line, set(row))
                         if msg:
-                            sendPrivMsg(msg)
+                            sendPrivMsg(msg, line[2])
                             break

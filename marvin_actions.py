@@ -258,3 +258,9 @@ def marvinWeather(line, row):
         msg = "{}. {}. {}".format(soup.h1.text, soup.h4.text, soup.h4.findNextSibling('p').text)
 
     return msg
+
+"""
+      elif ('latest' in row or 'senaste' in row or 'senast' in row) and ('forum' in row or 'forumet' in row):
+        feed=feedparser.parse(FEED_FORUM)
+        sendPrivMsg(s,"Forumet: \"%s\" av %s http://dbwebb.se/f/%s" % (feed["items"][0]["title"].encode('utf-8', 'ignore'), feed["items"][0]["author"].encode('utf-8', 'ignore'), re.search('(?<=p=)\d+', feed["items"][0]["id"].encode('utf-8', 'ignore')).group(0)))
+"""
