@@ -114,13 +114,10 @@ def videoOfToday():
     """
     dayNum = date.weekday(date.today()) + 1
     msg = getString("weekdays", str(dayNum))
+    video = getString("video-of-today", str(dayNum))
 
-    if dayNum == 1:
-        msg += " En passande video är https://www.youtube.com/watch?v=lAZgLcK5LzI."
-    elif dayNum == 5:
-        msg += " En passande video är https://www.youtube.com/watch?v=kfVsfOSbJY0."
-    elif dayNum == 6:
-        msg += " En passande video är https://www.youtube.com/watch?v=GVCzdpagXOQ."
+    if video:
+        msg += " En passande video är " + video
     else:
         msg += " Jag har ännu ingen passande video för denna dagen."
 

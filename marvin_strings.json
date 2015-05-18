@@ -58,6 +58,7 @@
         "#5": "Hey Luke - use the source! http://catb.org/jargon/html/U/UTSL.html"
     },
 
+    
     "weekdays": {
         "1": "Idag är det måndag.",
         "2": "Idag är det tisdag.",
@@ -66,6 +67,16 @@
         "5": "Idag är det lördag.",
         "6": "Idag är det fredag.",
         "7": "Idag är det söndag."
+    },
+
+    "video-of-today": {
+        "1": "https://www.youtube.com/watch?v=HbJ6Jsy0JfY",
+        "2": null,
+        "3": null,
+        "4": null,
+        "5": "https://www.youtube.com/watch?v=kfVsfOSbJY0",
+        "6": "https://www.youtube.com/watch?v=GVCzdpagXOQ",
+        "7": null
     },
 
     "lunch-message": [
