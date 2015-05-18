@@ -254,6 +254,9 @@ def mainLoop():
             row = ' '.join(line[3:])
             row = re.sub('[,.?:]', ' ', row).strip().lower().split()
 
+            if not line:
+                continue
+
             if line[0] == "PING":
                 sendMsg("PONG {ARG}\r\n".format(ARG=line[1]))
 
