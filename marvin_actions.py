@@ -31,7 +31,8 @@ def getAllActions():
         marvinWeather,
         marvinSun,
         marvinSayHi,
-        marvinSmile
+        marvinSmile,
+        marvinStrip
     ]
 
 
@@ -255,6 +256,38 @@ def marvinWeather(line, row):
         msg = "{}. {}. {}".format(soup.h1.text, soup.h4.text, soup.h4.findNextSibling('p').text)
 
     return msg
+
+
+def marvinStrip(line, row):
+    """
+    Get a comic strip.
+    """
+    msg = None
+    if row.intersection(['strip', 'comic']):
+        if row.intersection(['rand', 'random', 'slump', 'lucky']):
+            msg = commitStrip(randomize=True)
+        else:
+            msg = commitStrip()
+
+    return msg
+
+
+def commitStrip(randomize=False):
+    """
+    Latest or random comic strip from CommitStrip.
+    """
+    msg = getString("commitstrip", "message")
+
+    if randomize:
+        first = getString("commitstrip", "first")
+        last = getString("commitstrip", "last")
+        rand = random.randint(first, last)
+        url = getString("commitstrip", "urlPage") + str(rand)
+    else:
+        url = getString("commitstrip", "url")
+
+    return msg.format(url=url)
+
 
 """
       elif ('latest' in row or 'senaste' in row or 'senast' in row) and ('forum' in row or 'forumet' in row):

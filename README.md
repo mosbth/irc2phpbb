@@ -88,6 +88,7 @@ Todo.
 
 v0.3.x (latest) 
 
+* Added comic strips from commitStrip.
 * Fixed crash on mondays, #9.
 * Moved all strings to `marvin_strings.json`.
 * Improving documentation.
