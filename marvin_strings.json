@@ -145,7 +145,7 @@
     "sun-no": "Jag hittade tyvär inga solar idag :( så jag håller på och lär mig hur Python kan räkna ut soluppgången, återkommer.",
 
     "commitstrip": {
-        "message": "Ha lite trevligt så här på morgonenmed en comic strip från commitStrip: {url} eller http://thecodinglove.com/",
+        "message": "Ha lite trevligt så här på morgonen med en comic strip från commitStrip: {url} eller http://thecodinglove.com/",
         "url": "http://www.commitstrip.com/en/",
         "urlPage": "http://www.commitstrip.com/en/page/",
         "first": 1,
