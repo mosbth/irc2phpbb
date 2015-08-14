@@ -67,7 +67,7 @@ $feeds = array(
 
       3448,3449,3450,3451,3452,3453, // uppropstrådar vt15
 
-	4344, //webtopic ht15
+	4434, //webtopic ht15
 	
     ),
 		'callback'=>function($item, $ignore=array()) {
