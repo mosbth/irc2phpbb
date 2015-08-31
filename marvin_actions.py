@@ -7,8 +7,9 @@ Make actions for Marvin, one function for each action.
 
 
 import random
+import math
 import json
-from datetime import date
+import datetime
 import feedparser
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
@@ -32,7 +33,8 @@ def getAllActions():
         marvinSun,
         marvinSayHi,
         marvinSmile,
-        marvinStrip
+        marvinStrip,
+        marvinTimeToBBQ
     ]
 
 
@@ -113,7 +115,7 @@ def videoOfToday():
     """
     Check what day it is and provide a url to a suitable video together with a greeting.
     """
-    dayNum = date.weekday(date.today()) + 1
+    dayNum = datetime.date.weekday(datetime.date.today()) + 1
     msg = getString("weekdays", str(dayNum))
     video = getString("video-of-today", str(dayNum))
 
@@ -296,3 +298,32 @@ def commitStrip(randomize=False):
         feed=feedparser.parse(FEED_FORUM)
         sendPrivMsg(s,"Forumet: \"%s\" av %s http://dbwebb.se/f/%s" % (feed["items"][0]["title"].encode('utf-8', 'ignore'), feed["items"][0]["author"].encode('utf-8', 'ignore'), re.search('(?<=p=)\d+', feed["items"][0]["id"].encode('utf-8', 'ignore')).group(0)))
 """
+
+def marvinTimeToBBQ(line, row):
+    """
+    Calcuate the time to next barbecue
+    """
+    msg = None
+
+    if row.intersection(['när är nästa grill?', 'grill', 'bbq']):
+        whenStr  = getString("barbecue", "when")
+        whenDate = datetime.datetime.strptime(whenStr, '%Y-%m-%d')
+        now      = datetime.datetime.now()
+        hours    = math.floor((whenDate - now) / datetime.timedelta(seconds=3600))
+        days     = math.floor(hours / 24)
+
+        if (days == -1):
+            msg = getString("barbecue", "today")
+        elif (days == 0):
+            msg = getString("barbecue", "tomorrow")
+        elif (days < 20):
+            part = getString("barbecue", "base")
+            rand = random.randint(0, len(part) - 1)
+            try:
+                msg =  part[rand] % whenStr
+            except TypeError:
+                msg = part[rand]
+        else:
+            msg = getString("barbecue", "eternity")
+
+        return msg
