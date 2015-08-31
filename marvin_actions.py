@@ -191,6 +191,8 @@ def marvinLunch(line, row):
     if row.intersection(['lunch', 'mat', 'äta']):
         if row.intersection(['stan', 'centrum', 'karlskrona', 'kna']):
             msg = getString("lunch-message").format(getString("lunch-karlskrona"))
+        elif row.intersection(['ängelholm', 'angelholm', 'engelholm']):
+            msg = getString('lunch-message').format(getString('lunch-angelholm'))
         elif row.intersection(['hässleholm', 'hassleholm']):
             msg = getString("lunch-message").format(getString("lunch-hassleholm"))
         else:
