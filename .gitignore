@@ -6,3 +6,4 @@ aggregate.log
 db.sqlite
 # pycharm
 .idea/
+marvin_config.json
