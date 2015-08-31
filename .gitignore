@@ -4,4 +4,5 @@ aggregate.error
 aggregate.ignore
 aggregate.log
 db.sqlite
-
+# pycharm
+.idea/
