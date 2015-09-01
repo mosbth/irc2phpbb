@@ -58,7 +58,7 @@
         "#5": "Hey Luke - use the source! http://catb.org/jargon/html/U/UTSL.html"
     },
 
-    
+
     "weekdays": {
         "1": "Idag är det måndag.",
         "2": "Idag är det tisdag.",
@@ -164,5 +164,17 @@
         "urlPage": "http://www.commitstrip.com/en/page/",
         "first": 1,
         "last": 688
+    },
+
+    "barbecue" : {
+      "base" : [
+        "Nästa grill är den %s. Dags att börja tagga...",
+        "Nu är de nära. %s tror jag det var dags.",
+        "Grill hit och grill dit. Folk borde veta att de är den första fredagen på den tredje veckan in på terminen."
+      ],
+      "today": "Grillen är idag. Kanske dags att fixa grillen om vi ska starta kl 17:00",
+      "tomorrow": "Grillen är i morgon. Undra om mos har förberett.",
+      "eternity": "Det är en evighet till nästa grill.",
+      "when": "2015-09-18"
     }
 }
