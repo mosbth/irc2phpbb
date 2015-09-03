@@ -224,9 +224,10 @@ def marvinListen(line, row):
     """
     msg = None
     if row.intersection(['lyssna', 'lyssnar', 'musik']):
-        feed = feedparser.parse('http://ws.audioscrobbler.com/1.0/user/mikaelroos/recenttracks.rss')
+        msg = "Jag lyssnar inte på något för tillfället..."
+        #feed = feedparser.parse('http://ws.audioscrobbler.com/1.0/user/mikaelroos/recenttracks.rss')
         # feed["items"][0]["title"].encode('utf-8', 'ignore')))
-        msg = getString("listen") + " " + feed["items"][0]["title"]
+        #msg = getString("listen") + " " + feed["items"][0]["title"]
 
     return msg
 
