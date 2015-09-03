@@ -304,13 +304,11 @@ def marvinTimeToBBQ(line, row):
     Calcuate the time to next barbecue
     """
     msg = None
-
     if row.intersection(['när är nästa grill?', 'grill', 'bbq']):
         whenStr  = getString("barbecue", "when")
         whenDate = datetime.datetime.strptime(whenStr, '%Y-%m-%d')
         now      = datetime.datetime.now()
-        hours    = math.floor((whenDate - now) / datetime.timedelta(seconds=3600))
-        days     = math.floor(hours / 24)
+        days    = math.floor((whenDate - now) / datetime.timedelta(hours=24))
 
         if (days == -1):
             msg = getString("barbecue", "today")
