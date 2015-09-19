@@ -301,7 +301,7 @@ def commitStrip(randomize=False):
 
 def marvinTimeToBBQ(line, row):
     """
-    Calcuate the time to next barbecue and print a appropriate
+    Calcuate the time to next barbecue and print a appropriate msg
     """
     msg = None
     if row.intersection(['grilla', 'grill', 'bbq']):
