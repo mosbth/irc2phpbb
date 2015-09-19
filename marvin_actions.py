@@ -309,7 +309,7 @@ def marvinTimeToBBQ(line, row):
         whenDate = datetime.datetime.strptime(whenStr, '%Y-%m-%d')
         now      = datetime.datetime.now()
         days    = math.floor((whenDate - now) / datetime.timedelta(hours=24))
-        print(days)
+
         if (days == -1):
             msg = getString("barbecue", "today")
         elif (days == 0):
