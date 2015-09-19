@@ -301,20 +301,27 @@ def commitStrip(randomize=False):
 
 def marvinTimeToBBQ(line, row):
     """
-    Calcuate the time to next barbecue
+    Calcuate the time to next barbecue and print a appropriate
     """
     msg = None
-    if row.intersection(['när är nästa grill?', 'grill', 'bbq']):
+    if row.intersection(['grilla', 'grill', 'bbq']):
         whenStr  = getString("barbecue", "when")
         whenDate = datetime.datetime.strptime(whenStr, '%Y-%m-%d')
         now      = datetime.datetime.now()
         days    = math.floor((whenDate - now) / datetime.timedelta(hours=24))
-
+        print(days)
         if (days == -1):
             msg = getString("barbecue", "today")
         elif (days == 0):
             msg = getString("barbecue", "tomorrow")
-        elif (days < 20):
+        elif (days < 14 and days > 0):
+            part = getString("barbecue", "week")
+            rand = random.randint(0, len(part) - 1)
+            try:
+                msg =  part[rand] % whenStr
+            except TypeError:
+                msg = part[rand]
+        elif (days < 30 and days > 0):
             part = getString("barbecue", "base")
             rand = random.randint(0, len(part) - 1)
             try:
