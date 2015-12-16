@@ -86,10 +86,11 @@ Todo.
 * Add logfile entry containing current online users in the irc-channel
 
 
-v0.3.x (latest) 
+v0.3.1 (2015-12-16) 
 
 * Use travis for tests.
 * Add pylint and jsonlint.
+* Fix crash on smhi wrong url.
 * Added comic strips from commitStrip.
 * Fixed crash on mondays, #9.
 * Moved all strings to `marvin_strings.json`.

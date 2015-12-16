@@ -10,8 +10,8 @@ import random
 import math
 import json
 import datetime
-from bs4 import BeautifulSoup
 from urllib.request import urlopen
+from bs4 import BeautifulSoup
 
 # Used or not?
 #import feedparser
@@ -50,11 +50,11 @@ def getString(key, key1=None):
     Get a string from the string database.
     """
     data = STRINGS[key]
-    if type(data) is list:
+    if isinstance(data, list):
         res = data[random.randint(0, len(data) - 1)]
-    elif type(data) is dict:
+    elif isinstance(data, dict):
         res = data[key1]
-    elif type(data) is str:
+    elif isinstance(data, str):
         res = data
 
     return res
