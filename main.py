@@ -9,7 +9,7 @@ by loggin in to the forum and checking the RSS-feed.
 You need to install additional modules.
 
 # Install needed modules in local directory
-pip3 install --target modules/ feedparser beautifulsoup4
+pip3 install --target modules/ feedparser beautifulsoup4 chardet
 
 You start the program like this, including the path to the locally installed
 modules.
