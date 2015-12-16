@@ -1,9 +1,11 @@
 #!/usr/bin/make -f
 #
 #
+SHELL=/bin/bash -o pipefail
+
 LOGFILES = aggregate.error aggregate.log aggregate.ignore
 PYFILES = *.py
-JSONFILES = $(wildcard *.json)
+JSONFILES = *.json
 
 
 #

@@ -166,6 +166,11 @@
         "last": 688
     },
 
+    "smhi": {
+        "url": "http://www.smhi.se/vadret/vadret-i-sverige/meteorologens-kommentar?meteorologens-kommentar=http%3A%2F%2Fwww.smhi.se%2FweatherSMHI2%2Flandvader%2F.%2Fprognos15_2.htm",
+        "failed": "Något har hänt med SMHI, de svarar inte."
+    },
+
     "barbecue" : {
       "base" : [
         "Nästa grill är den %s. Dags att börja tagga...",

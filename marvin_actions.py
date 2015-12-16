@@ -10,9 +10,11 @@ import random
 import math
 import json
 import datetime
-import feedparser
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
+
+# Used or not?
+#import feedparser
 
 
 def getAllActions():
@@ -58,7 +60,7 @@ def getString(key, key1=None):
     return res
 
 
-def marvinSmile(line, row):
+def marvinSmile(row):
     """
     Make Marvin smile.
     """
@@ -69,7 +71,7 @@ def marvinSmile(line, row):
     return msg
 
 
-def marvinSource(line, row):
+def marvinSource(row):
     """
     State message about sourcecode.
     """
@@ -80,7 +82,7 @@ def marvinSource(line, row):
     return msg
 
 
-def marvinBudord(line, row):
+def marvinBudord(row):
     """
     What are the budord for Marvin?
     """
@@ -100,7 +102,7 @@ def marvinBudord(line, row):
     return msg
 
 
-def marvinQuote(line, row):
+def marvinQuote(row):
     """
     Make a quote.
     """
@@ -127,7 +129,7 @@ def videoOfToday():
     return msg
 
 
-def marvinVideoOfToday(line, row):
+def marvinVideoOfToday(row):
     """
     Show the video of today.
     """
@@ -138,7 +140,7 @@ def marvinVideoOfToday(line, row):
     return msg
 
 
-def marvinWhoIs(line, row):
+def marvinWhoIs(row):
     """
     Who is Marvin.
     """
@@ -149,7 +151,7 @@ def marvinWhoIs(line, row):
     return msg
 
 
-def marvinHelp(line, row):
+def marvinHelp(row):
     """
     Provide a menu.
     """
@@ -160,7 +162,7 @@ def marvinHelp(line, row):
     return msg
 
 
-def marvinStats(line, row):
+def marvinStats(row):
     """
     Provide a link to the stats.
     """
@@ -171,12 +173,16 @@ def marvinStats(line, row):
     return msg
 
 
-def marvinSayHi(line, row):
+def marvinSayHi(row):
     """
     Say hi with a nice message.
     """
     msg = None
-    if row.intersection(['snälla', 'hej', 'tjena', 'morsning', 'mår', 'hallå', 'halloj', 'läget', 'snäll', 'duktig', 'träna', 'träning', 'utbildning', 'tack', 'tacka', 'tackar', 'tacksam']):
+    if row.intersection([
+            'snälla', 'hej', 'tjena', 'morsning', 'mår', 'hallå', 'halloj',
+            'läget', 'snäll', 'duktig', 'träna', 'träning', 'utbildning',
+            'tack', 'tacka', 'tackar', 'tacksam'
+    ]):
         smile = getString("smile")
         hello = getString("hello")
         friendly = getString("friendly")
@@ -185,7 +191,7 @@ def marvinSayHi(line, row):
     return msg
 
 
-def marvinLunch(line, row):
+def marvinLunch(row):
     """
     Help decide where to eat.
     """
@@ -218,7 +224,7 @@ def getListen():
     return res
 
 
-def marvinListen(line, row):
+def marvinListen(row):
     """
     Return music last listened to.
     """
@@ -232,7 +238,7 @@ def marvinListen(line, row):
     return msg
 
 
-def marvinSun(line, row):
+def marvinSun(row):
     """
     Check when the sun goes up and down.
     """
@@ -245,25 +251,34 @@ def marvinSun(line, row):
             sunset = spans[1].text
             msg = getString("sun").format(sunrise, sunset)
 
-        except Exception as e:
+        except Exception:
             msg = getString("sun-no")
 
     return msg
 
 
-def marvinWeather(line, row):
+def marvinWeather(row):
     """
     Check what the weather prognosis looks like.
     """
     msg = None
-    if row.intersection(['väder', 'vädret', 'prognos', 'prognosen', 'smhi']):
-        soup = BeautifulSoup(urlopen('http://www.smhi.se/vadret/vadret-i-sverige/Vaderoversikt-Sverige-meteorologens-kommentar?meteorologens-kommentar=http%3A%2F%2Fwww.smhi.se%2FweatherSMHI2%2Flandvader%2F.%2Fprognos15_2.htm'))
-        msg = "{}. {}. {}".format(soup.h1.text, soup.h4.text, soup.h4.findNextSibling('p').text)
+    if row.intersection(["väder", "vädret", "prognos", "prognosen", "smhi"]):
+        url = getString("smhi", "url")
+        try:
+            soup = BeautifulSoup(urlopen(url))
+            msg = "{}. {}. {}".format(
+                soup.h1.text,
+                soup.h4.text,
+                soup.h4.findNextSibling("p").text
+            )
+        
+        except Exception:
+            msg = getString("smhi", "failed")
 
     return msg
 
 
-def marvinStrip(line, row):
+def marvinStrip(row):
     """
     Get a comic strip.
     """
@@ -294,22 +309,21 @@ def commitStrip(randomize=False):
     return msg.format(url=url)
 
 
-"""
-      elif ('latest' in row or 'senaste' in row or 'senast' in row) and ('forum' in row or 'forumet' in row):
-        feed=feedparser.parse(FEED_FORUM)
-        sendPrivMsg(s,"Forumet: \"%s\" av %s http://dbwebb.se/f/%s" % (feed["items"][0]["title"].encode('utf-8', 'ignore'), feed["items"][0]["author"].encode('utf-8', 'ignore'), re.search('(?<=p=)\d+', feed["items"][0]["id"].encode('utf-8', 'ignore')).group(0)))
-"""
+#      elif ('latest' in row or 'senaste' in row or 'senast' in row)
+# and ('forum' in row or 'forumet' in row):
+#        feed=feedparser.parse(FEED_FORUM)
 
-def marvinTimeToBBQ(line, row):
+
+def marvinTimeToBBQ(row):
     """
     Calcuate the time to next barbecue and print a appropriate msg
     """
     msg = None
     if row.intersection(['grilla', 'grill', 'bbq']):
-        whenStr  = getString("barbecue", "when")
+        whenStr = getString("barbecue", "when")
         whenDate = datetime.datetime.strptime(whenStr, '%Y-%m-%d')
-        now      = datetime.datetime.now()
-        days    = math.floor((whenDate - now) / datetime.timedelta(hours=24))
+        now = datetime.datetime.now()
+        days = math.floor((whenDate - now) / datetime.timedelta(hours=24))
 
         if (days == -1):
             msg = getString("barbecue", "today")
@@ -319,14 +333,14 @@ def marvinTimeToBBQ(line, row):
             part = getString("barbecue", "week")
             rand = random.randint(0, len(part) - 1)
             try:
-                msg =  part[rand] % whenStr
+                msg = part[rand] % whenStr
             except TypeError:
                 msg = part[rand]
         elif (days < 30 and days > 0):
             part = getString("barbecue", "base")
             rand = random.randint(0, len(part) - 1)
             try:
-                msg =  part[rand] % whenStr
+                msg = part[rand] % whenStr
             except TypeError:
                 msg = part[rand]
         else:

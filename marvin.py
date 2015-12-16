@@ -11,28 +11,29 @@ Keeping a log and reading incoming material.
 
 
 import re
-
-
-# Chck if all these are needed
-import sys
 import socket
-import string
-import random
-import os #not necassary but later on I am going to use a few features from this
-import feedparser # http://wiki.python.org/moin/RssLibraries
+import os
 import shutil
-import codecs
 from collections import deque
 from datetime import datetime
-import re
-#import urllib2
-from bs4 import BeautifulSoup
-import time
 import json
-from datetime import date
+import chardet
+
+
+# Check if all these are needed
+#import sys
+#import string
+#import random
+#import feedparser # http://wiki.python.org/moin/RssLibraries
+#import urllib2
+#from bs4 import BeautifulSoup
+#import time
+#from datetime import date
 
 #import phpmanual
 #import dev_mozilla
+
+#import codecs
 
 
 #
@@ -63,10 +64,16 @@ IRCLOG = None
 
 
 def getConfig():
+    """
+    Return the current configuration
+    """
     return CONFIG
 
 
 def setConfig(config):
+    """
+    Set the current configuration
+    """
     global CONFIG
     CONFIG = config
 
@@ -75,7 +82,6 @@ def registerActions(actions):
     """
     Register actions to use.
     """
-    global ACTIONS
     print("Adding actions:")
     for action in actions:
         print(" - " + action.__name__)
@@ -146,24 +152,30 @@ def sendMsg(msg):
     SOCKET.send(msg.encode())
 
 
-def decode_irc(raw, preferred_encs = ["UTF-8", "CP1252", "ISO-8859-1"]):
+def decode_irc(raw, preferred_encs=None):
     """
     Do character detection.
+    You can send preferred encodings as a list through preferred_encs.
     http://stackoverflow.com/questions/938870/python-irc-bot-and-encoding-issue
     """
+    if preferred_encs is None:
+        preferred_encs = ["UTF-8", "CP1252", "ISO-8859-1"]
+
     changed = False
     for enc in preferred_encs:
         try:
             res = raw.decode(enc)
             changed = True
             break
-        except:
+        except Exception:
             pass
+
     if not changed:
         try:
             enc = chardet.detect(raw)['encoding']
             res = raw.decode(enc)
-        except:
+        except Exception:
+            # pylint: disable=undefined-loop-variable
             res = raw.decode(enc, 'ignore')
 
     return res
@@ -188,10 +200,8 @@ def ircLogAppend(line=None, user=None, message=None):
     """
     Read incoming message and guess encoding.
     """
-    global IRCLOG
-
     if not user:
-        user = re.search('(?<=:)\w+', line[0]).group(0)
+        user = re.search(r"(?<=:)\w+", line[0]).group(0)
 
     if not message:
         message = ' '.join(line[3:]).lstrip(':')
@@ -201,12 +211,6 @@ def ircLogAppend(line=None, user=None, message=None):
         'user': user,
         'msg': message
     })
-
-    """
-          if line[3]==u':\x01ACTION':
-            irclog.append({'time':datetime.now().strftime("%H:%M").rjust(5), 'user':'* ' + re.search('(?<=:)\w+', line[0]).group(0).encode('utf-8', 'ignore'), 'msg':' '.join(line[4:]).lstrip(':').encode('utf-8', 'ignore')})
-
-    """
 
 
 def ircLogWriteToFile():
@@ -219,7 +223,8 @@ def ircLogWriteToFile():
 
 def readincoming():
     """
-    Read all files in the directory incoming, send them as a message if they exists and then move the file to directory done.
+    Read all files in the directory incoming, send them as a message if
+    they exists and then move the file to directory done.
     """
     listing = os.listdir(CONFIG["dirIncoming"])
     for infile in listing:
@@ -269,7 +274,8 @@ def mainLoop():
             if line[1] == 'PRIVMSG':
                 if CONFIG["nick"] in row:
                     for action in ACTIONS:
-                        msg = action(line, set(row))
+                        msg = action(set(row))
+
                         if msg:
                             sendPrivMsg(msg, line[2])
                             break

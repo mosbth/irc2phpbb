@@ -2,15 +2,17 @@
 # -*- coding: utf-8 -*-
 
 """
-An IRC bot that answers random questions, keeps a log from the IRC-chat, easy to integrate in a webpage and montores a phpBB forum for latest topics by loggin in to the forum and checking the RSS-feed.
+An IRC bot that answers random questions, keeps a log from the IRC-chat,
+easy to integrate in a webpage and montores a phpBB forum for latest topics
+by loggin in to the forum and checking the RSS-feed.
 
 You need to install additional modules.
 
 # Install needed modules in local directory
-pip3 install --target modules/ feedparser
-pip3 install --target modules/ beautifulsoup4
+pip3 install --target modules/ feedparser beautifulsoup4
 
-You start the program like this, including the path to the locally installed modules.
+You start the program like this, including the path to the locally installed
+modules.
 
 # Run
 PYTHONPATH=modules python3 main.py
@@ -18,15 +20,20 @@ PYTHONPATH=modules python3 main.py
 # To get help
 PYTHONPATH=modules python3 main.py --help
 
-# Example
-PYTHONPATH=modules python3 main.py --server=irc.bsnet.se --channel=#db-o-webb
-PYTHONPATH=modules python3 main.py --server=irc.bsnet.se --port=6667 --channel=#db-o-webb --nick=marvin --ident=secret
+# Example of using options
+--server=irc.bsnet.se --channel=#db-o-webb
+--server=irc.bsnet.se --port=6667 --channel=#db-o-webb
+--nick=marvin --ident=secret
 
 # Configuration
-Check out the file 'marvin_config_default.json' on how to configure, instead of using cli-options. The default configfile is 'marvin_config.json' but you can change that using cli-options.
+Check out the file 'marvin_config_default.json' on how to configure, instead
+of using cli-options. The default configfile is 'marvin_config.json' but you
+can change that using cli-options.
 
 # Make own actions
-Check the file 'marvin_strings.json' for the file where most of the strings are defined and check out 'marvin_actions.py' to see how to write your own actions. Its just a small function.
+Check the file 'marvin_strings.json' for the file where most of the strings
+are defined and check out 'marvin_actions.py' to see how to write your own
+actions. Its just a small function.
 
 """
 
@@ -46,7 +53,8 @@ PROGRAM = "marvin"
 AUTHOR = "Mikael Roos"
 EMAIL = "mikael.t.h.roos@gmail.com"
 VERSION = "0.3.0"
-MSG_USAGE = """{program} - Act as an IRC bot and do useful things. By {author} ({email}), version {version}.
+MSG_USAGE = """{program} - Act as an IRC bot and do useful things.
+By {author} ({email}), version {version}.
 
 Usage:
   {program} [options]
@@ -65,7 +73,9 @@ Options:
 GitHub: https://github.com/mosbth/irc2phpbb
 Issues: https://github.com/mosbth/irc2phpbb/issues
 """.format(program=PROGRAM, author=AUTHOR, email=EMAIL, version=VERSION)
+
 MSG_VERSION = "{program} version {version}.".format(program=PROGRAM, version=VERSION)
+
 MSG_USAGE_SHORT = "Use {program} --help to get usage.\n".format(program=PROGRAM)
 
 
@@ -96,7 +106,8 @@ def mergeOptionsWithConfigFile(options, configFile):
         options.update(data)
         res = json.dumps(options, sort_keys=True, indent=4, separators=(',', ': '))
 
-        print("Read configuration from config file '{file}'. Current configuration is:\n{config}".format(config=res, file=configFile))
+        msg = "Read configuration from config file '{file}'. Current configuration is:\n{config}"
+        print(msg.format(config=res, file=configFile))
 
     else:
         print("Config file '{file}' is not readable, skipping.".format(file=configFile))
