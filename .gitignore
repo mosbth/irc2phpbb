@@ -7,3 +7,8 @@ db.sqlite
 # pycharm
 .idea/
 marvin_config.json
+modules/
+cache/
+done/
+config.php
+build/

@@ -1,0 +1,76 @@
+language: python
+
+python:
+  - "3.2"
+  - "3.3"
+  - "3.4"
+  - "3.5"
+  - "3.5-dev" # 3.5 development branch
+  - "nightly" # currently points to 3.6-dev
+
+
+
+sudo: false
+
+
+
+git:
+    submodules: false
+
+
+
+addons:
+    apt:
+        packages:
+            #- pylint
+            #- php-codesniffer
+            #- phpmd
+            #- shellcheck
+
+
+
+matrix:
+    allow_failures:
+        - python: "3.2"
+        - python: "nightly"
+
+
+
+before_script:
+
+    # Create a build directory for output
+    # Store all files in your own bin
+    - install --directory build/
+
+    # install pylint
+    - pip3 install pylint
+ 
+    # Install validation tools
+    - npm install -g jsonlint
+
+
+
+script:
+    
+    # Check versions
+    - node --version
+    - npm --version
+    - pylint --version
+
+    # Run checks
+    - jsonlint *.json
+    - pylint --rcfile=.pylintrc *.py
+
+
+
+notifications:
+    irc: "irc.freenode.org#dbwebb"
+
+    webhooks:
+        urls:
+            - https://webhooks.gitter.im/e/3921db12f0b3a95de514
+
+        # options: [always|never|change] default: always
+        on_success: change
+        on_failure: always
+        on_start: never
