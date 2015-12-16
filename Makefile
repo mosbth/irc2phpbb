@@ -2,7 +2,8 @@
 #
 #
 LOGFILES = aggregate.error aggregate.log aggregate.ignore
-
+PYFILES = *.py
+JSONFILES = $(wildcard *.json)
 
 
 #
@@ -36,10 +37,12 @@ prepare:
 #
 #
 #
-.PHONY: jsonlint
+.PHONY: jsonlint $(JSONFILES)
 
-jsonlint:
-	jsonlint --quiet *.json | tee build/jsonlint 
+jsonlint: $(JSONFILES)
+	
+$(JSONFILES):
+	jsonlint --quiet $@ 2>&1 | tee build/jsonlint-$@
 
 
 
@@ -49,4 +52,4 @@ jsonlint:
 .PHONY: pylint
 
 pylint:
-	pylint --rcfile=.pylintrc *.py | tee build/pylint
+	pylint --rcfile=.pylintrc $(PYFILES) | tee build/pylint

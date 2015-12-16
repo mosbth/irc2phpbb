@@ -58,8 +58,7 @@ script:
     - pylint --version
 
     # Run checks
-    - jsonlint *.json
-    - pylint --rcfile=.pylintrc *.py
+    - make test
 
 
 
