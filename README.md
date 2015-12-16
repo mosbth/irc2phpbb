@@ -1,6 +1,8 @@
 Marvin, an IRC bot
 ==================
 
+[![Build Status](https://travis-ci.org/mosbth/irc2phpbb.svg?branch=master)](https://travis-ci.org/mosbth/irc2phpbb)
+
 Get a quick start by checking out the main script `main.py`.
 
 
