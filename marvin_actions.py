@@ -341,6 +341,9 @@ def marvinTimeToBBQ(row):
         return msg
 
 def getRandomAnswerForBBQ(part, whenStr):
+    """
+    Generates a random string from the part-array given
+    """
     rand = random.randint(0, len(part) - 1)
     msg = ""
     try:
