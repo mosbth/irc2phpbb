@@ -271,7 +271,7 @@ def marvinWeather(row):
                 soup.h4.text,
                 soup.h4.findNextSibling("p").text
             )
-        
+
         except Exception:
             msg = getString("smhi", "failed")
 
@@ -331,19 +331,21 @@ def marvinTimeToBBQ(row):
             msg = getString("barbecue", "tomorrow")
         elif (days < 14 and days > 0):
             part = getString("barbecue", "week")
-            rand = random.randint(0, len(part) - 1)
-            try:
-                msg = part[rand] % whenStr
-            except TypeError:
-                msg = part[rand]
-        elif (days < 30 and days > 0):
+            msg = getRandomAnswerForBBQ(part, whenStr)
+        elif (days < 200 and days > 0):
             part = getString("barbecue", "base")
-            rand = random.randint(0, len(part) - 1)
-            try:
-                msg = part[rand] % whenStr
-            except TypeError:
-                msg = part[rand]
+            msg = getRandomAnswerForBBQ(part, whenStr)
         else:
             msg = getString("barbecue", "eternity")
 
         return msg
+
+def getRandomAnswerForBBQ(part, whenStr):
+    rand = random.randint(0, len(part) - 1)
+    msg = ""
+    try:
+        msg = part[rand] % whenStr
+    except TypeError:
+        msg = part[rand]
+
+    return msg
