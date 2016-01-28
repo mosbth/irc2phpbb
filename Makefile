@@ -11,9 +11,17 @@ JSONFILES = *.json
 #
 #
 #
+all:
+	@echo "make [clean|test|prepare|jsonlint|pylint]"
+
+
+
+#
+#
+#
 .PHONY: clean
 
-clean: 
+clean:
 	rm -f $(LOGFILES)
 	rm -rf build
 
@@ -42,7 +50,7 @@ prepare:
 .PHONY: jsonlint $(JSONFILES)
 
 jsonlint: $(JSONFILES)
-	
+
 $(JSONFILES):
 	jsonlint --quiet $@ 2>&1 | tee build/jsonlint-$@
 
