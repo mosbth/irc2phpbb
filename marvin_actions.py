@@ -324,7 +324,7 @@ def marvinTimeToBBQ(row):
         whenDate = datetime.datetime.strptime(whenStr, '%Y-%m-%d')
         now = datetime.datetime.now()
         days = math.floor((whenDate - now) / datetime.timedelta(hours=24))
-        print(days)
+
         if (days == -1):
             msg = getString("barbecue", "today")
         elif (days == 0):
@@ -335,7 +335,6 @@ def marvinTimeToBBQ(row):
         elif (days < 200 and days > 0):
             part = getString("barbecue", "base")
             msg = getRandomAnswerForBBQ(part, whenStr)
-
         else:
             msg = getString("barbecue", "eternity")
 
