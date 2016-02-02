@@ -81,9 +81,9 @@
 
     "lunch-message": [
         "Ska vi ta {}?",
-        "Ska vi dra ned till {}?",
+        "Jag är lite sugen på {}?",
         "Jag tänkte käka på {}, ska du med?",
-        "På {} är det mysigt, ska vi ta där?"
+        "{}, där är det mysigt, ska vi ta där?"
     ],
 
     "lunch-karlskrona": [
@@ -105,8 +105,8 @@
     ],
 
     "lunch-bth": [
-        "Thairestaurangen vid korsningen",
-        "det är lite mysigt i fiket jämte demolabbet",
+        "thairestaurangen vid korsningen",
+        "fiket jämte demolabbet",
         "Indiska",
         "Pappa curry",
         "boden uppe på parkeringen",
