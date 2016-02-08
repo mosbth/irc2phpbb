@@ -11,6 +11,7 @@ import math
 import json
 import datetime
 from urllib.request import urlopen
+from urllib.parse import quote_plus
 from bs4 import BeautifulSoup
 
 # Used or not?
@@ -36,6 +37,7 @@ def getAllActions():
         marvinSayHi,
         marvinSmile,
         marvinStrip,
+        marvinGoogle,
         marvinTimeToBBQ
     ]
 
@@ -60,7 +62,7 @@ def getString(key, key1=None):
     return res
 
 
-def marvinSmile(row):
+def marvinSmile(row, asList=None, asStr=None):
     """
     Make Marvin smile.
     """
@@ -71,7 +73,41 @@ def marvinSmile(row):
     return msg
 
 
-def marvinSource(row):
+def generateUrlToGoogleSearch(searchStr):
+    """
+    Generates an google query-url based input string
+    """
+    baseUrl = 'https://www.google.se/search?q='
+    searchFor = quote_plus(searchStr)
+
+    return baseUrl + searchFor
+
+
+def marvinGoogle(row, asList=None, asStr=None):
+    """
+    Let Marvin present an url to google.
+    """
+    msg = None
+    match = row.intersection(['google', 'googla'])
+
+    if match:
+        # Find the google word and take the rest as the query string
+        startAt = next(iter(match))
+        searchStart = asList.index(startAt) + 1
+
+        if searchStart >= len(asList):
+            searchStr = ""
+        else:
+            searchStr = " ".join(asList[searchStart:])
+        
+        url = generateUrlToGoogleSearch(searchStr)
+        google = getString("google")
+        msg = google.format(url)
+
+    return msg
+
+
+def marvinSource(row, asList=None, asStr=None):
     """
     State message about sourcecode.
     """
@@ -82,7 +118,7 @@ def marvinSource(row):
     return msg
 
 
-def marvinBudord(row):
+def marvinBudord(row, asList=None, asStr=None):
     """
     What are the budord for Marvin?
     """
@@ -102,7 +138,7 @@ def marvinBudord(row):
     return msg
 
 
-def marvinQuote(row):
+def marvinQuote(row, asList=None, asStr=None):
     """
     Make a quote.
     """
@@ -129,7 +165,7 @@ def videoOfToday():
     return msg
 
 
-def marvinVideoOfToday(row):
+def marvinVideoOfToday(row, asList=None, asStr=None):
     """
     Show the video of today.
     """
@@ -140,7 +176,7 @@ def marvinVideoOfToday(row):
     return msg
 
 
-def marvinWhoIs(row):
+def marvinWhoIs(row, asList=None, asStr=None):
     """
     Who is Marvin.
     """
@@ -151,7 +187,7 @@ def marvinWhoIs(row):
     return msg
 
 
-def marvinHelp(row):
+def marvinHelp(row, asList=None, asStr=None):
     """
     Provide a menu.
     """
@@ -162,7 +198,7 @@ def marvinHelp(row):
     return msg
 
 
-def marvinStats(row):
+def marvinStats(row, asList=None, asStr=None):
     """
     Provide a link to the stats.
     """
@@ -173,7 +209,7 @@ def marvinStats(row):
     return msg
 
 
-def marvinSayHi(row):
+def marvinSayHi(row, asList=None, asStr=None):
     """
     Say hi with a nice message.
     """
@@ -191,7 +227,7 @@ def marvinSayHi(row):
     return msg
 
 
-def marvinLunch(row):
+def marvinLunch(row, asList=None, asStr=None):
     """
     Help decide where to eat.
     """
@@ -226,7 +262,7 @@ def getListen():
     return res
 
 
-def marvinListen(row):
+def marvinListen(row, asList=None, asStr=None):
     """
     Return music last listened to.
     """
@@ -240,7 +276,7 @@ def marvinListen(row):
     return msg
 
 
-def marvinSun(row):
+def marvinSun(row, asList=None, asStr=None):
     """
     Check when the sun goes up and down.
     """
@@ -259,7 +295,7 @@ def marvinSun(row):
     return msg
 
 
-def marvinWeather(row):
+def marvinWeather(row, asList=None, asStr=None):
     """
     Check what the weather prognosis looks like.
     """
@@ -280,7 +316,7 @@ def marvinWeather(row):
     return msg
 
 
-def marvinStrip(row):
+def marvinStrip(row, asList=None, asStr=None):
     """
     Get a comic strip.
     """
@@ -316,7 +352,7 @@ def commitStrip(randomize=False):
 #        feed=feedparser.parse(FEED_FORUM)
 
 
-def marvinTimeToBBQ(row):
+def marvinTimeToBBQ(row, asList=None, asStr=None):
     """
     Calcuate the time to next barbecue and print a appropriate msg
     """

@@ -7,6 +7,12 @@
 
     "ircstats": "Statistik för kanalen finns här: http://dbwebb.se/irssistats/db-o-webb.html",
 
+    "google": [
+        "Googla {}",
+        "LMGTFY {}",
+        "Kika på {}"
+    ],
+
     "smile": [
         ":-D",
         ":-P",

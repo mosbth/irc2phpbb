@@ -256,8 +256,8 @@ def mainLoop():
             print(line)
             line = line.strip().split()
 
-            row = ' '.join(line[3:])
-            row = re.sub('[,.?:]', ' ', row).strip().lower().split()
+            raw = ' '.join(line[3:])
+            row = re.sub('[,.?:]', ' ', raw).strip().lower().split()
 
             if not line:
                 continue
@@ -274,7 +274,7 @@ def mainLoop():
             if line[1] == 'PRIVMSG':
                 if CONFIG["nick"] in row:
                     for action in ACTIONS:
-                        msg = action(set(row))
+                        msg = action(set(row), row, raw)
 
                         if msg:
                             sendPrivMsg(msg, line[2])
