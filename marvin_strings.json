@@ -3,7 +3,7 @@
 
     "whois": "Jag är en tjänstvillig själ som gillar webbprogrammering. Jag bor på GitHub https://github.com/mosbth/irc2phpbb och du kan diskutera mig i forumet http://dbwebb.se/t/20",
 
-    "menu": "[ vem är | lyssna | le | lunch [var] | citat | budord 1 - 5 | source | väder | solen | dagens video | strip/comic [slump] | grill | stats | googla | hjälp ]",
+    "menu": "[ vem är | lyssna | le | lunch [var] | citat | budord 1 - 5 | source | väder | solen | dagens video | nöje/paus/strip/comic [slump] | grill | stats | google/googla | hjälp ]",
 
     "ircstats": "Statistik för kanalen finns här: http://dbwebb.se/irssistats/db-o-webb.html",
 
@@ -170,7 +170,7 @@
     "sun-no": "Jag hittade tyvär inga solar idag :( så jag håller på och lär mig hur Python kan räkna ut soluppgången, återkommer.",
 
     "commitstrip": {
-        "message": "Ta en paus och hämta energi med dagens comic strip från commitStrip: {url} eller kolla lite gifs på http://thecodinglove.com/",
+        "message": "Ta en paus och hämta energi med dagens comic strip från commitStrip: {url}, kolla lite gifs på http://thecodinglove.com/, läs dagens artikel på http://thedailywtf.com/ och slösurfa https://www.reddit.com/r/programmerhumor",
         "url": "http://www.commitstrip.com/en/",
         "urlPage": "http://www.commitstrip.com/en/page/",
         "first": 1,

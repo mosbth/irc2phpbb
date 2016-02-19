@@ -321,7 +321,7 @@ def marvinStrip(row, asList=None, asStr=None):
     Get a comic strip.
     """
     msg = None
-    if row.intersection(['strip', 'comic']):
+    if row.intersection(['strip', 'comic', 'nöje', 'paus']):
         if row.intersection(['rand', 'random', 'slump', 'lucky']):
             msg = commitStrip(randomize=True)
         else:
