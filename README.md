@@ -20,7 +20,7 @@ the latest posts through rss. A SQLite database is used to keep track on which p
 have been displayed in the irc-channel.
 
 The basic code is from: http://osix.net/modules/article/?id=780 and 
-http://oreilly.com/pub/h/1968. From there its further developed and customised to fit the target
+http://oreilly.com/pub/h/1968. From there its further developed and customized to fit the target
 forum and target irc-channel.
 
 The rfc for the irc protocol is quite helpful: http://www.irchelp.org/irchelp/rfc/
@@ -28,15 +28,15 @@ The rfc for the irc protocol is quite helpful: http://www.irchelp.org/irchelp/rf
 /Mikael Roos (mos@dbwebb.se)
 
 
-Customised for dbwebb.se
+Customized for dbwebb.se
 ----------------------------
 
 The bot is created for use in irc://irc.bsnet.se/#db-o-webb which is an irc channel for 
 teaching & learning HTML, CSS, JavaScript, PHP, SQL and Unix. The forum is http://dbwebb.se/forum. 
 
 This means that the code contains some settings to work in that environment and can therefore
-not just be cloned and installed. Modifications are needen. The script may anyhow be useful 
-as a studyobject for those in need of simulare functionality.
+not just be cloned and installed. Modifications are needed. The script may anyhow be useful 
+as a study object for those in need of similar functionality.
 
 
 Using feedparser to get RSS-feeds
@@ -53,7 +53,7 @@ Using BeautifulSoup to scrape web-pages
 --------------------------------------
 
 The bot uses the python lib `BeautifulSoup` to scrape information from webpages. Just to show it 
-off how its done but it can of course be made into some useful stuff. 
+off how it's done but it can of course be made into some useful stuff. 
 You'll have to download and install the lib yourself.
 
 * http://www.crummy.com/software/BeautifulSoup/
@@ -72,7 +72,7 @@ needed in the database looks like this:
 
 CREATE TABLE aggregate (id INTEGER PRIMARY KEY AUTOINCREMENT, feed text, key text UNIQUE);
 
-Run `aggregate.php` from crontab with regular intervalls, for example each 5 minute.
+Run `aggregate.php` from crontab with regular intervals, for example each 5 minute.
   
     */5 * * * * /usr/local/bin/php /home/mos/git/irc2phpbb/aggregate.php
 
