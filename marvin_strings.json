@@ -3,7 +3,7 @@
 
     "whois": "Jag är en tjänstvillig själ som gillar webbprogrammering. Jag bor på GitHub https://github.com/mosbth/irc2phpbb och du kan diskutera mig i forumet http://dbwebb.se/t/20",
 
-    "menu": "[ vem är | lyssna | le | lunch [var] | citat | budord 1 - 5 | source | väder | solen | dagens video | nöje/paus/strip/comic [slump] | grill | stats | google/googla | hjälp ]",
+    "menu": "[ vem är | lyssna | le | lunch [var] | citat | budord 1 - 5 | source | väder | solen | dagens video | nöje/paus/strip/comic [slump] | grill | birthday/födelsedag | stats | google/googla | hjälp ]",
 
     "ircstats": "Statistik för kanalen finns här: http://dbwebb.se/irssistats/db-o-webb.html",
 
@@ -200,5 +200,12 @@
       "tomorrow": "Grillen är i morgon. Undra om mos har förberett.",
       "eternity": "Det är en evighet till nästa grill.",
       "when": "2016-05-27"
+    },
+
+    "birthday": {
+        "url": "http://dbwebb.se/forum/",
+        "somebody": "Idag gratulerar vi {}",
+        "nobody": "Ingen som fyller år idag.",
+        "error": "Något gick snett, jag har inte en susning om någon fyller år eller inte."
     }
 }
