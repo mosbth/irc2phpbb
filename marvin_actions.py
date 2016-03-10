@@ -38,7 +38,8 @@ def getAllActions():
         marvinSmile,
         marvinStrip,
         marvinGoogle,
-        marvinTimeToBBQ
+        marvinTimeToBBQ,
+        marvinBirthday
     ]
 
 
@@ -99,7 +100,7 @@ def marvinGoogle(row, asList=None, asStr=None):
             searchStr = ""
         else:
             searchStr = " ".join(asList[searchStart:])
-        
+
         url = generateUrlToGoogleSearch(searchStr)
         google = getString("google")
         msg = google.format(url)
@@ -390,3 +391,30 @@ def getRandomAnswerForBBQ(part, whenStr):
         msg = part[rand]
 
     return msg
+
+def marvinBirthday(row, asList=None, asStr=None):
+    """
+    Check birthday info
+    """
+    msg = None
+    if row.intersection(['birthday', 'födelsedag']):
+        try:
+            url = getString("birthday", "url")
+            soup = BeautifulSoup(urlopen(url), "html.parser")
+            my_list = list()
+
+            for ana in soup.findAll('a'):
+                if ana.parent.name == 'strong':
+                    my_list.append(ana.getText())
+
+            my_list.pop()
+            my_strings = ', '.join(my_list)
+            if not my_strings:
+                msg = getString("birthday", "nobody")
+            else:
+                msg = getString("birthday", "somebody").format(my_strings)
+
+        except Exception:
+            msg = getString("birthday", "error")
+
+        return msg
