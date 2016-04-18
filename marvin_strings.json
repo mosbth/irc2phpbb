@@ -187,19 +187,20 @@
     },
 
     "barbecue" : {
-      "base" : [
-        "Nästa grill är %s. Dags att börja tagga...",
-        "Ryktas om att det är grill snart. Folk pratar om att det är dags %s.",
-        "Grill hit och grill dit. Folk borde veta att det är %s."
-      ],
-      "week": [
-        "Oj oj börjar närma sig! Som ni vet är det dags %s.",
-        "Nu är det nära. %s tror jag det var dags."
-      ],
-      "today": "Grillen är idag. Kanske dags att börja hacka om vi ska starta kl 17:00",
-      "tomorrow": "Grillen är i morgon. Undra om mos har förberett.",
-      "eternity": "Det är en evighet till nästa grill.",
-      "when": "2016-05-27"
+        "url": "https://grillcon.dbwebb.se/",
+        "base" : [
+            "Nästa grill är %s. Dags att börja tagga...",
+            "Ryktas om att det är grill snart. Folk pratar om att det är dags %s.",
+            "Grill hit och grill dit. Folk borde veta att det är %s."
+        ],
+        "week": [
+            "Oj oj börjar närma sig! Som ni vet är det dags %s.",
+            "Nu är det nära. %s tror jag det var dags."
+        ],
+        "today": "Grillen är idag. Kanske dags att börja hacka om vi ska starta kl 17:00",
+        "tomorrow": "Grillen är i morgon. Undra om mos har förberett.",
+        "eternity": "Det är en evighet till nästa grill.",
+        "when": "2016-05-27"
     },
 
     "birthday": {

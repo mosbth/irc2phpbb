@@ -359,6 +359,7 @@ def marvinTimeToBBQ(row, asList=None, asStr=None):
     """
     msg = None
     if row.intersection(['grilla', 'grill', 'bbq']):
+        url = getString("barbecue", "url")
         whenStr = getString("barbecue", "when")
         whenDate = datetime.datetime.strptime(whenStr, '%Y-%m-%d')
         now = datetime.datetime.now()
@@ -377,7 +378,7 @@ def marvinTimeToBBQ(row, asList=None, asStr=None):
         else:
             msg = getString("barbecue", "eternity")
 
-        return msg
+        return url + ". " + msg
 
 def getRandomAnswerForBBQ(part, whenStr):
     """
