@@ -39,7 +39,8 @@ def getAllActions():
         marvinStrip,
         marvinGoogle,
         marvinTimeToBBQ,
-        marvinBirthday
+        marvinBirthday,
+        marvinNameday
     ]
 
 
@@ -417,5 +418,28 @@ def marvinBirthday(row, asList=None, asStr=None):
 
         except Exception:
             msg = getString("birthday", "error")
+
+        return msg
+
+def marvinNameday(row, asList=None, asStr=None):
+    """
+    Check current nameday
+    """
+    msg = getString("nameday", "nobody")
+    if row.intersection(['nameday', 'namnsdag']):
+        try:
+            url = getString("nameday", "url")
+            soup = BeautifulSoup(urlopen(url), "html.parser")
+            parentDivs = soup.findAll('div', class_="main-names")
+            print("parentDiv: ")
+            print(parentDivs)
+            for div in parentDivs:
+                spans = div.findAll('span')
+                if len(spans) > 0:
+                    name = spans[0].getText()
+                    msg = getString("nameday", "somebody").format(name)
+                    break
+        except Exception:
+            msg = getString("nameday", "error")
 
         return msg
