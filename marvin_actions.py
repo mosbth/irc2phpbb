@@ -430,15 +430,10 @@ def marvinNameday(row, asList=None, asStr=None):
         try:
             url = getString("nameday", "url")
             soup = BeautifulSoup(urlopen(url), "html.parser")
-            parentDivs = soup.findAll('div', class_="main-names")
-            print("parentDiv: ")
-            print(parentDivs)
-            for div in parentDivs:
-                spans = div.findAll('span')
-                if len(spans) > 0:
-                    name = spans[0].getText()
-                    msg = getString("nameday", "somebody").format(name)
-                    break
+            nameContainer = soup.findAll('h1')
+            if len(nameContainer) > 0:
+                name = nameContainer[0].getText()
+                msg = getString("nameday", "somebody").format(name)
         except Exception:
             msg = getString("nameday", "error")
 
