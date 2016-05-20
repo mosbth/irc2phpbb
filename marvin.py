@@ -226,10 +226,10 @@ def readincoming():
     Read all files in the directory incoming, send them as a message if
     they exists and then move the file to directory done.
     """
-    listing = os.listdir(CONFIG["dirIncoming"])
-
-    if not os.path.isdir(listing):
+    if not os.path.isdir(CONFIG["dirIncoming"]):
         return
+
+    listing = os.listdir(CONFIG["dirIncoming"])
 
     for infile in listing:
         filename = CONFIG["dirIncoming"] + '/' + infile
