@@ -35,6 +35,9 @@ Check the file 'marvin_strings.json' for the file where most of the strings
 are defined and check out 'marvin_actions.py' to see how to write your own
 actions. Its just a small function.
 
+# Read from incoming
+Marvin reads messages from the incoming/ directory, if it exists, and writes
+it out the the irc channel. 
 """
 
 
