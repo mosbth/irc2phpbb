@@ -47,7 +47,7 @@ function getUrbanJsonForToday
 #
 function parseJSONString
 {
-    local string=$( echo "$1" | sed -z 's/\\r\\n/ /g' | sed '/^$/d' )
+    local string=$( echo "$1" | sed 's/\\r\\n/ /g' | sed '/^$/d' )
     eval "set -- $string"
     echo "$@"
 }
