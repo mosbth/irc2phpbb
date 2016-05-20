@@ -60,14 +60,16 @@ function parseJSONString
 function printWordOfToday
 {
     local word=$( jq '.list[0].word' "$URBAN_TODAY" )
+    local permalink=$( jq '.list[0].permalink' "$URBAN_TODAY" )
     local definition=$( jq '.list[0].definition' "$URBAN_TODAY" )
     local example=$( jq '.list[0].example' "$URBAN_TODAY" )
 
     word=$( parseJSONString "$word" )
+    permalink=$( parseJSONString "$permalink" )
     definition=$( parseJSONString "$definition" )
     example=$( parseJSONString "$example" )
 
-    echo "Veckans Glosövning i Internet Slang: $word"
+    echo "Veckans Glosövning i Internet Slang: $word $permalink"
     echo "$definition" 
     echo "$example"
 }
