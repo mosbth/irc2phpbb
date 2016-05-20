@@ -227,10 +227,17 @@ def readincoming():
     they exists and then move the file to directory done.
     """
     listing = os.listdir(CONFIG["dirIncoming"])
+
+    if not os.path.isdir(listing):
+        return
+
     for infile in listing:
         filename = CONFIG["dirIncoming"] + '/' + infile
-        msg = open(filename, "r").read()
-        sendPrivMsg(msg, CONFIG["channel"])
+
+        file = open(filename, "r")
+        for msg in file:
+            sendPrivMsg(msg, CONFIG["channel"])
+
         try:
             shutil.move(filename, CONFIG["dirDone"])
         except Exception:
@@ -264,6 +271,9 @@ def mainLoop():
 
             if line[0] == "PING":
                 sendMsg("PONG {ARG}\r\n".format(ARG=line[1]))
+
+            if len(line) == 1:
+                continue
 
             if line[1] == 'INVITE':
                 sendMsg('JOIN {CHANNEL}\r\n'.format(CHANNEL=line[3]))
