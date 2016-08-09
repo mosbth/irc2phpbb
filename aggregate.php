@@ -16,7 +16,7 @@ require(__DIR__ . '/magpierss/rss_fetch.inc');
 $feeds = array(
 	array(
 		'file'=>__DIR__.'/cache/dbwebb_feed.xml',
-		'url'=>'http://dbwebb.se/forum/feed.php',
+		'url'=>'https://dbwebb.se/forum/feed.php',
     'ignore' => array(      
       83,63,62,61,60,59,58,57, 			// htmlphp vt12     
       389,390,391,392,393,394,395,396, 	// htmlphp ht12
@@ -70,6 +70,17 @@ $feeds = array(
 
 	4434, //webtopic ht15
 	
+	5416, 5417, 5418, 5419, 5420, 5421, 5422, 5423, // python ht16
+	5449, 5450, 5451, 5452, 5453, 5454, 5455, 5456, // htmlphp ht16
+	5424, 5425, 5426, 5427, 5428, 5429, 5430, 5431, // javascript1 ht16
+	5473, 5474, 5475, 5476, 5477, 5478, 5479, 5480, // design ht16
+	5432, 5433, 5434, 5435, 5436, 5437, 5438, 5439, // linux ht16
+	5440, 5441, 5442, 5443, 5444, 5445, 5446, 5447, // webapp ht16
+	5465, 5466, 5467, 5468, 5469, 5470, 5471, 5472, // javascript ht16
+	5457, 5458, 5459, 5460, 5461, 5462, 5463, 5464, // phpmvc ht16
+	5408, 5409, 5410, 5411, 5412, 5413, 5414, 5415,  // oophp ht16
+	
+	
     ),
 		'callback'=>function($item, $ignore=array()) {
 		  global $success, $ignored, $error;
@@ -103,7 +114,7 @@ if(isset($feeds[0]['file'])) {
   $cookieFile = tempnam(__DIR__."/cache", "COOKIE");
   $ch = curl_init();
   curl_setopt_array($ch, array(
-    CURLOPT_URL => 'http://dbwebb.se/forum/ucp.php?mode=login',
+    CURLOPT_URL => 'https://dbwebb.se/forum/ucp.php?mode=login',
     CURLOPT_USERAGENT => "Mozilla/4.0 (compatible; MSIE 6.0; FreeBSD 8.1)",
     CURLOPT_SSL_VERIFYPEER => false,
     CURLOPT_CONNECTTIMEOUT => 30,
@@ -119,7 +130,7 @@ if(isset($feeds[0]['file'])) {
   curl_exec($ch);
   //print_r(curl_getinfo($ch));
   //echo curl_errno($ch) . curl_error($ch);
-  curl_setopt($ch, CURLOPT_URL, 'http://dbwebb.se/forum/feed.php');
+  curl_setopt($ch, CURLOPT_URL, 'https://dbwebb.se/forum/feed.php');
   file_put_contents($feeds[0]['file'], curl_exec($ch));
   //print_r(curl_getinfo($ch));
   curl_close($ch);
@@ -161,7 +172,7 @@ $duplicates=0;
 foreach($success as $key => $val) {
   $mfl = $val['nr'] > 1 ? "+".($val['nr']-1) : null;
   $duplicates += $val['nr']-1;
-  $str = html_entity_decode("Forumet \"{$val['title']}\" av {$val['author']}{$mfl} http://dbwebb.se/f/{$val['post']}", ENT_QUOTES, 'UTF-8');
+  $str = html_entity_decode("Forumet \"{$val['title']}\" av {$val['author']}{$mfl} https://dbwebb.se/f/{$val['post']}", ENT_QUOTES, 'UTF-8');
   file_put_contents(tempnam(__DIR__ . "/incoming", "forum"), $str);  
 }
 file_put_contents('aggregate.error', implode($error, '\n'), FILE_APPEND);
