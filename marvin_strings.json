@@ -3,7 +3,7 @@
 
     "whois": "Jag är en tjänstvillig själ som gillar webbprogrammering. Jag bor på GitHub https://github.com/mosbth/irc2phpbb och du kan diskutera mig i forumet http://dbwebb.se/t/20",
 
-    "menu": "[ vem är | lyssna | le | lunch [var] | citat | budord 1 - 5 | source | väder | solen | dagens video | nöje/paus/strip/comic [slump] | grill | birthday/födelsedag | nameday/namnsdag | stats | google/googla | hjälp ]",
+    "menu": "[ vem är | lyssna | le | lunch [var] | citat | budord 1 - 5 | source | väder | solen | dagens video | nöje/paus/strip/comic [slump] | grill | birthday/födelsedag | nameday/namnsdag | stats | google/googla | | uptime | hjälp ]",
 
     "ircstats": "Statistik för kanalen finns här: http://dbwebb.se/irssistats/db-o-webb.html",
 
@@ -214,5 +214,8 @@
         "somebody": "Idag har {} namnsdag",
         "nobody": "Ingen namnsdag hittades.",
         "error": "Något gick snett, jag har inte en susning om någon har namnsdag idag eller inte."
+    },
+    "uptime": {
+        "info": "Kolla in statsen för uptime-tävlingen på http://uptime.dbwebb.se/"
     }
 }

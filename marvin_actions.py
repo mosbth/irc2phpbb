@@ -40,7 +40,8 @@ def getAllActions():
         marvinGoogle,
         marvinTimeToBBQ,
         marvinBirthday,
-        marvinNameday
+        marvinNameday,
+        marvinUptime
     ]
 
 
@@ -437,4 +438,13 @@ def marvinNameday(row, asList=None, asStr=None):
         except Exception:
             msg = getString("nameday", "error")
 
+        return msg
+
+def marvinUptime(row, asList=None, asStr=None):
+    """
+    Display info about uptime tournament
+    """
+    msg = None
+    if row.intersection(['uptime']):
+        msg = getString("uptime", "info")
         return msg
