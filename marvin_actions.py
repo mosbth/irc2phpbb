@@ -379,7 +379,7 @@ def marvinTimeToBBQ(row, asList=None, asStr=None):
             part = getString("barbecue", "base")
             msg = getRandomAnswerForBBQ(part, whenStr)
         else:
-            msg = getString("barbecue", "eternity")
+            msg = getString("barbecue", "eternity") % whenStr
 
         return url + ". " + msg
 
