@@ -41,7 +41,8 @@ def getAllActions():
         marvinTimeToBBQ,
         marvinBirthday,
         marvinNameday,
-        marvinUptime
+        marvinUptime,
+        marvinStream
     ]
 
 
