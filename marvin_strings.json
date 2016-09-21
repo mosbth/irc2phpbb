@@ -3,7 +3,7 @@
 
     "whois": "Jag är en tjänstvillig själ som gillar webbprogrammering. Jag bor på GitHub https://github.com/mosbth/irc2phpbb och du kan diskutera mig i forumet http://dbwebb.se/t/20",
 
-    "menu": "[ vem är | lyssna | le | lunch [var] | citat | budord 1 - 5 | source | väder | solen | dagens video | nöje/paus/strip/comic [slump] | grill | birthday/födelsedag | nameday/namnsdag | stats | google/googla | uptime | hjälp ]",
+    "menu": "[ vem är | lyssna | le | lunch [var] | citat | budord 1 - 5 | source | väder | solen | dagens video | nöje/paus/strip/comic [slump] | grill | birthday/födelsedag | nameday/namnsdag | stats | google/googla | uptime | stream | hjälp ]",
 
     "ircstats": "Statistik för kanalen finns här: http://dbwebb.se/irssistats/db-o-webb.html",
 
@@ -217,5 +217,8 @@
     },
     "uptime": {
         "info": "Kolla in statsen för uptime-tävlingen på http://uptime.dbwebb.se/"
+    },
+    "stream": {
+        "info": "Streamen finns på https://dbwebb.se/stream och sparas i spellistan 'Streamde föreläsningar' https://www.youtube.com/channel/UCxX3bcidovf5MDLeXMcbDyg."
     }
 }

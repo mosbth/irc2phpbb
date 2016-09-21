@@ -448,3 +448,12 @@ def marvinUptime(row, asList=None, asStr=None):
     if row.intersection(['uptime']):
         msg = getString("uptime", "info")
         return msg
+
+def marvinStream(row, asList=None, asStr=None):
+    """
+    Display info about stream
+    """
+    msg = None
+    if row.intersection(['stream', 'streama', 'ström', 'strömma']):
+        msg = getString("stream", "info")
+        return msg
