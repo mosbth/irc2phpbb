@@ -42,7 +42,8 @@ def getAllActions():
         marvinBirthday,
         marvinNameday,
         marvinUptime,
-        marvinStream
+        marvinStream,
+        marvinJoke
     ]
 
 
@@ -457,4 +458,26 @@ def marvinStream(row, asList=None, asStr=None):
     msg = None
     if row.intersection(['stream', 'streama', 'ström', 'strömma']):
         msg = getString("stream", "info")
+        return msg
+def getJoke():
+    """
+    Retrieves joke from api.icndb.com/jokes/random?limitTo=[nerdy]
+    """
+    try:
+        url = getString("joke", "url")
+        soup = urlopen(url)
+        rawData = soup.read()
+        encoding = soup.info().get_content_charset('utf8')
+        joke = json.loads(rawData.decode(encoding))
+        return joke["value"]["joke"]
+    except Exception:
+        return getString("joke", "error")
+
+def marvinJoke(row, asList=None, asStr=None):
+    """
+    Display a random Chuck Norris joke
+    """
+    msg = None
+    if row.intersection(["joke", "skämt", "chuck norris", "chuck", "norris"]):
+        msg = getJoke()
         return msg
