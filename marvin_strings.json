@@ -3,7 +3,7 @@
 
     "whois": "Jag är en tjänstvillig själ som gillar webbprogrammering. Jag bor på GitHub https://github.com/mosbth/irc2phpbb och du kan diskutera mig i forumet http://dbwebb.se/t/20",
 
-    "menu": "[ vem är | lyssna | le | lunch [var] | citat | budord 1 - 5 | source | väder | solen | dagens video | nöje/paus/strip/comic [slump] | grill | birthday/födelsedag | nameday/namnsdag | stats | google/googla | uptime | stream | hjälp ]",
+    "menu": "[ vem är | lyssna | le | lunch [var] | citat | budord 1 - 5 | source | väder | solen | dagens video | nöje/paus/strip/comic [slump] | grill | birthday/födelsedag | nameday/namnsdag | stats | google/googla | uptime | stream | skämt/joke | hjälp ]",
 
     "ircstats": "Statistik för kanalen finns här: http://dbwebb.se/irssistats/db-o-webb.html",
 
@@ -182,7 +182,7 @@
     },
 
     "smhi": {
-        "url": "http://www.smhi.se/vadret/vadret-i-sverige/meteorologens-kommentar?meteorologens-kommentar=http%3A%2F%2Fwww.smhi.se%2FweatherSMHI2%2Flandvader%2F.%2Fprognos15_2.htm",
+        "url": "http://www.smhi.se/weatherSMHI2/landvader/prognos15_2.htm",
         "failed": "Något har hänt med SMHI, de svarar inte."
     },
 
@@ -220,5 +220,9 @@
     },
     "stream": {
         "info": "Streamen finns på https://dbwebb.se/stream och sparas i spellistan 'Streamde föreläsningar' https://www.youtube.com/channel/UCxX3bcidovf5MDLeXMcbDyg."
+    },
+    "joke": {
+        "url": "http://api.icndb.com/jokes/random?limitTo=[nerdy]",
+        "error": "Chuck Norris har inte tid underhålla er idag!"
     }
 }
