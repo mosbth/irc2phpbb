@@ -162,13 +162,20 @@
         "kebab på Döner Kebab (http://www.triangeln.com/doner_kebab)"
     ],
 
-    "listen": [
-        "Jag gillar låten",
-        "Senaste låten jag lyssnade på var",
-        "Jag lyssnar just nu på",
-        "Har du hört denna låten :)",
-        "Jag kan tipsa om en bra låt ->"
-    ],
+    "listen": {
+        "success": [
+            "Senaste låten jag lyssnade på var '{title}' med {artist} - {link}",
+            "Jag lyssnar just nu på '{title}' med {artist} - {link}",
+            "Har du hört '{title}' med {artist} - {link}",
+            "Jag kan tipsa om en bra låt som heter '{title}' med {artist} - {link}"
+        ],
+        "failed": [
+            "Något gick fel..."
+        ],
+        "disabled": [
+            "Funktionen är disablad i konfigurationen."
+        ]
+    },
 
     "sun": "Idag går solen upp {} och ner {}. Iallafall i trakterna kring Jönköping.",
     "sun-no": "Jag hittade tyvär inga solar idag :( så jag håller på och lär mig hur Python kan räkna ut soluppgången, återkommer.",

@@ -13,6 +13,8 @@ import datetime
 from urllib.request import urlopen
 from urllib.parse import quote_plus
 from bs4 import BeautifulSoup
+import requests
+
 
 # Used or not?
 #import feedparser
@@ -52,6 +54,17 @@ with open("marvin_strings.json") as f:
     STRINGS = json.load(f)
 
 
+# Configuration loaded
+CONFIG = None
+
+def setConfig(config):
+    """
+    Keep reference to the loaded configuration.
+    """
+    global CONFIG
+    CONFIG = config
+
+
 def getString(key, key1=None):
     """
     Get a string from the string database.
@@ -61,6 +74,8 @@ def getString(key, key1=None):
         res = data[random.randint(0, len(data) - 1)]
     elif isinstance(data, dict):
         res = data[key1]
+        if isinstance(res, list):
+            res = res[random.randint(0, len(res) - 1)]
     elif isinstance(data, str):
         res = data
 
@@ -252,31 +267,38 @@ def marvinLunch(row, asList=None, asStr=None):
     return msg
 
 
-def getListen():
-    """
-    Nice message about listening to a song.
-    """
-    data = [
-        'Jag gillar låten',
-        'Senaste låten jag lyssnade på var',
-        'Jag lyssnar just nu på',
-        'Har du hört denna låten :)',
-        'Jag kan tipsa om en bra låt ->'
-    ]
-    res = data[random.randint(0, len(data) - 1)]
-    return res
-
-
 def marvinListen(row, asList=None, asStr=None):
     """
     Return music last listened to.
     """
     msg = None
-    if row.intersection(['lyssna', 'lyssnar', 'musik']):
-        msg = "Jag lyssnar inte på något för tillfället..."
-        #feed = feedparser.parse('http://ws.audioscrobbler.com/1.0/user/mikaelroos/recenttracks.rss')
-        # feed["items"][0]["title"].encode('utf-8', 'ignore')))
-        #msg = getString("listen") + " " + feed["items"][0]["title"]
+    print(CONFIG)
+    if not CONFIG["lastfm"]:
+        return getString("listen", "disabled")
+
+    elif row.intersection(['lyssna', 'lyssnar', 'musik']):
+        url = "http://ws.audioscrobbler.com/2.0/"
+
+        try:
+            params = dict(
+                method="user.getrecenttracks",
+                user=CONFIG["lastfm"]["user"],
+                api_key=CONFIG["lastfm"]["apikey"],
+                format="json",
+                limit="1"
+            )
+
+            resp = requests.get(url=url, params=params)
+            data = json.loads(resp.text)
+
+            artist = data["recenttracks"]["track"][0]["artist"]["#text"]
+            title = data["recenttracks"]["track"][0]["name"]
+            link = data["recenttracks"]["track"][0]["url"]
+
+            msg = getString("listen", "success").format(artist=artist, title=title, link=link)
+
+        except Exception:
+            msg = getString("listen", "failed")
 
     return msg
 

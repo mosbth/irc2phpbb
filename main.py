@@ -194,6 +194,7 @@ def main():
     """
     options = parseOptions()
     marvin.setConfig(options)
+    marvin_actions.setConfig(options)
     actions = marvin_actions.getAllActions()
     marvin.registerActions(actions)
     marvin.connectToServer()

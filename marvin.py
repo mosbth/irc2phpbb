@@ -50,6 +50,7 @@ CONFIG = {
     "irclogmax":    20,
     "dirIncoming":  "incoming",
     "dirDone":      "done",
+    "lastfm":       None,
 }
 
 

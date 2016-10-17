@@ -84,6 +84,7 @@ History
 
 Todo.
 
+* Not using revision history correctly, perhaps clean it up or something like that...
 * Cache responses from smhi & sunrise services
 * Add logfile entry containing current online users in the irc-channel
 
@@ -134,4 +135,4 @@ v0.1.0 (2012-02-14)
 * First tag after some live testing for a couple of months. Must start somewhere. 
 
  .   
-..:  Copyright 2011-2015 by Mikael Roos (me@mikaelroos.se)
+..:  Copyright 2011-2016 by Mikael Roos (me@mikaelroos.se)
