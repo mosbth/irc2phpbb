@@ -129,16 +129,12 @@ def marvinExplainShell(row, asList=None, asStr=None):
 
     if match:
         # Find the matching word and take the rest as the query string
-        startAt = next(iter(match))
-        searchStart = asList.index(startAt) + 1
-
-        if searchStart >= len(asList):
-            searchStr = ""
-        else:
-            searchStr = " ".join(asList[searchStart:])
+        matchedStr = match.pop()
+        startAt = asStr.find(matchedStr) + len(matchedStr)
+        searchStr = asStr[startAt:].strip()
 
         url = "http://explainshell.com/explain?cmd="
-        url += quote_plus(searchStr)
+        url += quote_plus(searchStr, "/:")
         explain = getString("explainShell")
         msg = explain.format(url)
 
