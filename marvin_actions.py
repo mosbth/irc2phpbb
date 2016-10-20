@@ -25,6 +25,8 @@ def getAllActions():
     Return all actions in an array.
     """
     return [
+        marvinExplainShell,
+        marvinGoogle,
         marvinLunch,
         marvinVideoOfToday,
         marvinWhoIs,
@@ -39,13 +41,11 @@ def getAllActions():
         marvinSayHi,
         marvinSmile,
         marvinStrip,
-        marvinGoogle,
         marvinTimeToBBQ,
         marvinBirthday,
         marvinNameday,
         marvinUptime,
         marvinStream,
-        marvinExplainShell,
         marvinJoke
     ]
 
