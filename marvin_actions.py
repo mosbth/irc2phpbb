@@ -45,6 +45,7 @@ def getAllActions():
         marvinNameday,
         marvinUptime,
         marvinStream,
+        marvinExplainShell,
         marvinJoke
     ]
 
@@ -93,16 +94,6 @@ def marvinSmile(row, asList=None, asStr=None):
     return msg
 
 
-def generateUrlToGoogleSearch(searchStr):
-    """
-    Generates an google query-url based input string
-    """
-    baseUrl = 'https://www.google.se/search?q='
-    searchFor = quote_plus(searchStr)
-
-    return baseUrl + searchFor
-
-
 def marvinGoogle(row, asList=None, asStr=None):
     """
     Let Marvin present an url to google.
@@ -120,9 +111,36 @@ def marvinGoogle(row, asList=None, asStr=None):
         else:
             searchStr = " ".join(asList[searchStart:])
 
-        url = generateUrlToGoogleSearch(searchStr)
+        url = "https://www.google.se/search?q="
+        url += quote_plus(searchStr)
         google = getString("google")
         msg = google.format(url)
+
+    return msg
+
+
+def marvinExplainShell(row, asList=None, asStr=None):
+    """
+    Let Marvin present an url to the service explin shell to
+    explain a shell command.
+    """
+    msg = None
+    match = row.intersection(['explain', 'förklara'])
+
+    if match:
+        # Find the matching word and take the rest as the query string
+        startAt = next(iter(match))
+        searchStart = asList.index(startAt) + 1
+
+        if searchStart >= len(asList):
+            searchStr = ""
+        else:
+            searchStr = " ".join(asList[searchStart:])
+
+        url = "http://explainshell.com/explain?cmd="
+        url += quote_plus(searchStr)
+        explain = getString("explainShell")
+        msg = explain.format(url)
 
     return msg
 
@@ -272,11 +290,12 @@ def marvinListen(row, asList=None, asStr=None):
     Return music last listened to.
     """
     msg = None
-    print(CONFIG)
-    if not CONFIG["lastfm"]:
-        return getString("listen", "disabled")
 
-    elif row.intersection(['lyssna', 'lyssnar', 'musik']):
+    if row.intersection(['lyssna', 'lyssnar', 'musik']):
+
+        if not CONFIG["lastfm"]:
+            return getString("listen", "disabled")
+
         url = "http://ws.audioscrobbler.com/2.0/"
 
         try:
