@@ -481,6 +481,7 @@ def marvinStream(row, asList=None, asStr=None):
     if row.intersection(['stream', 'streama', 'ström', 'strömma']):
         msg = getString("stream", "info")
         return msg
+
 def getJoke():
     """
     Retrieves joke from api.icndb.com/jokes/random?limitTo=[nerdy]

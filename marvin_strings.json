@@ -226,7 +226,7 @@
         "info": "Kolla in statsen för uptime-tävlingen på http://uptime.dbwebb.se/"
     },
     "stream": {
-        "info": "Streamen finns på https://dbwebb.se/stream och sparas i spellistan 'Streamde föreläsningar' https://www.youtube.com/channel/UCxX3bcidovf5MDLeXMcbDyg."
+        "info": "Streamen finns på https://dbwebb.se/stream och sparas i spellistan 'Streamade föreläsningar/seminarier' https://www.youtube.com/channel/UCxX3bcidovf5MDLeXMcbDyg."
     },
     "joke": {
         "url": "http://api.icndb.com/jokes/random?limitTo=[nerdy]",
