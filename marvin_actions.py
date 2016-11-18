@@ -46,6 +46,7 @@ def getAllActions():
         marvinNameday,
         marvinUptime,
         marvinStream,
+        marvinPrinciple,
         marvinJoke
     ]
 
@@ -74,9 +75,12 @@ def getString(key, key1=None):
     if isinstance(data, list):
         res = data[random.randint(0, len(data) - 1)]
     elif isinstance(data, dict):
-        res = data[key1]
-        if isinstance(res, list):
-            res = res[random.randint(0, len(res) - 1)]
+        if key1 is None:
+            res = data
+        else:
+            res = data[key1]
+            if isinstance(res, list):
+                res = res[random.randint(0, len(res) - 1)]
     elif isinstance(data, str):
         res = data
 
@@ -496,6 +500,18 @@ def marvinStream(row, asList=None, asStr=None):
     if row.intersection(['stream', 'streama', 'ström', 'strömma']):
         msg = getString("stream", "info")
         return msg
+
+def marvinPrinciple(row, asList=None, asStr=None):
+    """
+    Display one selected software principle, or provide one as random
+    """
+    if row.intersection(['principle', 'princip', 'principer']):
+        principles = getString("principle")
+        key = row.intersection(list(principles.keys()))
+        if key:
+            return principles[key.pop()]
+        else:
+            return principles[random.choice(list(principles.keys()))]
 
 def getJoke():
     """

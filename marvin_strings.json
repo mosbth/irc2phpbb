@@ -232,6 +232,21 @@
     "stream": {
         "info": "Streamen finns på https://dbwebb.se/stream och sparas i spellistan 'Streamade föreläsningar/seminarier' https://www.youtube.com/playlist?list=PLKtP9l5q3ce8Bhxn22oBYWZZ4-3ms1rMl"
     },
+    "principle": {
+        "poge": "POGE: Principle of Good Enough. Ibland är tillräckligt bra - den nivå som man skall sträva efter: https://en.wikipedia.org/wiki/Principle_of_good_enough",
+        "kiss": "KISS: Keep it simple, stupid. Håll det enkelt, krångla inte till det: https://en.wikipedia.org/wiki/KISS_principle",
+        "dry": "DRY: Don't repeat yourself. Lite för mycket copy&paste? Dax att organisera koden bättre? https://en.wikipedia.org/wiki/Don%27t_repeat_yourself",
+        "tim-toady": "Tim Toady: There's more than one way to do it. Ibland löser vi saker olika, skriver kod olika, det behöver inte vara ett fel i det https://en.wikipedia.org/wiki/There%27s_more_than_one_way_to_do_it",
+        "worse-is-better": "Worse is better (Less is more). Kvaliteten ökar inte nödvändigvis när funktionaliteten ökar https://en.wikipedia.org/wiki/Worse_is_better",
+        "yagni": "You Aint Gonna Need It. Skippa alla 'bra att ha' saker redan på ritbordet, lägg bara till dem om någon verkligen behöver dem https://en.wikipedia.org/wiki/You_aren%27t_gonna_need_it",
+        "broke": "If it ain't broke, don't fix it. Lägg inte tid på att laga saker som inte är sönder https://en.wikipedia.org/wiki/Bert_Lance#.22If_it_ain.27t_broke.2C_don.27t_fix_it..22",
+        "satisficing": "Satisfy and suffice. Överväg alla alternativ och finn ett alternativ som når ett acceptabelt gränsvärde - då en optimal lösning inte är ett alternativ https://en.wikipedia.org/wiki/Satisficing",
+        "overdo": "Overdoit, or overengineering. Bygg en produkt som mer robust eller komplicerad än som är försvarbart för dess tänkta användningsområde https://en.wikipedia.org/wiki/Overengineering",
+        "poc": "POC, Proof-of-concept. Bygg för att visa att idén fungerar, snabbt och lätt för att visa konceptet, överarbeta inte https://en.wikipedia.org/wiki/Proof_of_concept",
+        "80-20": "Pareto principle (80-20). 80% av användarna kommer använda 20% av produktens funktioner https://en.wikipedia.org/wiki/Pareto_principle",
+        "silver-bullet": "There is no silver bullet. Det finns inte en enstaka åtgärd som gör att du kan mångfaldiga produktiviteten hos ett team som utvecklar programvara https://en.wikipedia.org/wiki/No_Silver_Bullet",
+        "any": "Det finns många filosofier som en programmerare kan förhålla sig till. Hämta lite inspiration från en längre lista https://en.wikipedia.org/wiki/List_of_software_development_philosophies"
+    },
     "joke": {
         "url": "http://api.icndb.com/jokes/random?limitTo=[nerdy]",
         "error": "Chuck Norris har inte tid underhålla er idag!"
