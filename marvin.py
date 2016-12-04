@@ -233,7 +233,7 @@ def readincoming():
     listing = os.listdir(CONFIG["dirIncoming"])
 
     for infile in listing:
-        filename = CONFIG["dirIncoming"] + '/' + infile
+        filename = os.path.join(CONFIG["dirIncoming"], infile)
 
         file = open(filename, "r")
         for msg in file:
