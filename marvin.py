@@ -233,11 +233,11 @@ def readincoming():
     listing = os.listdir(CONFIG["dirIncoming"])
 
     for infile in listing:
-        filename = CONFIG["dirIncoming"] + '/' + infile
+        filename = os.path.join(CONFIG["dirIncoming"], infile)
 
-        file = open(filename, "r")
-        for msg in file:
-            sendPrivMsg(msg, CONFIG["channel"])
+        with open(filename, "r") as f:
+            for msg in f:
+                sendPrivMsg(msg, CONFIG["channel"])
 
         try:
             shutil.move(filename, CONFIG["dirDone"])

@@ -11,10 +11,9 @@ You need to install additional modules.
 # Install needed modules in local directory
 pip3 install --target modules/ feedparser beautifulsoup4 chardet
 
-You start the program like this, including the path to the locally installed
-modules.
+Modules in modules/ will be loaded automatically. If you want to use a
+different directory you can start the program like this instead:
 
-# Run
 PYTHONPATH=modules python3 main.py
 
 # To get help
@@ -45,6 +44,11 @@ import sys
 import getopt
 import os
 import json
+
+defaultmodulepath = os.path.join(os.getcwd(), "modules")
+if os.path.exists(defaultmodulepath):
+    sys.path.append(defaultmodulepath)
+
 import marvin
 import marvin_actions
 
