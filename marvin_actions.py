@@ -415,28 +415,14 @@ def marvinTimeToBBQ(row, asList=None, asStr=None):
         elif (days == 0):
             msg = getString("barbecue", "tomorrow")
         elif (days < 14 and days > 0):
-            part = getString("barbecue", "week")
-            msg = getRandomAnswerForBBQ(part, whenStr)
+            msg = getString("barbecue", "week") % whenStr
         elif (days < 200 and days > 0):
-            part = getString("barbecue", "base")
-            msg = getRandomAnswerForBBQ(part, whenStr)
+            msg = getString("barbecue", "base") % whenStr
         else:
             msg = getString("barbecue", "eternity") % whenStr
 
         return url + ". " + msg
 
-def getRandomAnswerForBBQ(part, whenStr):
-    """
-    Generates a random string from the part-array given
-    """
-    rand = random.randint(0, len(part) - 1)
-    msg = ""
-    try:
-        msg = part[rand] % whenStr
-    except TypeError:
-        msg = part[rand]
-
-    return msg
 
 def marvinBirthday(row, asList=None, asStr=None):
     """
