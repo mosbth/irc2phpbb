@@ -35,6 +35,7 @@ def getAllActions():
         marvinBudord,
         marvinQuote,
         marvinStats,
+        marvinIrcLog,
         marvinListen,
         marvinWeather,
         marvinSun,
@@ -252,7 +253,7 @@ def marvinIrcLog(row, asList=None, asStr=None):
     Provide a link to the irclog
     """
     msg = None
-    if row.intersection(['irc', 'irclog']):
+    if row.intersection(['irc', 'irclog', 'log', 'irclogg', 'logg']):
         msg = getString("irclog")
 
     return msg
