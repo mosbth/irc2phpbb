@@ -253,9 +253,9 @@ def marvinSayHi(row, asList=None, asStr=None):
     """
     msg = None
     if row.intersection([
-            'snälla', 'hej', 'tjena', 'morsning', 'mår', 'hallå', 'halloj',
-            'läget', 'snäll', 'duktig', 'träna', 'träning', 'utbildning',
-            'tack', 'tacka', 'tackar', 'tacksam'
+            'snälla', 'hej', 'tjena', 'morsning', 'morrn', 'mår', 'hallå',
+            'halloj', 'läget', 'snäll', 'duktig', 'träna', 'träning',
+            'utbildning', 'tack', 'tacka', 'tackar', 'tacksam'
     ]):
         smile = getString("smile")
         hello = getString("hello")
