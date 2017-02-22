@@ -247,6 +247,17 @@ def marvinStats(row, asList=None, asStr=None):
     return msg
 
 
+def marvinIrcLog(row, asList=None, asStr=None):
+    """
+    Provide a link to the irclog
+    """
+    msg = None
+    if row.intersection(['irc', 'irclog']):
+        msg = getString("irclog")
+
+    return msg
+
+
 def marvinSayHi(row, asList=None, asStr=None):
     """
     Say hi with a nice message.
