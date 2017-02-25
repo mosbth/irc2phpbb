@@ -146,6 +146,7 @@ def decode_irc(raw, preferred_encs=None):
         preferred_encs = ["UTF-8", "CP1252", "ISO-8859-1"]
 
     changed = False
+    enc = None
     for enc in preferred_encs:
         try:
             res = raw.decode(enc)
@@ -159,7 +160,6 @@ def decode_irc(raw, preferred_encs=None):
             enc = chardet.detect(raw)['encoding']
             res = raw.decode(enc)
         except Exception:
-            # pylint: disable=undefined-loop-variable
             res = raw.decode(enc, 'ignore')
 
     return res
