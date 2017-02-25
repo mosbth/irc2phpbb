@@ -4,20 +4,15 @@
 """
 Make actions for Marvin, one function for each action.
 """
-
-
-import random
-import math
-import json
-import datetime
-from urllib.request import urlopen
 from urllib.parse import quote_plus
-from bs4 import BeautifulSoup
+from urllib.request import urlopen
+import datetime
+import json
+import math
+import random
 import requests
 
-
-# Used or not?
-#import feedparser
+from bs4 import BeautifulSoup
 
 
 def getAllActions():

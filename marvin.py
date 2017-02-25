@@ -8,32 +8,15 @@ Connecting, sending and receiving messages and doing custom actions.
 
 Keeping a log and reading incoming material.
 """
-
-
-import re
-import socket
-import os
-import shutil
 from collections import deque
 from datetime import datetime
 import json
+import os
+import re
+import shutil
+import socket
+
 import chardet
-
-
-# Check if all these are needed
-#import sys
-#import string
-#import random
-#import feedparser # http://wiki.python.org/moin/RssLibraries
-#import urllib2
-#from bs4 import BeautifulSoup
-#import time
-#from datetime import date
-
-#import phpmanual
-#import dev_mozilla
-
-#import codecs
 
 
 #
