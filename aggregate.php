@@ -83,6 +83,8 @@ $feeds = array(
 	6056, 6068, 6069, 6131, // upprop vt2017
 	
 	6057, 6058, 6059, 6060, 6061, 6062, 6063, 6064, // oopython vt17
+	6343, 6344, 6345, 6346, 6347, 6348, 6349, 6351, // webapp vt17
+	6352, 6353, 6354, 6355, 6356, 6357, 6358, 6359, // oophp vt17
     ),
 		'callback'=>function($item, $ignore=array()) {
 		  global $success, $ignored, $error;
