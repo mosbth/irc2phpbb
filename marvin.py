@@ -245,31 +245,31 @@ def mainLoop():
         # Recieve a line and check it
         for line in receive():
             print(line)
-            line = line.strip().split()
+            words = line.strip().split()
 
-            raw = ' '.join(line[3:])
+            raw = ' '.join(words[3:])
             row = re.sub('[,.?:]', ' ', raw).strip().lower().split()
 
-            if not line:
+            if not words:
                 continue
 
-            if line[0] == "PING":
-                sendMsg("PONG {ARG}\r\n".format(ARG=line[1]))
+            if words[0] == "PING":
+                sendMsg("PONG {ARG}\r\n".format(ARG=words[1]))
 
-            if len(line) == 1:
+            if len(words) == 1:
                 continue
 
-            if line[1] == 'INVITE':
-                sendMsg('JOIN {CHANNEL}\r\n'.format(CHANNEL=line[3]))
+            if words[1] == 'INVITE':
+                sendMsg('JOIN {CHANNEL}\r\n'.format(CHANNEL=words[3]))
 
-            if line[1] == 'PRIVMSG' and line[2] == CONFIG["channel"]:
-                ircLogAppend(line)
+            if words[1] == 'PRIVMSG' and words[2] == CONFIG["channel"]:
+                ircLogAppend(words)
 
-            if line[1] == 'PRIVMSG':
+            if words[1] == 'PRIVMSG':
                 if CONFIG["nick"] in row:
                     for action in ACTIONS:
                         msg = action(set(row), row, raw)
 
                         if msg:
-                            sendPrivMsg(msg, line[2])
+                            sendPrivMsg(msg, words[2])
                             break
