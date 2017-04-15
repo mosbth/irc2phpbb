@@ -503,8 +503,7 @@ def marvinPrinciple(row, asList=None, asStr=None):
         key = row.intersection(list(principles.keys()))
         if key:
             return principles[key.pop()]
-        else:
-            return principles[random.choice(list(principles.keys()))]
+        return principles[random.choice(list(principles.keys()))]
 
 def getJoke():
     """
