@@ -176,7 +176,7 @@ def parseOptions():
             else:
                 assert False, "Unhandled option"
 
-        if len(args):
+        if args:
             assert False, "Too many arguments, unknown argument."
 
     except Exception as err:

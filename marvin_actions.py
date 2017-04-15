@@ -468,7 +468,7 @@ def marvinNameday(row, asList=None, asStr=None):
             url = getString("nameday", "url")
             soup = BeautifulSoup(urlopen(url), "html.parser")
             nameContainer = soup.findAll('h1')
-            if len(nameContainer) > 0:
+            if nameContainer:
                 name = nameContainer[0].getText()
                 msg = getString("nameday", "somebody").format(name)
         except Exception:
