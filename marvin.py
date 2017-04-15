@@ -242,34 +242,43 @@ def mainLoop():
         # Check in any in the incoming directory
         readincoming()
 
-        # Recieve a line and check it
         for line in receive():
             print(line)
             words = line.strip().split()
 
-            raw = ' '.join(words[3:])
-            row = re.sub('[,.?:]', ' ', raw).strip().lower().split()
-
             if not words:
                 continue
 
-            if words[0] == "PING":
-                sendMsg("PONG {ARG}\r\n".format(ARG=words[1]))
+            checkIrcActions(words)
+            checkMarvinActions(words)
 
-            if len(words) == 1:
-                continue
 
-            if words[1] == 'INVITE':
-                sendMsg('JOIN {CHANNEL}\r\n'.format(CHANNEL=words[3]))
+def checkIrcActions(words):
+    """
+    Check if Marvin should take action on any messages defined in the
+    IRC protocol.
+    """
+    if words[0] == "PING":
+        sendMsg("PONG {ARG}\r\n".format(ARG=words[1]))
 
-            if words[1] == 'PRIVMSG' and words[2] == CONFIG["channel"]:
-                ircLogAppend(words)
+    if words[1] == 'INVITE':
+        sendMsg('JOIN {CHANNEL}\r\n'.format(CHANNEL=words[3]))
 
-            if words[1] == 'PRIVMSG':
-                if CONFIG["nick"] in row:
-                    for action in ACTIONS:
-                        msg = action(set(row), row, raw)
 
-                        if msg:
-                            sendPrivMsg(msg, words[2])
-                            break
+def checkMarvinActions(words):
+    """
+    Check if Marvin should perform any actions
+    """
+    if words[1] == 'PRIVMSG' and words[2] == CONFIG["channel"]:
+        ircLogAppend(words)
+
+    if words[1] == 'PRIVMSG':
+        raw = ' '.join(words[3:])
+        row = re.sub('[,.?:]', ' ', raw).strip().lower().split()
+
+        if CONFIG["nick"] in row:
+            for action in ACTIONS:
+                msg = action(set(row), row, raw)
+                if msg:
+                    sendPrivMsg(msg, words[2])
+                    break
