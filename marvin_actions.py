@@ -410,7 +410,7 @@ def marvinTimeToBBQ(row, asList=None, asStr=None):
     Calcuate the time to next barbecue and print a appropriate msg
     """
     msg = None
-    if row.intersection(['grilla', 'grill', 'bbq']):
+    if row.intersection(['grilla', 'grill', 'grillcon', 'bbq']):
         url = getString("barbecue", "url")
         whenStr = getString("barbecue", "when")
         whenDate = datetime.datetime.strptime(whenStr, '%Y-%m-%d')
