@@ -12,6 +12,7 @@ v0.3.2 (2017-04-25)
 -------------------
 
 * Before mergin PR #33.
+* Moved revision history to own file.
 
 
 v0.3.1 (2015-12-16)
