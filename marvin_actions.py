@@ -48,7 +48,8 @@ def getAllActions():
         marvinUptime,
         marvinStream,
         marvinPrinciple,
-        marvinJoke
+        marvinJoke,
+        marvinCommit
     ]
 
 
@@ -532,4 +533,25 @@ def marvinJoke(row, asList=None, asStr=None):
     msg = None
     if row.intersection(["joke", "skämt", "chuck norris", "chuck", "norris"]):
         msg = getJoke()
+        return msg
+
+def getCommit():
+    """
+    Retrieves random commit message from whatthecommit.com/index.html
+    """
+    try:
+        url = getString("commit", "url")
+        r = requests.get(url)
+        res = r.text.strip()
+        return res
+    except Exception:
+        return getString("commit", "error")
+
+def marvinCommit(row, asList=None, asStr=None):
+    """
+    Display a random commit message
+    """
+    msg = None
+    if row.intersection(["commit", "-m"]):
+        msg = getCommit()
         return msg

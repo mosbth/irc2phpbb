@@ -252,5 +252,9 @@
     "joke": {
         "url": "http://api.icndb.com/jokes/random?limitTo=[nerdy]",
         "error": "Chuck Norris har inte tid underhålla er idag!"
+    },
+    "commit": {
+        "url": "http://whatthecommit.com/index.txt",
+        "error": "Du får komma på ett själv. Jag är trasig för tillfället!"
     }
 }
