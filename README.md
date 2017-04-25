@@ -3,7 +3,25 @@ Marvin, an IRC bot
 
 [![Build Status](https://travis-ci.org/mosbth/irc2phpbb.svg?branch=master)](https://travis-ci.org/mosbth/irc2phpbb)
 
-Get a quick start by checking out the main script `main.py`.
+Get a quick start by checking out the main script `main.py` and read on how to contribute.
+
+
+
+Contribute
+--------------------------
+
+Create your own virtual environment, install the local devevelopment environment and run the script. 
+
+```bash
+$ python3 -m venv .venv
+$ alias activate='. .venv/bin/activate'
+$ activate
+$ make install test
+$ python3 main.py
+$ deactivate
+```
+
+Check `main.py` for more details (should be moved to pydoc or other proper documentation like here in this README...).
 
 
 
