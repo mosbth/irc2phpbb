@@ -38,12 +38,10 @@ actions. Its just a small function.
 Marvin reads messages from the incoming/ directory, if it exists, and writes
 it out the the irc channel. 
 """
-
-
-import sys
 import getopt
-import os
 import json
+import os
+import sys
 
 defaultmodulepath = os.path.join(os.getcwd(), "modules")
 if os.path.exists(defaultmodulepath):
@@ -178,8 +176,8 @@ def parseOptions():
             else:
                 assert False, "Unhandled option"
 
-        if len(args):
-            assert False, "To many arguments, unknown argument."
+        if args:
+            assert False, "Too many arguments, unknown argument."
 
     except Exception as err:
         print(err)

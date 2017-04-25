@@ -4,20 +4,15 @@
 """
 Make actions for Marvin, one function for each action.
 """
-
-
-import random
-import math
-import json
-import datetime
-from urllib.request import urlopen
 from urllib.parse import quote_plus
-from bs4 import BeautifulSoup
+from urllib.request import urlopen
+import datetime
+import json
+import math
+import random
 import requests
 
-
-# Used or not?
-#import feedparser
+from bs4 import BeautifulSoup
 
 
 def getAllActions():
@@ -416,7 +411,7 @@ def marvinTimeToBBQ(row, asList=None, asStr=None):
     Calcuate the time to next barbecue and print a appropriate msg
     """
     msg = None
-    if row.intersection(['grilla', 'grill', 'bbq']):
+    if row.intersection(['grilla', 'grill', 'grillcon', 'bbq']):
         url = getString("barbecue", "url")
         whenStr = getString("barbecue", "when")
         whenDate = datetime.datetime.strptime(whenStr, '%Y-%m-%d')
@@ -474,7 +469,7 @@ def marvinNameday(row, asList=None, asStr=None):
             url = getString("nameday", "url")
             soup = BeautifulSoup(urlopen(url), "html.parser")
             nameContainer = soup.findAll('h1')
-            if len(nameContainer) > 0:
+            if nameContainer:
                 name = nameContainer[0].getText()
                 msg = getString("nameday", "somebody").format(name)
         except Exception:
@@ -509,8 +504,7 @@ def marvinPrinciple(row, asList=None, asStr=None):
         key = row.intersection(list(principles.keys()))
         if key:
             return principles[key.pop()]
-        else:
-            return principles[random.choice(list(principles.keys()))]
+        return principles[random.choice(list(principles.keys()))]
 
 def getJoke():
     """
