@@ -1,0 +1,13 @@
+# For production
+feedparser
+beautifulsoup4
+chardet
+requests
+
+# For development
+pylint >= 1.7.1
+coverage
+#pep8
+flake8
+flake8-docstrings
+pycodestyle
