@@ -418,13 +418,13 @@ def marvinTimeToBBQ(row, asList=None, asStr=None):
         now = datetime.datetime.now()
         days = math.floor((whenDate - now) / datetime.timedelta(hours=24))
 
-        if (days == -1):
+        if days == -1:
             msg = getString("barbecue", "today")
-        elif (days == 0):
+        elif days == 0:
             msg = getString("barbecue", "tomorrow")
-        elif (days < 14 and days > 0):
+        elif days < 14 and days > 0:
             msg = getString("barbecue", "week") % whenStr
-        elif (days < 200 and days > 0):
+        elif days < 200 and days > 0:
             msg = getString("barbecue", "base") % whenStr
         else:
             msg = getString("barbecue", "eternity") % whenStr

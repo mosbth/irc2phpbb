@@ -36,19 +36,19 @@ actions. Its just a small function.
 
 # Read from incoming
 Marvin reads messages from the incoming/ directory, if it exists, and writes
-it out the the irc channel. 
+it out the the irc channel.
 """
 import getopt
 import json
 import os
 import sys
 
+import marvin
+import marvin_actions
+
 defaultmodulepath = os.path.join(os.getcwd(), "modules")
 if os.path.exists(defaultmodulepath):
     sys.path.append(defaultmodulepath)
-
-import marvin
-import marvin_actions
 
 
 #
@@ -152,25 +152,25 @@ def parseOptions():
             elif opt in ("-v", "--version"):
                 printVersion()
 
-            elif opt in ("--config"):
+            elif opt in "--config":
                 options = mergeOptionsWithConfigFile(options, arg)
 
-            elif opt in ("--server"):
+            elif opt in "--server":
                 options["server"] = arg
 
-            elif opt in ("--port"):
+            elif opt in "--port":
                 options["port"] = arg
 
-            elif opt in ("--channel"):
+            elif opt in "--channel":
                 options["channel"] = arg
 
-            elif opt in ("--nick"):
+            elif opt in "--nick":
                 options["nick"] = arg
 
-            elif opt in ("--realname"):
+            elif opt in "--realname":
                 options["realname"] = arg
 
-            elif opt in ("--ident"):
+            elif opt in "--ident":
                 options["ident"] = arg
 
             else:
