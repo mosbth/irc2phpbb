@@ -11,6 +11,7 @@ Todo.
 v0.3.3* (2017-04-25)
 -------------------
 
+* Add more versions to test on using Travis.
 * Remove custom loading of module directory.
 * Module directory is OBSOLETE now when introducing virtualenv.
 
