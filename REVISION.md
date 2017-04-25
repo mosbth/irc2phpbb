@@ -8,7 +8,7 @@ Todo.
 * Add logfile entry containing current online users in the irc-channel
 
 
-v0.3.2* (2017-04-25)
+v0.3.3 (2017-04-25)
 -------------------
 
 * Enhanced Makefile and prepared by adding test tools.
