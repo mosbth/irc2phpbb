@@ -2,7 +2,6 @@ Marvin, an IRC bot
 ==================
 
 [![Join the chat at https://gitter.im/mosbth/irc2phpbb](https://badges.gitter.im/mosbth/irc2phpbb.svg)](https://gitter.im/mosbth/irc2phpbb?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 [![Build Status](https://travis-ci.org/mosbth/irc2phpbb.svg?branch=master)](https://travis-ci.org/mosbth/irc2phpbb)
 
 Get a quick start by checking out the main script `main.py` and read on how to contribute.
