@@ -8,6 +8,13 @@ Todo.
 * Add logfile entry containing current online users in the irc-channel
 
 
+v0.3.3* (2017-04-25)
+-------------------
+
+* Remove custom loading of module directory.
+* Module directory is OBSOLETE now when introducing virtualenv.
+
+
 v0.3.3 (2017-04-25)
 -------------------
 

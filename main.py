@@ -46,10 +46,6 @@ import sys
 import marvin
 import marvin_actions
 
-defaultmodulepath = os.path.join(os.getcwd(), "modules")
-if os.path.exists(defaultmodulepath):
-    sys.path.append(defaultmodulepath)
-
 
 #
 # General stuff about this program
