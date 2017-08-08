@@ -168,6 +168,22 @@
         "kebab på Döner Kebab (http://www.triangeln.com/doner_kebab)"
     ],
 
+    "lunch-goteborg": [
+        "hamburgare på Burgersson Frigga (http://www.burgersson.se/)",
+        "hamburgare på Tugg (http://gbg.tuggburgers.se/)",
+        "asiatiskt på Tiger deli (http://tigerdeli.kvartersmenyn.se/)",
+        "japanskt på Mikado (http://www.mikadogoteborg.se/)",
+        "pizza på I love pizza (http://www.ilovepizza.se/)",
+        "burrito på TomToms Burritos (http://www.tomtoms.se/)",
+        "tacos varianter på El Paso (http://elpasotres.se/)",
+        "steak på Brasa (http://www.restaurangbrasa.se/)",
+        "något fint på Post-hotellet (http://www.nordabargrill.se/lunch/)",
+        "något på John Scott's Place (http://johnscotts.se/palace/)",
+        "husman på Vällagat (http://www.vallagat.se/)",
+        "husman på AtWork (http://atwork.nu/restaurang/)",
+        "sallad på MiXiT (http://mixitgbg.se/mixit-garda/)"
+    ],
+
     "listen": {
         "success": [
             "Senaste låten jag lyssnade på var '{title}' med {artist} - {link}",

@@ -278,7 +278,7 @@ def marvinLunch(row, asList=None, asStr=None):
     Help decide where to eat.
     """
     msg = None
-    if row.intersection(['lunch', 'mat', 'äta']):
+    if row.intersection(['lunch', 'mat', 'äta', 'luncha']):
         if row.intersection(['stan', 'centrum', 'karlskrona', 'kna']):
             msg = getString("lunch-message").format(getString("lunch-karlskrona"))
         elif row.intersection(['ängelholm', 'angelholm', 'engelholm']):
@@ -287,6 +287,8 @@ def marvinLunch(row, asList=None, asStr=None):
             msg = getString("lunch-message").format(getString("lunch-hassleholm"))
         elif row.intersection(['malmö', 'malmo', 'malmoe']):
             msg = getString("lunch-message").format(getString("lunch-malmo"))
+        elif row.intersection(['göteborg', 'gbg']):
+            msg = getString("lunch-message").format(getString("lunch-goteborg"))
         else:
             msg = getString("lunch-message").format(getString("lunch-bth"))
 
