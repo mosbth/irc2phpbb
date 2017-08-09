@@ -277,20 +277,24 @@ def marvinLunch(row, asList=None, asStr=None):
     """
     Help decide where to eat.
     """
-    msg = None
-    if row.intersection(['lunch', 'mat', 'äta']):
-        if row.intersection(['stan', 'centrum', 'karlskrona', 'kna']):
-            msg = getString("lunch-message").format(getString("lunch-karlskrona"))
-        elif row.intersection(['ängelholm', 'angelholm', 'engelholm']):
-            msg = getString('lunch-message').format(getString('lunch-angelholm'))
-        elif row.intersection(['hässleholm', 'hassleholm']):
-            msg = getString("lunch-message").format(getString("lunch-hassleholm"))
-        elif row.intersection(['malmö', 'malmo', 'malmoe']):
-            msg = getString("lunch-message").format(getString("lunch-malmo"))
-        else:
-            msg = getString("lunch-message").format(getString("lunch-bth"))
+    lunchOptions = {
+        'stan centrum karlskrona kna': 'lunch-karlskrona',
+        'ängelholm angelholm engelholm': 'lunch-angelholm',
+        'hässleholm hassleholm': 'lunch-hassleholm',
+        'malmö malmo malmoe': 'lunch-malmo',
+        'göteborg gbg': 'lunch-goteborg'
+    }
 
-    return msg
+    if row.intersection(['lunch', 'mat', 'äta', 'luncha']):
+        lunchStr = getString('lunch-message')
+
+        for keys, value in lunchOptions.items():
+            if row.intersection(keys.split(' ')):
+                return lunchStr.format(getString(value))
+
+        return lunchStr.format(getString('lunch-bth'))
+
+    return None
 
 
 def marvinListen(row, asList=None, asStr=None):
