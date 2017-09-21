@@ -471,14 +471,13 @@ def marvinNameday(row, asList=None, asStr=None):
     if row.intersection(['nameday', 'namnsdag']):
         try:
             now = datetime.datetime.now()
-            raw_url = getString("nameday", "url")
+            raw_url = "http://api.dryg.net/dagar/v2.1/{year}/{month}/{day}"
             url = raw_url.format(year=now.year, month=now.month, day=now.day)
             r = requests.get(url)
             nameday_data = r.json()
-            if "dagar" in nameday_data:
-                name = ",".join(nameday_data["dagar"][0]["namnsdag"])
-                msg = getString("nameday", "somebody").format(name)
-        except Exception as e:
+            name = ",".join(nameday_data["dagar"][0]["namnsdag"])
+            msg = getString("nameday", "somebody").format(name)
+        except Exception:
             msg = getString("nameday", "error")
         return msg
 
