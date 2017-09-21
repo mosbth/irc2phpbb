@@ -239,7 +239,7 @@
         "error": "Något gick snett, jag har inte en susning om någon fyller år eller inte."
     },
     "nameday": {
-        "url": "http://www.dagensnamn.nu",
+        "url": "http://api.dryg.net/dagar/v2.1/{year}/{month}/{day}",
         "somebody": "Idag har {} namnsdag",
         "nobody": "Ingen namnsdag hittades.",
         "error": "Något gick snett, jag har inte en susning om någon har namnsdag idag eller inte."

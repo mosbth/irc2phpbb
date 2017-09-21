@@ -470,15 +470,16 @@ def marvinNameday(row, asList=None, asStr=None):
     msg = getString("nameday", "nobody")
     if row.intersection(['nameday', 'namnsdag']):
         try:
-            url = getString("nameday", "url")
-            soup = BeautifulSoup(urlopen(url), "html.parser")
-            nameContainer = soup.findAll('h1')
-            if nameContainer:
-                name = nameContainer[0].getText()
+            now = datetime.datetime.now()
+            raw_url = getString("nameday", "url")
+            url = raw_url.format(year=now.year, month=now.month, day=now.day)
+            r = requests.get(url)
+            nameday_data = r.json()
+            if "dagar" in nameday_data:
+                name = ",".join(nameday_data["dagar"][0]["namnsdag"])
                 msg = getString("nameday", "somebody").format(name)
-        except Exception:
+        except Exception as e:
             msg = getString("nameday", "error")
-
         return msg
 
 def marvinUptime(row, asList=None, asStr=None):
