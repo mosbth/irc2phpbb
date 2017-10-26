@@ -249,7 +249,7 @@ def marvinIrcLog(row, asList=None, asStr=None):
     Provide a link to the irclog
     """
     msg = None
-    if row.intersection(['irc', 'irclog', 'log', 'irclogg', 'logg']):
+    if row.intersection(['irc', 'irclog', 'log', 'irclogg', 'logg', 'historik']):
         msg = getString("irclog")
 
     return msg
