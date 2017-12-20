@@ -92,6 +92,9 @@ $feeds = array(
 	6574, 6575, 6576, 6577, 6578, 6579, 6580, 6581, // design ht17
 	6582, 6583, 6584, 6585, 6586, 6587, 6588, 6589, // ramverk1 ht17
 	6590, 6591, 6592, 6593, 6594, 6595, 6596, 6597, // ramverk2 ht17
+	
+	7119, 7120, 7121, 7122, 7123, 7124, 7125, 7126, // linux vt18
+	
     ),
 		'callback'=>function($item, $ignore=array()) {
 		  global $success, $ignored, $error;
