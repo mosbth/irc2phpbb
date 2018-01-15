@@ -6,6 +6,7 @@ Make actions for Marvin, one function for each action.
 """
 from urllib.parse import quote_plus
 from urllib.request import urlopen
+import calendar
 import datetime
 import json
 import math
@@ -417,23 +418,54 @@ def marvinTimeToBBQ(row, asList=None, asStr=None):
     msg = None
     if row.intersection(['grilla', 'grill', 'grillcon', 'bbq']):
         url = getString("barbecue", "url")
-        whenStr = getString("barbecue", "when")
-        whenDate = datetime.datetime.strptime(whenStr, '%Y-%m-%d')
-        now = datetime.datetime.now()
-        days = math.floor((whenDate - now) / datetime.timedelta(hours=24))
+        nextDate = nextBBQ()
+        today = datetime.date.today()
+        daysRemaining = (nextDate - today).days
 
-        if days == -1:
+        if daysRemaining == 0:
             msg = getString("barbecue", "today")
-        elif days == 0:
+        elif daysRemaining == 1:
             msg = getString("barbecue", "tomorrow")
-        elif days < 14 and days > 0:
-            msg = getString("barbecue", "week") % whenStr
-        elif days < 200 and days > 0:
-            msg = getString("barbecue", "base") % whenStr
+        elif daysRemaining < 14 and daysRemaining > 0:
+            msg = getString("barbecue", "week") % nextDate
+        elif daysRemaining < 200 and daysRemaining > 0:
+            msg = getString("barbecue", "base") % nextDate
         else:
-            msg = getString("barbecue", "eternity") % whenStr
+            msg = getString("barbecue", "eternity") % nextDate
 
         return url + ". " + msg
+
+
+def nextBBQ(after=datetime.date.today()):
+    """
+    Calculate the next grillcon date after a given date (or from today)
+    """
+    MAY = 5
+    SEPTEMBER = 9
+
+    spring = thirdFridayIn(after.year, MAY)
+    if after <= spring:
+        return spring
+
+    autumn = thirdFridayIn(after.year, SEPTEMBER)
+    if after <= autumn:
+        return autumn
+
+    return thirdFridayIn(after.year + 1, MAY)
+
+
+def thirdFridayIn(y, m):
+    """
+    Get the third Friday in a given month and year
+    """
+    THIRD = 2
+    FRIDAY = -1
+
+    # Start the weeks on saturday to prevent fridays from previous month
+    cal = calendar.Calendar(firstweekday=calendar.SATURDAY)
+
+    # Return the friday in the third week
+    return cal.monthdatescalendar(y, m)[THIRD][FRIDAY]
 
 
 def marvinBirthday(row, asList=None, asStr=None):

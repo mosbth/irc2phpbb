@@ -228,8 +228,7 @@
         ],
         "today": "Grillen är idag. Kanske dags att börja hacka om vi ska starta kl 17:00",
         "tomorrow": "Grillen är i morgon. Undra om mos har förberett.",
-        "eternity": "Det är en evighet (%s) till nästa grill.",
-        "when": "2018-05-18"
+        "eternity": "Det är en evighet (%s) till nästa grill."
     },
 
     "birthday": {
