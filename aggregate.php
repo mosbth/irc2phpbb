@@ -99,6 +99,7 @@ $feeds = array(
 	7146, 7147, 7148, 7149, 7150, 7151, 7152, 7153, // oophp vt18
 	7155, 7157, 7158, 7159, 7160, 7161, 7162, 7163, // dataweb vt18
 	
+	7533, 7534, // ht18
     ),
 		'callback'=>function($item, $ignore=array()) {
 		  global $success, $ignored, $error;
