@@ -3,14 +3,20 @@
 
     "whois": "Jag är en tjänstvillig själ som gillar webbprogrammering. Jag bor på GitHub https://github.com/mosbth/irc2phpbb och du kan diskutera mig i forumet http://dbwebb.se/t/20",
 
-    "menu": "[ vem är | lyssna | le | lunch [var] | citat | budord 1 - 5 | source | väder | solen | dagens video | nöje/paus/strip/comic [slump] | grill | birthday/födelsedag | nameday/namnsdag | stats | google/googla | uptime | stream | skämt/joke | hjälp ]",
+    "menu": "[ vem är | lyssna | le | lunch [var] | citat | budord 1 - 5 | source | väder | solen | dagens video | nöje/paus/strip/comic [slump] | grill | birthday/födelsedag | nameday/namnsdag | stats | irclog | google/googla | explain/förklara | uptime | stream | princip | skämt/joke | hjälp ]",
 
     "ircstats": "Statistik för kanalen finns här: http://dbwebb.se/irssistats/db-o-webb.html",
+
+    "irclog": "Loggen över de senaste 100 inläggen i kanalen finns här: https://dbwebb.se/irclog",
 
     "google": [
         "Googla {}",
         "LMGTFY {}",
         "Kika på {}"
+    ],
+
+    "explainShell": [
+        "{}"
     ],
 
     "smile": [
@@ -162,13 +168,37 @@
         "kebab på Döner Kebab (http://www.triangeln.com/doner_kebab)"
     ],
 
-    "listen": [
-        "Jag gillar låten",
-        "Senaste låten jag lyssnade på var",
-        "Jag lyssnar just nu på",
-        "Har du hört denna låten :)",
-        "Jag kan tipsa om en bra låt ->"
+    "lunch-goteborg": [
+        "halvspecial på Preem",
+        "grillat på Odinsgrillen (http://www.odinsparkgrill.se/)",
+        "hamburgare på Burgersson Frigga (http://www.burgersson.se/)",
+        "hamburgare på Tugg (http://gbg.tuggburgers.se/)",
+        "japanskt på Mikado (http://www.mikadogoteborg.se/)",
+        "pizza på I love pizza (http://www.ilovepizza.se/)",
+        "burrito på TomToms Burritos (http://www.tomtoms.se/)",
+        "tacos varianter på El Paso (http://elpasotres.se/)",
+        "steak på Brasa (http://www.restaurangbrasa.se/)",
+        "något fint på Post-hotellet (http://www.nordabargrill.se/lunch/)",
+        "något på John Scott's Place (http://johnscotts.se/palace/)",
+        "husman på Vällagat (http://www.vallagat.se/)",
+        "husman på AtWork (http://atwork.nu/restaurang/)",
+        "sallad på MiXiT (http://mixitgbg.se/mixit-garda/)"
     ],
+
+    "listen": {
+        "success": [
+            "Senaste låten jag lyssnade på var '{title}' med {artist} - {link}",
+            "Jag lyssnar just nu på '{title}' med {artist} - {link}",
+            "Har du hört '{title}' med {artist} - {link}",
+            "Jag kan tipsa om en bra låt som heter '{title}' med {artist} - {link}"
+        ],
+        "failed": [
+            "Något gick fel..."
+        ],
+        "disabled": [
+            "Funktionen är disablad i konfigurationen."
+        ]
+    },
 
     "sun": "Idag går solen upp {} och ner {}. Iallafall i trakterna kring Jönköping.",
     "sun-no": "Jag hittade tyvär inga solar idag :( så jag håller på och lär mig hur Python kan räkna ut soluppgången, återkommer.",
@@ -199,8 +229,7 @@
         ],
         "today": "Grillen är idag. Kanske dags att börja hacka om vi ska starta kl 17:00",
         "tomorrow": "Grillen är i morgon. Undra om mos har förberett.",
-        "eternity": "Det är en evighet (%s) till nästa grill.",
-        "when": "2017-05-19"
+        "eternity": "Det är en evighet (%s) till nästa grill."
     },
 
     "birthday": {
@@ -210,7 +239,6 @@
         "error": "Något gick snett, jag har inte en susning om någon fyller år eller inte."
     },
     "nameday": {
-        "url": "http://www.dagensnamn.nu/",
         "somebody": "Idag har {} namnsdag",
         "nobody": "Ingen namnsdag hittades.",
         "error": "Något gick snett, jag har inte en susning om någon har namnsdag idag eller inte."
@@ -219,10 +247,29 @@
         "info": "Kolla in statsen för uptime-tävlingen på http://uptime.dbwebb.se/"
     },
     "stream": {
-        "info": "Streamen finns på https://dbwebb.se/stream och sparas i spellistan 'Streamde föreläsningar' https://www.youtube.com/channel/UCxX3bcidovf5MDLeXMcbDyg."
+        "info": "Streamen finns på https://dbwebb.se/stream och sparas i spellistan 'Streamade föreläsningar/seminarier' https://www.youtube.com/playlist?list=PLKtP9l5q3ce8Bhxn22oBYWZZ4-3ms1rMl"
+    },
+    "principle": {
+        "poge": "POGE: Principle of Good Enough. Ibland är tillräckligt bra - den nivå som man skall sträva efter: https://en.wikipedia.org/wiki/Principle_of_good_enough",
+        "kiss": "KISS: Keep it simple, stupid. Håll det enkelt, krångla inte till det: https://en.wikipedia.org/wiki/KISS_principle",
+        "dry": "DRY: Don't repeat yourself. Lite för mycket copy&paste? Dax att organisera koden bättre? https://en.wikipedia.org/wiki/Don%27t_repeat_yourself",
+        "tim-toady": "Tim Toady: There's more than one way to do it. Ibland löser vi saker olika, skriver kod olika, det behöver inte vara ett fel i det https://en.wikipedia.org/wiki/There%27s_more_than_one_way_to_do_it",
+        "worse-is-better": "Worse is better (Less is more). Kvaliteten ökar inte nödvändigvis när funktionaliteten ökar https://en.wikipedia.org/wiki/Worse_is_better",
+        "yagni": "You Aint Gonna Need It. Skippa alla 'bra att ha' saker redan på ritbordet, lägg bara till dem om någon verkligen behöver dem https://en.wikipedia.org/wiki/You_aren%27t_gonna_need_it",
+        "broke": "If it ain't broke, don't fix it. Lägg inte tid på att laga saker som inte är sönder https://en.wikipedia.org/wiki/Bert_Lance#.22If_it_ain.27t_broke.2C_don.27t_fix_it..22",
+        "satisficing": "Satisfy and suffice. Överväg alla alternativ och finn ett alternativ som når ett acceptabelt gränsvärde - då en optimal lösning inte är ett alternativ https://en.wikipedia.org/wiki/Satisficing",
+        "overdo": "Overdoit, or overengineering. Bygg en produkt som mer robust eller komplicerad än som är försvarbart för dess tänkta användningsområde https://en.wikipedia.org/wiki/Overengineering",
+        "poc": "POC, Proof-of-concept. Bygg för att visa att idén fungerar, snabbt och lätt för att visa konceptet, överarbeta inte https://en.wikipedia.org/wiki/Proof_of_concept",
+        "80-20": "Pareto principle (80-20). 80% av användarna kommer använda 20% av produktens funktioner https://en.wikipedia.org/wiki/Pareto_principle",
+        "silver-bullet": "There is no silver bullet. Det finns inte en enstaka åtgärd som gör att du kan mångfaldiga produktiviteten hos ett team som utvecklar programvara https://en.wikipedia.org/wiki/No_Silver_Bullet",
+        "any": "Det finns många filosofier som en programmerare kan förhålla sig till. Hämta lite inspiration från en längre lista https://en.wikipedia.org/wiki/List_of_software_development_philosophies"
     },
     "joke": {
         "url": "http://api.icndb.com/jokes/random?limitTo=[nerdy]",
         "error": "Chuck Norris har inte tid underhålla er idag!"
+    },
+    "commit": {
+        "url": "http://whatthecommit.com/index.txt",
+        "error": "Du får komma på ett själv. Jag är trasig för tillfället!"
     }
 }

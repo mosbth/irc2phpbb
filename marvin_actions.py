@@ -4,18 +4,15 @@
 """
 Make actions for Marvin, one function for each action.
 """
-
-
-import random
-import math
-import json
-import datetime
-from urllib.request import urlopen
 from urllib.parse import quote_plus
-from bs4 import BeautifulSoup
+from urllib.request import urlopen
+import calendar
+import datetime
+import json
+import random
+import requests
 
-# Used or not?
-#import feedparser
+from bs4 import BeautifulSoup
 
 
 def getAllActions():
@@ -23,6 +20,8 @@ def getAllActions():
     Return all actions in an array.
     """
     return [
+        marvinExplainShell,
+        marvinGoogle,
         marvinLunch,
         marvinVideoOfToday,
         marvinWhoIs,
@@ -31,25 +30,38 @@ def getAllActions():
         marvinBudord,
         marvinQuote,
         marvinStats,
+        marvinIrcLog,
         marvinListen,
         marvinWeather,
         marvinSun,
         marvinSayHi,
         marvinSmile,
         marvinStrip,
-        marvinGoogle,
         marvinTimeToBBQ,
         marvinBirthday,
         marvinNameday,
         marvinUptime,
         marvinStream,
-        marvinJoke
+        marvinPrinciple,
+        marvinJoke,
+        marvinCommit
     ]
 
 
 # Load all strings from file
 with open("marvin_strings.json") as f:
     STRINGS = json.load(f)
+
+
+# Configuration loaded
+CONFIG = None
+
+def setConfig(config):
+    """
+    Keep reference to the loaded configuration.
+    """
+    global CONFIG
+    CONFIG = config
 
 
 def getString(key, key1=None):
@@ -60,7 +72,12 @@ def getString(key, key1=None):
     if isinstance(data, list):
         res = data[random.randint(0, len(data) - 1)]
     elif isinstance(data, dict):
-        res = data[key1]
+        if key1 is None:
+            res = data
+        else:
+            res = data[key1]
+            if isinstance(res, list):
+                res = res[random.randint(0, len(res) - 1)]
     elif isinstance(data, str):
         res = data
 
@@ -76,16 +93,6 @@ def marvinSmile(row, asList=None, asStr=None):
         smilie = getString("smile")
         msg = "{SMILE}".format(SMILE=smilie)
     return msg
-
-
-def generateUrlToGoogleSearch(searchStr):
-    """
-    Generates an google query-url based input string
-    """
-    baseUrl = 'https://www.google.se/search?q='
-    searchFor = quote_plus(searchStr)
-
-    return baseUrl + searchFor
 
 
 def marvinGoogle(row, asList=None, asStr=None):
@@ -105,9 +112,32 @@ def marvinGoogle(row, asList=None, asStr=None):
         else:
             searchStr = " ".join(asList[searchStart:])
 
-        url = generateUrlToGoogleSearch(searchStr)
+        url = "https://www.google.se/search?q="
+        url += quote_plus(searchStr)
         google = getString("google")
         msg = google.format(url)
+
+    return msg
+
+
+def marvinExplainShell(row, asList=None, asStr=None):
+    """
+    Let Marvin present an url to the service explin shell to
+    explain a shell command.
+    """
+    msg = None
+    match = row.intersection(['explain', 'förklara'])
+
+    if match:
+        # Find the matching word and take the rest as the query string
+        matchedStr = match.pop()
+        startAt = asStr.find(matchedStr) + len(matchedStr)
+        searchStr = asStr[startAt:].strip()
+
+        url = "http://explainshell.com/explain?cmd="
+        url += quote_plus(searchStr, "/:")
+        explain = getString("explainShell")
+        msg = explain.format(url)
 
     return msg
 
@@ -214,15 +244,26 @@ def marvinStats(row, asList=None, asStr=None):
     return msg
 
 
+def marvinIrcLog(row, asList=None, asStr=None):
+    """
+    Provide a link to the irclog
+    """
+    msg = None
+    if row.intersection(['irc', 'irclog', 'log', 'irclogg', 'logg', 'historik']):
+        msg = getString("irclog")
+
+    return msg
+
+
 def marvinSayHi(row, asList=None, asStr=None):
     """
     Say hi with a nice message.
     """
     msg = None
     if row.intersection([
-            'snälla', 'hej', 'tjena', 'morsning', 'mår', 'hallå', 'halloj',
-            'läget', 'snäll', 'duktig', 'träna', 'träning', 'utbildning',
-            'tack', 'tacka', 'tackar', 'tacksam'
+            'snälla', 'hej', 'tjena', 'morsning', 'morrn', 'mår', 'hallå',
+            'halloj', 'läget', 'snäll', 'duktig', 'träna', 'träning',
+            'utbildning', 'tack', 'tacka', 'tackar', 'tacksam'
     ]):
         smile = getString("smile")
         hello = getString("hello")
@@ -236,35 +277,24 @@ def marvinLunch(row, asList=None, asStr=None):
     """
     Help decide where to eat.
     """
-    msg = None
-    if row.intersection(['lunch', 'mat', 'äta']):
-        if row.intersection(['stan', 'centrum', 'karlskrona', 'kna']):
-            msg = getString("lunch-message").format(getString("lunch-karlskrona"))
-        elif row.intersection(['ängelholm', 'angelholm', 'engelholm']):
-            msg = getString('lunch-message').format(getString('lunch-angelholm'))
-        elif row.intersection(['hässleholm', 'hassleholm']):
-            msg = getString("lunch-message").format(getString("lunch-hassleholm"))
-        elif row.intersection(['malmö', 'malmo', 'malmoe']):
-            msg = getString("lunch-message").format(getString("lunch-malmo"))
-        else:
-            msg = getString("lunch-message").format(getString("lunch-bth"))
+    lunchOptions = {
+        'stan centrum karlskrona kna': 'lunch-karlskrona',
+        'ängelholm angelholm engelholm': 'lunch-angelholm',
+        'hässleholm hassleholm': 'lunch-hassleholm',
+        'malmö malmo malmoe': 'lunch-malmo',
+        'göteborg gbg': 'lunch-goteborg'
+    }
 
-    return msg
+    if row.intersection(['lunch', 'mat', 'äta', 'luncha']):
+        lunchStr = getString('lunch-message')
 
+        for keys, value in lunchOptions.items():
+            if row.intersection(keys.split(' ')):
+                return lunchStr.format(getString(value))
 
-def getListen():
-    """
-    Nice message about listening to a song.
-    """
-    data = [
-        'Jag gillar låten',
-        'Senaste låten jag lyssnade på var',
-        'Jag lyssnar just nu på',
-        'Har du hört denna låten :)',
-        'Jag kan tipsa om en bra låt ->'
-    ]
-    res = data[random.randint(0, len(data) - 1)]
-    return res
+        return lunchStr.format(getString('lunch-bth'))
+
+    return None
 
 
 def marvinListen(row, asList=None, asStr=None):
@@ -272,11 +302,34 @@ def marvinListen(row, asList=None, asStr=None):
     Return music last listened to.
     """
     msg = None
+
     if row.intersection(['lyssna', 'lyssnar', 'musik']):
-        msg = "Jag lyssnar inte på något för tillfället..."
-        #feed = feedparser.parse('http://ws.audioscrobbler.com/1.0/user/mikaelroos/recenttracks.rss')
-        # feed["items"][0]["title"].encode('utf-8', 'ignore')))
-        #msg = getString("listen") + " " + feed["items"][0]["title"]
+
+        if not CONFIG["lastfm"]:
+            return getString("listen", "disabled")
+
+        url = "http://ws.audioscrobbler.com/2.0/"
+
+        try:
+            params = dict(
+                method="user.getrecenttracks",
+                user=CONFIG["lastfm"]["user"],
+                api_key=CONFIG["lastfm"]["apikey"],
+                format="json",
+                limit="1"
+            )
+
+            resp = requests.get(url=url, params=params)
+            data = json.loads(resp.text)
+
+            artist = data["recenttracks"]["track"][0]["artist"]["#text"]
+            title = data["recenttracks"]["track"][0]["name"]
+            link = data["recenttracks"]["track"][0]["url"]
+
+            msg = getString("listen", "success").format(artist=artist, title=title, link=link)
+
+        except Exception:
+            msg = getString("listen", "failed")
 
     return msg
 
@@ -362,40 +415,57 @@ def marvinTimeToBBQ(row, asList=None, asStr=None):
     Calcuate the time to next barbecue and print a appropriate msg
     """
     msg = None
-    if row.intersection(['grilla', 'grill', 'bbq']):
+    if row.intersection(['grilla', 'grill', 'grillcon', 'bbq']):
         url = getString("barbecue", "url")
-        whenStr = getString("barbecue", "when")
-        whenDate = datetime.datetime.strptime(whenStr, '%Y-%m-%d')
-        now = datetime.datetime.now()
-        days = math.floor((whenDate - now) / datetime.timedelta(hours=24))
+        nextDate = nextBBQ()
+        today = datetime.date.today()
+        daysRemaining = (nextDate - today).days
 
-        if (days == -1):
+        if daysRemaining == 0:
             msg = getString("barbecue", "today")
-        elif (days == 0):
+        elif daysRemaining == 1:
             msg = getString("barbecue", "tomorrow")
-        elif (days < 14 and days > 0):
-            part = getString("barbecue", "week")
-            msg = getRandomAnswerForBBQ(part, whenStr)
-        elif (days < 200 and days > 0):
-            part = getString("barbecue", "base")
-            msg = getRandomAnswerForBBQ(part, whenStr)
+        elif daysRemaining < 14 and daysRemaining > 0:
+            msg = getString("barbecue", "week") % nextDate
+        elif daysRemaining < 200 and daysRemaining > 0:
+            msg = getString("barbecue", "base") % nextDate
         else:
-            msg = getString("barbecue", "eternity") % whenStr
+            msg = getString("barbecue", "eternity") % nextDate
 
         return url + ". " + msg
 
-def getRandomAnswerForBBQ(part, whenStr):
-    """
-    Generates a random string from the part-array given
-    """
-    rand = random.randint(0, len(part) - 1)
-    msg = ""
-    try:
-        msg = part[rand] % whenStr
-    except TypeError:
-        msg = part[rand]
 
-    return msg
+def nextBBQ(after=datetime.date.today()):
+    """
+    Calculate the next grillcon date after a given date (or from today)
+    """
+    MAY = 5
+    SEPTEMBER = 9
+
+    spring = thirdFridayIn(after.year, MAY)
+    if after <= spring:
+        return spring
+
+    autumn = thirdFridayIn(after.year, SEPTEMBER)
+    if after <= autumn:
+        return autumn
+
+    return thirdFridayIn(after.year + 1, MAY)
+
+
+def thirdFridayIn(y, m):
+    """
+    Get the third Friday in a given month and year
+    """
+    THIRD = 2
+    FRIDAY = -1
+
+    # Start the weeks on saturday to prevent fridays from previous month
+    cal = calendar.Calendar(firstweekday=calendar.SATURDAY)
+
+    # Return the friday in the third week
+    return cal.monthdatescalendar(y, m)[THIRD][FRIDAY]
+
 
 def marvinBirthday(row, asList=None, asStr=None):
     """
@@ -431,15 +501,15 @@ def marvinNameday(row, asList=None, asStr=None):
     msg = getString("nameday", "nobody")
     if row.intersection(['nameday', 'namnsdag']):
         try:
-            url = getString("nameday", "url")
-            soup = BeautifulSoup(urlopen(url), "html.parser")
-            nameContainer = soup.findAll('h1')
-            if len(nameContainer) > 0:
-                name = nameContainer[0].getText()
-                msg = getString("nameday", "somebody").format(name)
+            now = datetime.datetime.now()
+            raw_url = "http://api.dryg.net/dagar/v2.1/{year}/{month}/{day}"
+            url = raw_url.format(year=now.year, month=now.month, day=now.day)
+            r = requests.get(url)
+            nameday_data = r.json()
+            name = ",".join(nameday_data["dagar"][0]["namnsdag"])
+            msg = getString("nameday", "somebody").format(name)
         except Exception:
             msg = getString("nameday", "error")
-
         return msg
 
 def marvinUptime(row, asList=None, asStr=None):
@@ -459,6 +529,18 @@ def marvinStream(row, asList=None, asStr=None):
     if row.intersection(['stream', 'streama', 'ström', 'strömma']):
         msg = getString("stream", "info")
         return msg
+
+def marvinPrinciple(row, asList=None, asStr=None):
+    """
+    Display one selected software principle, or provide one as random
+    """
+    if row.intersection(['principle', 'princip', 'principer']):
+        principles = getString("principle")
+        key = row.intersection(list(principles.keys()))
+        if key:
+            return principles[key.pop()]
+        return principles[random.choice(list(principles.keys()))]
+
 def getJoke():
     """
     Retrieves joke from api.icndb.com/jokes/random?limitTo=[nerdy]
@@ -481,3 +563,25 @@ def marvinJoke(row, asList=None, asStr=None):
     if row.intersection(["joke", "skämt", "chuck norris", "chuck", "norris"]):
         msg = getJoke()
         return msg
+
+def getCommit():
+    """
+    Retrieves random commit message from whatthecommit.com/index.html
+    """
+    try:
+        url = getString("commit", "url")
+        r = requests.get(url)
+        res = r.text.strip()
+        return res
+    except Exception:
+        return getString("commit", "error")
+
+def marvinCommit(row, asList=None, asStr=None):
+    """
+    Display a random commit message
+    """
+    commitMsg = "Use this message: '{}'"
+    msg = None
+    if row.intersection(["commit", "-m"]):
+        msg = getCommit()
+        return commitMsg.format(msg)

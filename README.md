@@ -1,9 +1,28 @@
 Marvin, an IRC bot
 ==================
 
+[![Join the chat at https://gitter.im/mosbth/irc2phpbb](https://badges.gitter.im/mosbth/irc2phpbb.svg)](https://gitter.im/mosbth/irc2phpbb?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Build Status](https://travis-ci.org/mosbth/irc2phpbb.svg?branch=master)](https://travis-ci.org/mosbth/irc2phpbb)
 
-Get a quick start by checking out the main script `main.py`.
+Get a quick start by checking out the main script `main.py` and read on how to contribute.
+
+
+
+Contribute
+--------------------------
+
+Create your own virtual environment, install the local devevelopment environment and run the script. 
+
+```bash
+$ python3 -m venv .venv
+$ alias activate='. .venv/bin/activate'
+$ activate
+$ make install test
+$ python3 main.py
+$ deactivate
+```
+
+Check `main.py` for more details (should be moved to pydoc or other proper documentation like here in this README...).
 
 
 
@@ -73,65 +92,13 @@ needed in the database looks like this:
 CREATE TABLE aggregate (id INTEGER PRIMARY KEY AUTOINCREMENT, feed text, key text UNIQUE);
 
 Run `aggregate.php` from crontab with regular intervals, for example each 5 minute.
-  
-    */5 * * * * /usr/local/bin/php /home/mos/git/irc2phpbb/aggregate.php
 
+```
+*/5 * * * * /usr/local/bin/php /home/mos/git/irc2phpbb/aggregate.php
+```
 The id of the feed items are stored in a SQLite database to avoid duplicates being posted.
 
 
-History
--------
-
-Todo.
-
-* Cache responses from smhi & sunrise services
-* Add logfile entry containing current online users in the irc-channel
-
-
-v0.3.1 (2015-12-16) 
-
-* Use travis for tests.
-* Add pylint and jsonlint.
-* Fix crash on smhi wrong url.
-* Added comic strips from commitStrip.
-* Fixed crash on mondays, #9.
-* Moved all strings to `marvin_strings.json`.
-* Improving documentation.
-
-
-v0.3.0 (2015-04-24) 
-
-* Major rewrite to python3 and separating code into modules.
-
-
-v0.2.2 (2015-04-24) 
-
-* Fixed loggin of ACTION.
-* Logging as utf-8 to logfile in json format.
-* Managing all strings as unicode internally.
-* Improved encoding of incoming messages though `decode_irc`.
-* Issues with irclog, utf8 and json encoding to file. debugging.
-
-
-v0.2.1 (2012-05-14) 
-
-* Corrected. Failed to decode utf-8 to json.
-
-
-v0.2.0 (2012-05-13) 
-
-* log all traffic in irc-channel to irclog.txt as json-encoded format.
-* aggregate.php, remove duplicate post in same thread. Only show one.
-* created functions sendMsg and sendPrivMsg to gather all output, reduce codelines and centralise 
-  logging
-* corrected that occasionally only sent one entry from the incoming directory thought it was more 
-  to send.
-* Make \r\n in central sendMsg() for each request
-
-
-v0.1.0 (2012-02-14) 
-
-* First tag after some live testing for a couple of months. Must start somewhere. 
 
  .   
-..:  Copyright 2011-2015 by Mikael Roos (me@mikaelroos.se)
+..:  Copyright 2011-2017 by Mikael Roos (mos@dbwebb.se)

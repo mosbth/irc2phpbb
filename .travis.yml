@@ -1,11 +1,10 @@
 language: python
 
 python:
-  - "3.2"
-  - "3.3"
   - "3.4"
   - "3.5"
-  - "3.5-dev" # 3.5 development branch
+  - "3.6"
+  - "3.7-dev" # 3.5 development branch
   - "nightly" # currently points to 3.6-dev
 
 
@@ -31,7 +30,7 @@ addons:
 
 matrix:
     allow_failures:
-        - python: "3.2"
+        - python: "3.7-dev"
         - python: "nightly"
 
 
@@ -67,7 +66,10 @@ notifications:
 
     webhooks:
         urls:
+            # dbwebb?
             - https://webhooks.gitter.im/e/3921db12f0b3a95de514
+            # mosbth/irc2phpbb
+            - https://webhooks.gitter.im/e/18dd678832f9a98b1d08
 
         # options: [always|never|change] default: always
         on_success: change

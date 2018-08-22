@@ -8,32 +8,15 @@ Connecting, sending and receiving messages and doing custom actions.
 
 Keeping a log and reading incoming material.
 """
-
-
-import re
-import socket
-import os
-import shutil
 from collections import deque
 from datetime import datetime
 import json
+import os
+import re
+import shutil
+import socket
+
 import chardet
-
-
-# Check if all these are needed
-#import sys
-#import string
-#import random
-#import feedparser # http://wiki.python.org/moin/RssLibraries
-#import urllib2
-#from bs4 import BeautifulSoup
-#import time
-#from datetime import date
-
-#import phpmanual
-#import dev_mozilla
-
-#import codecs
 
 
 #
@@ -50,6 +33,7 @@ CONFIG = {
     "irclogmax":    20,
     "dirIncoming":  "incoming",
     "dirDone":      "done",
+    "lastfm":       None,
 }
 
 
@@ -162,6 +146,7 @@ def decode_irc(raw, preferred_encs=None):
         preferred_encs = ["UTF-8", "CP1252", "ISO-8859-1"]
 
     changed = False
+    enc = None
     for enc in preferred_encs:
         try:
             res = raw.decode(enc)
@@ -175,7 +160,6 @@ def decode_irc(raw, preferred_encs=None):
             enc = chardet.detect(raw)['encoding']
             res = raw.decode(enc)
         except Exception:
-            # pylint: disable=undefined-loop-variable
             res = raw.decode(enc, 'ignore')
 
     return res
@@ -232,11 +216,11 @@ def readincoming():
     listing = os.listdir(CONFIG["dirIncoming"])
 
     for infile in listing:
-        filename = CONFIG["dirIncoming"] + '/' + infile
+        filename = os.path.join(CONFIG["dirIncoming"], infile)
 
-        file = open(filename, "r")
-        for msg in file:
-            sendPrivMsg(msg, CONFIG["channel"])
+        with open(filename, "r") as f:
+            for msg in f:
+                sendPrivMsg(msg, CONFIG["channel"])
 
         try:
             shutil.move(filename, CONFIG["dirDone"])
@@ -258,34 +242,43 @@ def mainLoop():
         # Check in any in the incoming directory
         readincoming()
 
-        # Recieve a line and check it
         for line in receive():
             print(line)
-            line = line.strip().split()
+            words = line.strip().split()
 
-            raw = ' '.join(line[3:])
-            row = re.sub('[,.?:]', ' ', raw).strip().lower().split()
-
-            if not line:
+            if not words:
                 continue
 
-            if line[0] == "PING":
-                sendMsg("PONG {ARG}\r\n".format(ARG=line[1]))
+            checkIrcActions(words)
+            checkMarvinActions(words)
 
-            if len(line) == 1:
-                continue
 
-            if line[1] == 'INVITE':
-                sendMsg('JOIN {CHANNEL}\r\n'.format(CHANNEL=line[3]))
+def checkIrcActions(words):
+    """
+    Check if Marvin should take action on any messages defined in the
+    IRC protocol.
+    """
+    if words[0] == "PING":
+        sendMsg("PONG {ARG}\r\n".format(ARG=words[1]))
 
-            if line[1] == 'PRIVMSG' and line[2] == CONFIG["channel"]:
-                ircLogAppend(line)
+    if words[1] == 'INVITE':
+        sendMsg('JOIN {CHANNEL}\r\n'.format(CHANNEL=words[3]))
 
-            if line[1] == 'PRIVMSG':
-                if CONFIG["nick"] in row:
-                    for action in ACTIONS:
-                        msg = action(set(row), row, raw)
 
-                        if msg:
-                            sendPrivMsg(msg, line[2])
-                            break
+def checkMarvinActions(words):
+    """
+    Check if Marvin should perform any actions
+    """
+    if words[1] == 'PRIVMSG' and words[2] == CONFIG["channel"]:
+        ircLogAppend(words)
+
+    if words[1] == 'PRIVMSG':
+        raw = ' '.join(words[3:])
+        row = re.sub('[,.?:]', ' ', raw).strip().lower().split()
+
+        if CONFIG["nick"] in row:
+            for action in ACTIONS:
+                msg = action(set(row), row, raw)
+                if msg:
+                    sendPrivMsg(msg, words[2])
+                    break
