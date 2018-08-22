@@ -100,6 +100,7 @@ $feeds = array(
 	7155, 7157, 7158, 7159, 7160, 7161, 7162, 7163, // dataweb vt18
 	
 	7533, 7534, // ht18
+    7549, 7548, 7547, 7546, 7545, 7544, 7543 // python ht18
     ),
 		'callback'=>function($item, $ignore=array()) {
 		  global $success, $ignored, $error;
