@@ -71,8 +71,9 @@ clean:
 	@$(call HELPTEXT,$@)
 	rm -f $(LOGFILES)
 	rm -rf build
-	find -type d -name __pycache__ -exec rm -rf {} \;
-	find -type f -name '*.pyc' -exec rm -f {} \;
+	# These should not remove files in .venv
+	#find . -type d -name __pycache__ -exec rm -rf {} \;
+	#find . -type f -name '*.pyc' -exec rm -f {} \;
 
 
 
@@ -99,6 +100,7 @@ pylint:
 	@install -d build/pylint
 	-pylint --reports=no *.py
 	-@pylint *.py > build/pylint/output.txt
+	#pylint --rcfile=.pylintrc $(PYFILES) | tee build/pylint
 
 
 
@@ -183,13 +185,3 @@ jsonlint: $(JSONFILES)
 
 $(JSONFILES):
 	jsonlint --quiet $@ 2>&1 | tee build/jsonlint-$@
-
-
-
-#
-#
-#
-.PHONY: pylint
-
-pylint:
-	pylint --rcfile=.pylintrc $(PYFILES) | tee build/pylint
