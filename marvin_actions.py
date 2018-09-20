@@ -49,9 +49,8 @@ def getAllActions():
 
 
 # Load all strings from file
-with open("marvin_strings.json") as f:
+with open("marvin_strings.json", encoding="utf-8") as f:
     STRINGS = json.load(f)
-
 
 # Configuration loaded
 CONFIG = None

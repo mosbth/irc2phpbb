@@ -71,8 +71,8 @@ clean:
 	@$(call HELPTEXT,$@)
 	rm -f $(LOGFILES)
 	rm -rf build
+	rm -rf __pycache__
 	# These should not remove files in .venv
-	#find . -type d -name __pycache__ -exec rm -rf {} \;
 	#find . -type f -name '*.pyc' -exec rm -f {} \;
 
 

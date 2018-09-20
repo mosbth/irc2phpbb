@@ -17,7 +17,8 @@ Create your own virtual environment, install the local devevelopment environment
 $ python3 -m venv .venv
 $ alias activate='. .venv/bin/activate'
 $ activate
-$ make install test
+$ make install-tools
+$ make test
 $ python3 main.py
 $ deactivate
 ```

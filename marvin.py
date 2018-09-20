@@ -202,7 +202,8 @@ def ircLogWriteToFile():
     Write IRClog to file.
     """
     with open(CONFIG["irclogfile"], 'w') as f:
-        json.dump(list(IRCLOG), f, False, False, False, False, indent=2)
+        #json.dump(list(IRCLOG), f, False, False, False, False, indent=2)
+        json.dump(list(IRCLOG), f, indent=2)
 
 
 def readincoming():
