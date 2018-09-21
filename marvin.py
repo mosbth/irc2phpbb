@@ -42,6 +42,7 @@ SOCKET = None
 
 # All actions to check for incoming messages
 ACTIONS = []
+GENERAL_ACTIONS = []
 
 # Keep a log of the latest messages
 IRCLOG = None
@@ -71,6 +72,14 @@ def registerActions(actions):
         print(" - " + action.__name__)
     ACTIONS.extend(actions)
 
+def registerGeneralActions(actions):
+    """
+    Register general actions to use.
+    """
+    print("Adding general actions:")
+    for action in actions:
+        print(" - " + action.__name__)
+    GENERAL_ACTIONS.extend(actions)
 
 def connectToServer():
     """
@@ -279,6 +288,12 @@ def checkMarvinActions(words):
 
         if CONFIG["nick"] in row:
             for action in ACTIONS:
+                msg = action(set(row), row, raw)
+                if msg:
+                    sendPrivMsg(msg, words[2])
+                    break
+        else:
+            for action in GENERAL_ACTIONS:
                 msg = action(set(row), row, raw)
                 if msg:
                     sendPrivMsg(msg, words[2])
