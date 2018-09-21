@@ -13,3 +13,5 @@ done/
 config.php
 build/
 .venv
+__pycache__/
+data/marvinMorning_date.txt
