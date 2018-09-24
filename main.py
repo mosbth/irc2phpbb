@@ -45,7 +45,7 @@ import sys
 
 import marvin
 import marvin_actions
-
+import marvin_general_actions
 
 #
 # General stuff about this program
@@ -193,8 +193,11 @@ def main():
     options = parseOptions()
     marvin.setConfig(options)
     marvin_actions.setConfig(options)
+    marvin_general_actions.setConfig(options)
     actions = marvin_actions.getAllActions()
+    general_actions = marvin_general_actions.getAllGeneralActions()
     marvin.registerActions(actions)
+    marvin.registerGeneralActions(general_actions)
     marvin.connectToServer()
     marvin.mainLoop()
 
