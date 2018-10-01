@@ -80,12 +80,15 @@ def marvinMorning(row, asList=None, asStr=None):
             try:
                 file = open('data/marvinMorning_date.txt', 'r+')
                 file_data = file.read()
+                file.close()
 
                 if not file_data == str(datetime.date.today()):
                     f = open('data/marvinMorning_date.txt', 'w')
                     f.write(str(datetime.date.today()))
+                    f.close()
                     return msg
             except IOError:
                 file = open('data/marvinMorning_date.txt', 'w')
                 file.write(str(datetime.date.today()))
+                file.close()
                 return msg
