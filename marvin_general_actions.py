@@ -16,6 +16,9 @@ with open("marvin_strings.json", encoding="utf-8") as f:
 # Configuration loaded
 CONFIG = None
 
+# Have marvin said good morning today?
+todaysDate = datetime.date.today()
+
 def setConfig(config):
     """
     Keep reference to the loaded configuration.
@@ -73,22 +76,12 @@ def marvinMorning(row, asList=None, asStr=None):
         "Morgon"
     ]
 
+    global todaysDate
+
     for phrase in phrases:
         if phrase in row:
-            msg = random.choice(morning_phrases)
 
-            try:
-                file = open('data/marvinMorning_date.txt', 'r+')
-                file_data = file.read()
-                file.close()
-
-                if not file_data == str(datetime.date.today()):
-                    f = open('data/marvinMorning_date.txt', 'w')
-                    f.write(str(datetime.date.today()))
-                    f.close()
-                    return msg
-            except IOError:
-                file = open('data/marvinMorning_date.txt', 'w')
-                file.write(str(datetime.date.today()))
-                file.close()
+            if todaysDate != datetime.date.today():
+                todaysDate = datetime.date.today()
+                msg = random.choice(morning_phrases)
                 return msg
