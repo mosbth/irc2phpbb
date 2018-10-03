@@ -16,8 +16,7 @@ with open("marvin_strings.json", encoding="utf-8") as f:
 # Configuration loaded
 CONFIG = None
 
-# Have marvin said good morning today?
-todaysDate = datetime.date.today()
+lastDateGreeted = datetime.date.today()
 
 def setConfig(config):
     """
@@ -76,12 +75,12 @@ def marvinMorning(row, asList=None, asStr=None):
         "Morgon"
     ]
 
-    global todaysDate
+    global lastDateGreeted
 
     for phrase in phrases:
         if phrase in row:
 
-            if todaysDate != datetime.date.today():
-                todaysDate = datetime.date.today()
+            if lastDateGreeted != datetime.date.today():
+                lastDateGreeted = datetime.date.today()
                 msg = random.choice(morning_phrases)
                 return msg
