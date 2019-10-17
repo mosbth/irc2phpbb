@@ -1,0 +1,5 @@
+version: "2"
+services:
+    marvin:
+        build: .
+        container_name: "MarvinBot"
