@@ -3,3 +3,5 @@ services:
     marvin:
         build: .
         container_name: "MarvinBot"
+        volumes:
+            - "./incoming/:/app/incoming/"
