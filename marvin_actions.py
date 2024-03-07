@@ -424,9 +424,9 @@ def marvinTimeToBBQ(row, asList=None, asStr=None):
             msg = getString("barbecue", "today")
         elif daysRemaining == 1:
             msg = getString("barbecue", "tomorrow")
-        elif daysRemaining < 14 and daysRemaining > 0:
+        elif 0 < daysRemaining < 14:
             msg = getString("barbecue", "week") % nextDate
-        elif daysRemaining < 200 and daysRemaining > 0:
+        elif 0 < daysRemaining < 200:
             msg = getString("barbecue", "base") % nextDate
         else:
             msg = getString("barbecue", "eternity") % nextDate
