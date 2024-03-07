@@ -434,13 +434,15 @@ def marvinTimeToBBQ(row, asList=None, asStr=None):
         return url + ". " + msg
 
 
-def nextBBQ(after=datetime.date.today()):
+def nextBBQ():
     """
-    Calculate the next grillcon date after a given date (or from today)
+    Calculate the next grillcon date after today
     """
+
     MAY = 5
     SEPTEMBER = 9
 
+    after = datetime.date.today()
     spring = thirdFridayIn(after.year, MAY)
     if after <= spring:
         return spring
