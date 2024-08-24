@@ -88,7 +88,7 @@ prepare:
 # target: test                - Run all tests.
 .PHONY: test
 #test: prepare jsonlint pylint pycodestyle flake8 unittest doctest coverage
-test: prepare jsonlint pylint # pycodestyle flake8 unittest doctest coverage
+test: prepare jsonlint pylint unittest # pycodestyle flake8 doctest coverage
 	@$(call HELPTEXT,$@)
 
 
@@ -126,7 +126,7 @@ flake8:
 .PHONY: unittest
 unittest:
 	@$(call HELPTEXT,$@)
-	python3 -m unittest discover -b -s tests
+	python3 -m unittest discover
 
 
 
