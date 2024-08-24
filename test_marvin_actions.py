@@ -50,3 +50,15 @@ class ActionTest(unittest.TestCase):
         self.assertStringsOutput(marvin_actions.marvinWhoIs, "vem är marvin?", "whois")
         self.assertActionSilent(marvin_actions.marvinWhoIs, "vemär")
 
+    def testExplainShell(self):
+        """Test that marvin can explain shell commands"""
+        url = "http://explainshell.com/explain?cmd=pwd"
+        self.assertActionOutput(marvin_actions.marvinExplainShell, "explain pwd", url)
+        self.assertActionOutput(marvin_actions.marvinExplainShell, "can you explain pwd", url)
+        self.assertActionOutput(
+            marvin_actions.marvinExplainShell,
+            "förklara pwd|grep -o $user",
+            f"{url}%7Cgrep+-o+%24user")
+
+        self.assertActionSilent(marvin_actions.marvinExplainShell, "explains")
+
