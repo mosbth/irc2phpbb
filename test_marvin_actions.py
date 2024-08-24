@@ -68,3 +68,10 @@ class ActionTest(unittest.TestCase):
         self.assertStringsOutput(marvin_actions.marvinSource, "källkod", "source")
         self.assertActionSilent(marvin_actions.marvinSource, "opensource")
 
+    def testBudord(self):
+        """Test that marvin knows all the commandments"""
+        for n in range(1, 5):
+            self.assertStringsOutput(marvin_actions.marvinBudord, f"budord #{n}", "budord", f"#{n}")
+
+        self.assertStringsOutput(marvin_actions.marvinBudord,"visa stentavla 1", "budord", "#1")
+        self.assertActionSilent(marvin_actions.marvinBudord, "var är stentavlan?")
