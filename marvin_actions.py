@@ -121,7 +121,7 @@ def marvinGoogle(row, asList=None, asStr=None):
 
 def marvinExplainShell(row, asList=None, asStr=None):
     """
-    Let Marvin present an url to the service explin shell to
+    Let Marvin present an url to the service explain shell to
     explain a shell command.
     """
     msg = None
