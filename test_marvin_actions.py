@@ -9,6 +9,8 @@ import json
 import re
 import unittest
 
+from unittest import mock
+
 import marvin_actions
 
 class ActionTest(unittest.TestCase):
@@ -37,11 +39,12 @@ class ActionTest(unittest.TestCase):
 
     def assertStringsOutput(self, action, message, expectedoutputKey, subkey=None):
         """Call an action with provided message and assert the output is equal to DB"""
-        if subkey:
-            expectedOutput = self.strings.get(expectedoutputKey).get(subkey)
-        else:
-            expectedOutput = self.strings.get(expectedoutputKey)
-
+        expectedOutput = self.strings.get(expectedoutputKey)
+        if subkey is not None:
+            if isinstance(expectedOutput, list):
+                expectedOutput = expectedOutput[subkey]
+            else:
+                expectedOutput = expectedOutput.get(subkey)
         self.assertActionOutput(action, message, expectedOutput)
 
 
@@ -75,3 +78,16 @@ class ActionTest(unittest.TestCase):
 
         self.assertStringsOutput(marvin_actions.marvinBudord,"visa stentavla 1", "budord", "#1")
         self.assertActionSilent(marvin_actions.marvinBudord, "var är stentavlan?")
+
+    def testQuote(self):
+        """Test that marvin can quote The Hitchhikers Guide to the Galaxy"""
+        with mock.patch("marvin_actions.random") as r:
+            r.randint.return_value = 1
+            self.assertStringsOutput(marvin_actions.marvinQuote, "ge os ett citat", "hitchhiker", 1)
+            self.assertStringsOutput(marvin_actions.marvinQuote, "filosofi", "hitchhiker", 1)
+            self.assertStringsOutput(marvin_actions.marvinQuote, "filosofera", "hitchhiker", 1)
+            self.assertActionSilent(marvin_actions.marvinQuote, "noquote")
+
+            for i,_ in enumerate(self.strings.get("hitchhiker")):
+                r.randint.return_value = i
+                self.assertStringsOutput(marvin_actions.marvinQuote, "quote", "hitchhiker", i)
