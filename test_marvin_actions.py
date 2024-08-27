@@ -117,3 +117,13 @@ class ActionTest(unittest.TestCase):
         """Test that marvin can provide a link to the IRC log"""
         self.assertStringsOutput(marvin_actions.marvinIrcLog, "irc", "irclog")
         self.assertActionSilent(marvin_actions.marvinIrcLog, "ircstats")
+
+    def testSayHi(self):
+        """Test that marvin responds to greetings"""
+        with mock.patch("marvin_actions.random") as r:
+            for skey, s in enumerate(self.strings.get("smile")):
+                for hkey, h in enumerate(self.strings.get("hello")):
+                    for fkey, f in enumerate(self.strings.get("friendly")):
+                        r.randint.side_effect = [skey, hkey, fkey]
+                        self.assertActionOutput(marvin_actions.marvinSayHi, "hej", f"{s} {h} {f}")
+        self.assertActionSilent(marvin_actions.marvinSayHi, "korsning")
