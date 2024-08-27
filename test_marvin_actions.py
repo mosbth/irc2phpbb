@@ -103,3 +103,7 @@ class ActionTest(unittest.TestCase):
                 self.assertActionOutput(marvin_actions.marvinVideoOfToday, "dagens video", response)
         self.assertActionSilent(marvin_actions.marvinVideoOfToday, "videoidag")
 
+    def testHelp(self):
+        """Test that marvin can provide a help menu"""
+        self.assertStringsOutput(marvin_actions.marvinHelp, "help", "menu")
+        self.assertActionSilent(marvin_actions.marvinHelp, "halp")
