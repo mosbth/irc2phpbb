@@ -112,3 +112,8 @@ class ActionTest(unittest.TestCase):
         """Test that marvin can provide a link to the IRC stats page"""
         self.assertStringsOutput(marvin_actions.marvinStats, "stats", "ircstats")
         self.assertActionSilent(marvin_actions.marvinStats, "statistics")
+
+    def testIRCLog(self):
+        """Test that marvin can provide a link to the IRC log"""
+        self.assertStringsOutput(marvin_actions.marvinIrcLog, "irc", "irclog")
+        self.assertActionSilent(marvin_actions.marvinIrcLog, "ircstats")
