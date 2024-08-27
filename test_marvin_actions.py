@@ -91,3 +91,15 @@ class ActionTest(unittest.TestCase):
             for i,_ in enumerate(self.strings.get("hitchhiker")):
                 r.randint.return_value = i
                 self.assertStringsOutput(marvin_actions.marvinQuote, "quote", "hitchhiker", i)
+
+    def testVideoOfToday(self):
+        """Test that marvin can link to a different video each day of the week"""
+        with mock.patch("marvin_actions.datetime") as dt:
+            for d in range(1, 8):
+                dt.date.weekday.return_value = d - 1
+                day =  self.strings.get("weekdays").get(str(d))
+                video = self.strings.get("video-of-today").get(str(d))
+                response = f"{day} En passande video är {video}"
+                self.assertActionOutput(marvin_actions.marvinVideoOfToday, "dagens video", response)
+        self.assertActionSilent(marvin_actions.marvinVideoOfToday, "videoidag")
+
