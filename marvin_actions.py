@@ -281,7 +281,7 @@ def marvinLunch(row, asList=None, asStr=None):
         'ängelholm angelholm engelholm': 'lunch-angelholm',
         'hässleholm hassleholm': 'lunch-hassleholm',
         'malmö malmo malmoe': 'lunch-malmo',
-        'göteborg gbg': 'lunch-goteborg'
+        'göteborg goteborg gbg': 'lunch-goteborg'
     }
 
     if row.intersection(['lunch', 'mat', 'äta', 'luncha']):
