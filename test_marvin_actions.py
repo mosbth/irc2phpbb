@@ -229,3 +229,13 @@ class ActionTest(unittest.TestCase):
         """Test that marvin can provide the link to the stream"""
         self.assertStringsOutput(marvin_actions.marvinStream, "ska mos streama?", "stream", "info")
         self.assertActionSilent(marvin_actions.marvinStream, "är mos en streamer?")
+
+    def testPrinciple(self):
+        """Test that marvin can recite some software principles"""
+        principles = self.strings.get("principle")
+        for key, value in principles.items():
+            self.assertActionOutput(marvin_actions.marvinPrinciple, f"princip {key}", value)
+        with mock.patch("marvin_actions.random") as r:
+            r.choice.return_value = "dry"
+            self.assertStringsOutput(marvin_actions.marvinPrinciple, "princip", "principle", "dry")
+        self.assertActionSilent(marvin_actions.marvinPrinciple, "principlös")
