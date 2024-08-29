@@ -219,3 +219,8 @@ class ActionTest(unittest.TestCase):
         self.assertNameDayOutput("double", "Idag har Alfred,Alfrida namnsdag")
         # FIXME
         self.assertNameDayOutput("nobody", "Idag har  namnsdag")
+
+    def testUptime(self):
+        """Test that marvin can provide the link to the uptime tournament"""
+        self.assertStringsOutput(marvin_actions.marvinUptime, "visa lite uptime", "uptime", "info")
+        self.assertActionSilent(marvin_actions.marvinUptime, "uptimetävling")
