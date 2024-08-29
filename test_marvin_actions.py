@@ -239,3 +239,19 @@ class ActionTest(unittest.TestCase):
             r.choice.return_value = "dry"
             self.assertStringsOutput(marvin_actions.marvinPrinciple, "princip", "principle", "dry")
         self.assertActionSilent(marvin_actions.marvinPrinciple, "principlös")
+
+    def testCommitRequest(self):
+        """Test that marvin sends proper requests when generating commit messages"""
+        with mock.patch("marvin_actions.requests") as r:
+            self.executeAction(marvin_actions.marvinCommit, "vad skriver man efter commit -m?")
+            self.assertEqual(r.get.call_args.args[0], "http://whatthecommit.com/index.txt")
+
+    def testCommitResponse(self):
+        """Test that marvin properly handles responses when generating commit messages"""
+        message = "Secret sauce #9"
+        response = requests.models.Response()
+        response._content = str.encode(message)
+        with mock.patch("marvin_actions.requests") as r:
+            r.get.return_value = response
+            expected = f"Use this message: '{message}'"
+            self.assertActionOutput(marvin_actions.marvinCommit, "commit", expected)
