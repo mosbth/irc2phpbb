@@ -224,3 +224,8 @@ class ActionTest(unittest.TestCase):
         """Test that marvin can provide the link to the uptime tournament"""
         self.assertStringsOutput(marvin_actions.marvinUptime, "visa lite uptime", "uptime", "info")
         self.assertActionSilent(marvin_actions.marvinUptime, "uptimetävling")
+
+    def testStream(self):
+        """Test that marvin can provide the link to the stream"""
+        self.assertStringsOutput(marvin_actions.marvinStream, "ska mos streama?", "stream", "info")
+        self.assertActionSilent(marvin_actions.marvinStream, "är mos en streamer?")
