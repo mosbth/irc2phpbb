@@ -1,0 +1,20 @@
+{
+  "cachetid": "2024-08-29 18:29:55",
+  "version": "2.1",
+  "uri": "/dagar/v2.1/2024/01/01",
+  "startdatum": "2024-01-01",
+  "slutdatum": "2024-01-01",
+  "dagar": [
+    {
+      "datum": "2024-01-01",
+      "veckodag": "Måndag",
+      "arbetsfri dag": "Ja",
+      "röd dag": "Ja",
+      "vecka": "01",
+      "dag i vecka": "1",
+      "helgdag": "Nyårsdagen",
+      "namnsdag": [],
+      "flaggdag": "Nyårsdagen"
+    }
+  ]
+}

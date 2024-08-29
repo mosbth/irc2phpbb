@@ -12,6 +12,8 @@ import unittest
 from datetime import date
 from unittest import mock
 
+import requests
+
 import marvin_actions
 
 class ActionTest(unittest.TestCase):
@@ -24,11 +26,16 @@ class ActionTest(unittest.TestCase):
             cls.strings = json.load(f)
 
 
-    def assertActionOutput(self, action, message, expectedOutput):
-        """Call an action on message and assert expected output"""
+    def executeAction(self, action, message):
+        """Execute an action for a message and return the response"""
         row = re.sub('[,.?:]', ' ', message).strip().lower().split()
 
-        actualOutput = action(set(row), row, message)
+        return action(set(row), row, message)
+
+
+    def assertActionOutput(self, action, message, expectedOutput):
+        """Call an action on message and assert expected output"""
+        actualOutput = self.executeAction(action, message)
 
         self.assertEqual(actualOutput, expectedOutput)
 
@@ -64,6 +71,16 @@ class ActionTest(unittest.TestCase):
                 r.randint.return_value = 1
                 expected = f"{url}. {message}"
                 self.assertActionOutput(marvin_actions.marvinTimeToBBQ, "dags att grilla", expected)
+
+
+    def assertNameDayOutput(self, exampleFile, expectedOutput):
+        """Assert that the proper nameday message is returned, given an inputfile"""
+        with open(f"namedayFiles/{exampleFile}.json", "r", encoding="UTF-8") as f:
+            response = requests.models.Response()
+            response._content = str.encode(json.dumps(json.load(f)))
+            with mock.patch("marvin_actions.requests") as r:
+                r.get.return_value = response
+                self.assertActionOutput(marvin_actions.marvinNameday, "nameday", expectedOutput)
 
 
     def testWhois(self):
@@ -187,3 +204,18 @@ class ActionTest(unittest.TestCase):
         self.assertBBQResponse(date(2024, 9, 19), date(2024, 9, 20), "tomorrow")
         self.assertBBQResponse(date(2024, 9, 13), date(2024, 9, 20), "week")
         self.assertBBQResponse(date(2024, 9, 4), date(2024, 9, 20), "base")
+
+    def testNameDayRequest(self):
+        """Test that marvin sends a proper request for nameday info"""
+        with mock.patch("marvin_actions.requests") as r:
+            with mock.patch("marvin_actions.datetime") as d:
+                d.datetime.now.return_value = date(2024, 1, 2)
+                self.executeAction(marvin_actions.marvinNameday, "namnsdag")
+                self.assertEqual(r.get.call_args.args[0], "http://api.dryg.net/dagar/v2.1/2024/1/2")
+
+    def testNameDayResponse(self):
+        """Test that marvin properly parses nameday responses"""
+        self.assertNameDayOutput("single", "Idag har Svea namnsdag")
+        self.assertNameDayOutput("double", "Idag har Alfred,Alfrida namnsdag")
+        # FIXME
+        self.assertNameDayOutput("nobody", "Idag har  namnsdag")
