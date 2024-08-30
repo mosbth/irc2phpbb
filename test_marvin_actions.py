@@ -217,8 +217,7 @@ class ActionTest(unittest.TestCase):
         """Test that marvin properly parses nameday responses"""
         self.assertNameDayOutput("single", "Idag har Svea namnsdag")
         self.assertNameDayOutput("double", "Idag har Alfred,Alfrida namnsdag")
-        # FIXME
-        self.assertNameDayOutput("nobody", "Idag har  namnsdag")
+        self.assertNameDayOutput("nobody", "Ingen har namnsdag idag")
 
     def testUptime(self):
         """Test that marvin can provide the link to the uptime tournament"""

@@ -507,8 +507,11 @@ def marvinNameday(row, asList=None, asStr=None):
             url = raw_url.format(year=now.year, month=now.month, day=now.day)
             r = requests.get(url)
             nameday_data = r.json()
-            name = ",".join(nameday_data["dagar"][0]["namnsdag"])
-            msg = getString("nameday", "somebody").format(name)
+            names = nameday_data["dagar"][0]["namnsdag"]
+            if names:
+                msg = getString("nameday", "somebody").format(",".join(names))
+            else:
+                msg = getString("nameday", "nobody")
         except Exception:
             msg = getString("nameday", "error")
         return msg
