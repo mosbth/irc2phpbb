@@ -584,7 +584,7 @@ def marvinCommit(row, asList=None, asStr=None):
     """
     Display a random commit message
     """
-    commitMsg = "Use this message: '{}'"
+    commitMsg = "Använd detta meddelandet: '{}'"
     msg = None
     if row.intersection(["commit", "-m"]):
         msg = getCommit()

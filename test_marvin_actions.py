@@ -252,5 +252,5 @@ class ActionTest(unittest.TestCase):
         response._content = str.encode(message)
         with mock.patch("marvin_actions.requests") as r:
             r.get.return_value = response
-            expected = f"Use this message: '{message}'"
+            expected = f"Använd detta meddelandet: '{message}'"
             self.assertActionOutput(marvin_actions.marvinCommit, "commit", expected)
