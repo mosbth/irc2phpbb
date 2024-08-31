@@ -83,6 +83,13 @@ class ActionTest(unittest.TestCase):
                 self.assertActionOutput(marvin_actions.marvinNameday, "nameday", expectedOutput)
 
 
+    def testSmile(self):
+        """Test that marvin can smile"""
+        with mock.patch("marvin_actions.random") as r:
+            r.randint.return_value = 1
+            self.assertStringsOutput(marvin_actions.marvinSmile, "le lite?", "smile", 1)
+        self.assertActionSilent(marvin_actions.marvinSmile, "sur idag?")
+
     def testWhois(self):
         """Test that marvin responds to whois"""
         self.assertStringsOutput(marvin_actions.marvinWhoIs, "vem är marvin?", "whois")
