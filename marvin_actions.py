@@ -83,101 +83,100 @@ def getString(key, key1=None):
     return res
 
 
-def marvinSmile(row, asList=None, asStr=None):
+def marvinSmile(row):
     """
     Make Marvin smile.
     """
     msg = None
-    if row.intersection(['smile', 'le', 'skratta', 'smilies']):
+    if any(r in row for r in ["smile", "le", "skratta", "smilies"]):
         smilie = getString("smile")
         msg = "{SMILE}".format(SMILE=smilie)
     return msg
 
 
-def marvinGoogle(row, asList=None, asStr=None):
+def wordsAfterKeyWords(words, keyWords):
+    """
+    Return all items in the words list after the first occurence
+    of an item in the keyWords list.
+    """
+    kwIndex = []
+    for kw in keyWords:
+        if kw in words:
+            kwIndex.append(words.index(kw))
+
+    if not kwIndex:
+        return None
+
+    return words[min(kwIndex)+1:]
+
+
+def marvinGoogle(row):
     """
     Let Marvin present an url to google.
     """
-    msg = None
-    match = row.intersection(['google', 'googla'])
+    query = wordsAfterKeyWords(row, ["google", "googla"])
+    if not query:
+        return None
 
-    if match:
-        # Find the google word and take the rest as the query string
-        startAt = next(iter(match))
-        searchStart = asList.index(startAt) + 1
-
-        if searchStart >= len(asList):
-            searchStr = ""
-        else:
-            searchStr = " ".join(asList[searchStart:])
-
-        url = "https://www.google.se/search?q="
-        url += quote_plus(searchStr)
-        google = getString("google")
-        msg = google.format(url)
-
-    return msg
+    searchStr = " ".join(query)
+    url = "https://www.google.se/search?q="
+    url += quote_plus(searchStr)
+    msg = getString("google")
+    return msg.format(url)
 
 
-def marvinExplainShell(row, asList=None, asStr=None):
+def marvinExplainShell(row):
     """
     Let Marvin present an url to the service explain shell to
     explain a shell command.
     """
-    msg = None
-    match = row.intersection(['explain', 'förklara'])
-
-    if match:
-        # Find the matching word and take the rest as the query string
-        matchedStr = match.pop()
-        startAt = asStr.find(matchedStr) + len(matchedStr)
-        searchStr = asStr[startAt:].strip()
-
-        url = "http://explainshell.com/explain?cmd="
-        url += quote_plus(searchStr, "/:")
-        explain = getString("explainShell")
-        msg = explain.format(url)
-
-    return msg
+    query = wordsAfterKeyWords(row, ["explain", "förklara"])
+    if not query:
+        return None
+    cmd = " ".join(query)
+    url = "http://explainshell.com/explain?cmd="
+    url += quote_plus(cmd, "/:")
+    msg = getString("explainShell")
+    return msg.format(url)
 
 
-def marvinSource(row, asList=None, asStr=None):
+def marvinSource(row):
     """
     State message about sourcecode.
     """
     msg = None
-    if row.intersection(['källkod', 'source']):
+    if any(r in row for r in ["källkod", "source"]):
         msg = getString("source")
 
     return msg
 
 
-def marvinBudord(row, asList=None, asStr=None):
+def marvinBudord(row):
     """
     What are the budord for Marvin?
     """
     msg = None
-    if row.intersection(['budord', 'stentavla']):
-        if row.intersection(['1', '#1']):
+    if any(r in row for r in ["budord", "stentavla"]):
+        if any(r in row for r in ["#1", "1"]):
             msg = getString("budord", "#1")
-        elif row.intersection(['2', '#2']):
+        elif any(r in row for r in ["#2", "2"]):
             msg = getString("budord", "#2")
-        elif row.intersection(['3', '#3']):
+        elif any(r in row for r in ["#3", "3"]):
             msg = getString("budord", "#3")
-        elif row.intersection(['4', '#4']):
+        elif any(r in row for r in ["#4", "4"]):
             msg = getString("budord", "#4")
-        elif row.intersection(['5', '#5']):
+        elif any(r in row for r in ["#5", "5"]):
             msg = getString("budord", "#5")
 
     return msg
 
 
-def marvinQuote(row, asList=None, asStr=None):
+def marvinQuote(row):
     """
     Make a quote.
     """
     msg = None
-    if row.intersection(['quote', 'citat', 'filosofi', 'filosofera']):
+    if any(r in row for r in ["quote", "citat", "filosofi", "filosofera"]):
         msg = getString("hitchhiker")
 
     return msg
@@ -199,70 +198,71 @@ def videoOfToday():
     return msg
 
 
-def marvinVideoOfToday(row, asList=None, asStr=None):
+def marvinVideoOfToday(row):
     """
     Show the video of today.
     """
     msg = None
-    if row.intersection(['idag', 'dagens']) and row.intersection(['video', 'youtube', 'tube']):
-        msg = videoOfToday()
+    if any(r in row for r in ["idag", "dagens"]):
+        if any(r in row for r in ["video", "youtube", "tube"]):
+            msg = videoOfToday()
 
     return msg
 
 
-def marvinWhoIs(row, asList=None, asStr=None):
+def marvinWhoIs(row):
     """
     Who is Marvin.
     """
     msg = None
-    if row.issuperset(['vem', 'är']):
+    if all(r in row for r in ["vem", "är"]):
         msg = getString("whois")
 
     return msg
 
 
-def marvinHelp(row, asList=None, asStr=None):
+def marvinHelp(row):
     """
     Provide a menu.
     """
     msg = None
-    if row.intersection(['hjälp', 'help', 'menu', 'meny']):
+    if any(r in row for r in ["hjälp", "help", "menu", "meny"]):
         msg = getString("menu")
 
     return msg
 
 
-def marvinStats(row, asList=None, asStr=None):
+def marvinStats(row):
     """
     Provide a link to the stats.
     """
     msg = None
-    if row.intersection(['stats', 'statistik', 'ircstats']):
+    if any(r in row for r in ["stats", "statistik", "ircstats"]):
         msg = getString("ircstats")
 
     return msg
 
 
-def marvinIrcLog(row, asList=None, asStr=None):
+def marvinIrcLog(row):
     """
     Provide a link to the irclog
     """
     msg = None
-    if row.intersection(['irc', 'irclog', 'log', 'irclogg', 'logg', 'historik']):
+    if any(r in row for r in ["irc", "irclog", "log", "irclogg", "logg", "historik"]):
         msg = getString("irclog")
 
     return msg
 
 
-def marvinSayHi(row, asList=None, asStr=None):
+def marvinSayHi(row):
     """
     Say hi with a nice message.
     """
     msg = None
-    if row.intersection([
-            'snälla', 'hej', 'tjena', 'morsning', 'morrn', 'mår', 'hallå',
-            'halloj', 'läget', 'snäll', 'duktig', 'träna', 'träning',
-            'utbildning', 'tack', 'tacka', 'tackar', 'tacksam'
+    if any(r in row for r in [
+            "snälla", "hej", "tjena", "morsning", "morrn", "mår", "hallå",
+            "halloj", "läget", "snäll", "duktig", "träna", "träning",
+            "utbildning", "tack", "tacka", "tackar", "tacksam"
     ]):
         smile = getString("smile")
         hello = getString("hello")
@@ -272,7 +272,7 @@ def marvinSayHi(row, asList=None, asStr=None):
     return msg
 
 
-def marvinLunch(row, asList=None, asStr=None):
+def marvinLunch(row):
     """
     Help decide where to eat.
     """
@@ -284,11 +284,11 @@ def marvinLunch(row, asList=None, asStr=None):
         'göteborg goteborg gbg': 'lunch-goteborg'
     }
 
-    if row.intersection(['lunch', 'mat', 'äta', 'luncha']):
+    if any(r in row for r in ["lunch", "mat", "äta", "luncha"]):
         lunchStr = getString('lunch-message')
 
         for keys, value in lunchOptions.items():
-            if row.intersection(keys.split(' ')):
+            if any(r in row for r in keys.split(" ")):
                 return lunchStr.format(getString(value))
 
         return lunchStr.format(getString('lunch-bth'))
@@ -296,13 +296,12 @@ def marvinLunch(row, asList=None, asStr=None):
     return None
 
 
-def marvinListen(row, asList=None, asStr=None):
+def marvinListen(row):
     """
     Return music last listened to.
     """
     msg = None
-
-    if row.intersection(['lyssna', 'lyssnar', 'musik']):
+    if any(r in row for r in ["lyssna", "lyssnar", "musik"]):
 
         if not CONFIG["lastfm"]:
             return getString("listen", "disabled")
@@ -333,12 +332,12 @@ def marvinListen(row, asList=None, asStr=None):
     return msg
 
 
-def marvinSun(row, asList=None, asStr=None):
+def marvinSun(row):
     """
     Check when the sun goes up and down.
     """
     msg = None
-    if row.intersection(['sol', 'solen', 'solnedgång', 'soluppgång']):
+    if any(r in row for r in ["sol", "solen", "solnedgång", "soluppgång"]):
         try:
             soup = BeautifulSoup(urlopen('http://www.timeanddate.com/sun/sweden/jonkoping'))
             spans = soup.find_all("span", {"class": "three"})
@@ -352,12 +351,12 @@ def marvinSun(row, asList=None, asStr=None):
     return msg
 
 
-def marvinWeather(row, asList=None, asStr=None):
+def marvinWeather(row):
     """
     Check what the weather prognosis looks like.
     """
     msg = None
-    if row.intersection(["väder", "vädret", "prognos", "prognosen", "smhi"]):
+    if any(r in row for r in ["väder", "vädret", "prognos", "prognosen", "smhi"]):
         url = getString("smhi", "url")
         try:
             soup = BeautifulSoup(urlopen(url))
@@ -373,13 +372,13 @@ def marvinWeather(row, asList=None, asStr=None):
     return msg
 
 
-def marvinStrip(row, asList=None, asStr=None):
+def marvinStrip(row):
     """
     Get a comic strip.
     """
     msg = None
-    if row.intersection(['strip', 'comic', 'nöje', 'paus']):
-        if row.intersection(['rand', 'random', 'slump', 'lucky']):
+    if any(r in row for r in ["strip", "comic", "nöje", "paus"]):
+        if any(r in row for r in ["rand", "random", "slump", "lucky"]):
             msg = commitStrip(randomize=True)
         else:
             msg = commitStrip()
@@ -409,12 +408,12 @@ def commitStrip(randomize=False):
 #        feed=feedparser.parse(FEED_FORUM)
 
 
-def marvinTimeToBBQ(row, asList=None, asStr=None):
+def marvinTimeToBBQ(row):
     """
     Calcuate the time to next barbecue and print a appropriate msg
     """
     msg = None
-    if row.intersection(['grilla', 'grill', 'grillcon', 'bbq']):
+    if any(r in row for r in ["grilla", "grill", "grillcon", "bbq"]):
         url = getString("barbecue", "url")
         nextDate = nextBBQ()
         today = datetime.date.today()
@@ -468,12 +467,12 @@ def thirdFridayIn(y, m):
     return cal.monthdatescalendar(y, m)[THIRD][FRIDAY]
 
 
-def marvinBirthday(row, asList=None, asStr=None):
+def marvinBirthday(row):
     """
     Check birthday info
     """
     msg = None
-    if row.intersection(['birthday', 'födelsedag']):
+    if any(r in row for r in ["birthday", "födelsedag"]):
         try:
             url = getString("birthday", "url")
             soup = BeautifulSoup(urlopen(url), "html.parser")
@@ -495,12 +494,12 @@ def marvinBirthday(row, asList=None, asStr=None):
 
         return msg
 
-def marvinNameday(row, asList=None, asStr=None):
+def marvinNameday(row):
     """
     Check current nameday
     """
     msg = getString("nameday", "nobody")
-    if row.intersection(['nameday', 'namnsdag']):
+    if any(r in row for r in ["nameday", "namnsdag"]):
         try:
             now = datetime.datetime.now()
             raw_url = "http://api.dryg.net/dagar/v2.1/{year}/{month}/{day}"
@@ -516,34 +515,35 @@ def marvinNameday(row, asList=None, asStr=None):
             msg = getString("nameday", "error")
         return msg
 
-def marvinUptime(row, asList=None, asStr=None):
+def marvinUptime(row):
     """
     Display info about uptime tournament
     """
     msg = None
-    if row.intersection(['uptime']):
+    if "uptime" in row:
         msg = getString("uptime", "info")
         return msg
 
-def marvinStream(row, asList=None, asStr=None):
+def marvinStream(row):
     """
     Display info about stream
     """
     msg = None
-    if row.intersection(['stream', 'streama', 'ström', 'strömma']):
+    if any(r in row for r in ["stream", "streama", "ström", "strömma"]):
         msg = getString("stream", "info")
         return msg
 
-def marvinPrinciple(row, asList=None, asStr=None):
+def marvinPrinciple(row):
     """
     Display one selected software principle, or provide one as random
     """
-    if row.intersection(['principle', 'princip', 'principer']):
+    if any(r in row for r in ["principle", "princip", "principer"]):
         principles = getString("principle")
-        key = row.intersection(list(principles.keys()))
-        if key:
-            return principles[key.pop()]
-        return principles[random.choice(list(principles.keys()))]
+        principleKeys = list(principles.keys())
+        matchedKeys = [k for k in row if k in principleKeys]
+        if matchedKeys:
+            return principles[matchedKeys.pop()]
+        return principles[random.choice(principleKeys)]
 
 def getJoke():
     """
@@ -559,12 +559,12 @@ def getJoke():
     except Exception:
         return getString("joke", "error")
 
-def marvinJoke(row, asList=None, asStr=None):
+def marvinJoke(row):
     """
     Display a random Chuck Norris joke
     """
     msg = None
-    if row.intersection(["joke", "skämt", "chuck norris", "chuck", "norris"]):
+    if any(r in row for r in ["joke", "skämt", "chuck norris", "chuck", "norris"]):
         msg = getJoke()
         return msg
 
@@ -580,12 +580,12 @@ def getCommit():
     except Exception:
         return getString("commit", "error")
 
-def marvinCommit(row, asList=None, asStr=None):
+def marvinCommit(row):
     """
     Display a random commit message
     """
     commitMsg = "Använd detta meddelandet: '{}'"
     msg = None
-    if row.intersection(["commit", "-m"]):
+    if any(r in row for r in ["commit", "-m"]):
         msg = getCommit()
         return commitMsg.format(msg)

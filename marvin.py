@@ -288,13 +288,13 @@ def checkMarvinActions(words):
 
         if CONFIG["nick"] in row:
             for action in ACTIONS:
-                msg = action(set(row), row, raw)
+                msg = action(row)
                 if msg:
                     sendPrivMsg(msg, words[2])
                     break
         else:
             for action in GENERAL_ACTIONS:
-                msg = action(set(row), row, raw)
+                msg = action(row)
                 if msg:
                     sendPrivMsg(msg, words[2])
                     break

@@ -29,9 +29,7 @@ class ActionTest(unittest.TestCase):
 
     def executeAction(self, action, message):
         """Execute an action for a message and return the response"""
-        row = re.sub('[,.?:]', ' ', message).strip().lower().split()
-
-        return action(set(row), row, message)
+        return action(re.sub('[,.?:]', ' ', message).strip().lower().split())
 
 
     def assertActionOutput(self, action, message, expectedOutput):
@@ -104,12 +102,12 @@ class ActionTest(unittest.TestCase):
                 marvin_actions.marvinGoogle,
                 "kan du googla mos",
                 "LMGTFY https://www.google.se/search?q=mos")
-            # FIXME
             self.assertActionOutput(
                 marvin_actions.marvinGoogle,
-                "du kan googla",
-                "LMGTFY https://www.google.se/search?q=")
-        self.assertActionSilent(marvin_actions.marvinGoogle, "googol")
+                "kan du googla google mos",
+                "LMGTFY https://www.google.se/search?q=google+mos")
+        self.assertActionSilent(marvin_actions.marvinGoogle, "du kan googla")
+        self.assertActionSilent(marvin_actions.marvinGoogle, "gogool")
 
     def testExplainShell(self):
         """Test that marvin can explain shell commands"""

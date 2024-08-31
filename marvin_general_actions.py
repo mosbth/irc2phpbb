@@ -55,7 +55,7 @@ def getAllGeneralActions():
     ]
 
 
-def marvinMorning(row, asList=None, asStr=None):
+def marvinMorning(row):
     """
     Marvin says Good morning after someone else says it
     """
