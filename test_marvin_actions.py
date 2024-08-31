@@ -95,6 +95,21 @@ class ActionTest(unittest.TestCase):
         self.assertStringsOutput(marvin_actions.marvinWhoIs, "vem är marvin?", "whois")
         self.assertActionSilent(marvin_actions.marvinWhoIs, "vemär")
 
+    def testGoogle(self):
+        """Test that marvin can help google stuff"""
+        with mock.patch("marvin_actions.random") as r:
+            r.randint.return_value = 1
+            self.assertActionOutput(
+                marvin_actions.marvinGoogle,
+                "kan du googla mos",
+                "LMGTFY https://www.google.se/search?q=mos")
+            # FIXME
+            self.assertActionOutput(
+                marvin_actions.marvinGoogle,
+                "du kan googla",
+                "LMGTFY https://www.google.se/search?q=")
+        self.assertActionSilent(marvin_actions.marvinGoogle, "googol")
+
     def testExplainShell(self):
         """Test that marvin can explain shell commands"""
         url = "http://explainshell.com/explain?cmd=pwd"
