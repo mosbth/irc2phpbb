@@ -101,7 +101,7 @@ def mergeOptionsWithConfigFile(options, configFile):
     Read information from config file.
     """
     if os.path.isfile(configFile):
-        with open(configFile) as f:
+        with open(configFile, encoding="UTF-8") as f:
             data = json.load(f)
 
         options.update(data)

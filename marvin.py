@@ -210,7 +210,7 @@ def ircLogWriteToFile():
     """
     Write IRClog to file.
     """
-    with open(CONFIG["irclogfile"], 'w') as f:
+    with open(CONFIG["irclogfile"], 'w', encoding="UTF-8") as f:
         #json.dump(list(IRCLOG), f, False, False, False, False, indent=2)
         json.dump(list(IRCLOG), f, indent=2)
 
@@ -228,7 +228,7 @@ def readincoming():
     for infile in listing:
         filename = os.path.join(CONFIG["dirIncoming"], infile)
 
-        with open(filename, "r") as f:
+        with open(filename, "r", encoding="UTF-8") as f:
             for msg in f:
                 sendPrivMsg(msg, CONFIG["channel"])
 
