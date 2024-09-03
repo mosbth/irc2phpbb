@@ -317,7 +317,7 @@ def marvinListen(row):
                 limit="1"
             )
 
-            resp = requests.get(url=url, params=params)
+            resp = requests.get(url=url, params=params, timeout=5)
             data = json.loads(resp.text)
 
             artist = data["recenttracks"]["track"][0]["artist"]["#text"]
@@ -504,7 +504,7 @@ def marvinNameday(row):
             now = datetime.datetime.now()
             raw_url = "http://api.dryg.net/dagar/v2.1/{year}/{month}/{day}"
             url = raw_url.format(year=now.year, month=now.month, day=now.day)
-            r = requests.get(url)
+            r = requests.get(url, timeout=5)
             nameday_data = r.json()
             names = nameday_data["dagar"][0]["namnsdag"]
             if names:
@@ -575,7 +575,7 @@ def getCommit():
     """
     try:
         url = getString("commit", "url")
-        r = requests.get(url)
+        r = requests.get(url, timeout=5)
         res = r.text.strip()
         return res
     except Exception:
