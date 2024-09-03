@@ -239,7 +239,7 @@
     },
     "nameday": {
         "somebody": "Idag har {} namnsdag",
-        "nobody": "Ingen namnsdag hittades.",
+        "nobody": "Ingen har namnsdag idag",
         "error": "Något gick snett, jag har inte en susning om någon har namnsdag idag eller inte."
     },
     "uptime": {
