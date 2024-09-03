@@ -170,10 +170,10 @@ def parseOptions():
                 options["ident"] = arg
 
             else:
-                raise Exception("Unhandled option")
+                raise ValueError("Unhandled option")
 
         if args:
-            raise Exception("Too many arguments, unknown argument.")
+            raise ValueError("Too many arguments, unknown argument.")
 
     except Exception as err:
         print(err)
