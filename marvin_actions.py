@@ -430,8 +430,8 @@ def marvinTimeToBBQ(row):
         else:
             msg = getString("barbecue", "eternity") % nextDate
 
-        return url + ". " + msg
-
+        msg = url + ". " + msg
+    return msg
 
 def nextBBQ():
     """
@@ -492,7 +492,7 @@ def marvinBirthday(row):
         except Exception:
             msg = getString("birthday", "error")
 
-        return msg
+    return msg
 
 def marvinNameday(row):
     """
@@ -509,11 +509,9 @@ def marvinNameday(row):
             names = nameday_data["dagar"][0]["namnsdag"]
             if names:
                 msg = getString("nameday", "somebody").format(",".join(names))
-            else:
-                msg = getString("nameday", "nobody")
         except Exception:
             msg = getString("nameday", "error")
-        return msg
+    return msg
 
 def marvinUptime(row):
     """
@@ -522,7 +520,7 @@ def marvinUptime(row):
     msg = None
     if "uptime" in row:
         msg = getString("uptime", "info")
-        return msg
+    return msg
 
 def marvinStream(row):
     """
@@ -531,19 +529,22 @@ def marvinStream(row):
     msg = None
     if any(r in row for r in ["stream", "streama", "ström", "strömma"]):
         msg = getString("stream", "info")
-        return msg
+    return msg
 
 def marvinPrinciple(row):
     """
     Display one selected software principle, or provide one as random
     """
+    msg = None
     if any(r in row for r in ["principle", "princip", "principer"]):
         principles = getString("principle")
         principleKeys = list(principles.keys())
         matchedKeys = [k for k in row if k in principleKeys]
         if matchedKeys:
-            return principles[matchedKeys.pop()]
-        return principles[random.choice(principleKeys)]
+            msg = principles[matchedKeys.pop()]
+        else:
+            msg = principles[random.choice(principleKeys)]
+    return msg
 
 def getJoke():
     """
@@ -566,7 +567,7 @@ def marvinJoke(row):
     msg = None
     if any(r in row for r in ["joke", "skämt", "chuck norris", "chuck", "norris"]):
         msg = getJoke()
-        return msg
+    return msg
 
 def getCommit():
     """
@@ -584,8 +585,8 @@ def marvinCommit(row):
     """
     Display a random commit message
     """
-    commitMsg = "Använd detta meddelandet: '{}'"
     msg = None
     if any(r in row for r in ["commit", "-m"]):
-        msg = getCommit()
-        return commitMsg.format(msg)
+        commitMsg = getCommit()
+        msg = "Använd detta meddelandet: '{}'".format(commitMsg)
+    return msg
