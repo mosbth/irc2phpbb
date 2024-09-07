@@ -378,11 +378,7 @@ def marvinStrip(row):
     """
     msg = None
     if any(r in row for r in ["strip", "comic", "nöje", "paus"]):
-        if any(r in row for r in ["rand", "random", "slump", "lucky"]):
-            msg = commitStrip(randomize=True)
-        else:
-            msg = commitStrip()
-
+        msg = commitStrip(randomize=any(r in row for r in ["rand", "random", "slump", "lucky"]))
     return msg
 
 
