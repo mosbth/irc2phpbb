@@ -7,17 +7,16 @@ Tests for all Marvin actions
 
 import json
 import re
-import unittest
 
 from datetime import date
-from unittest import mock
+from unittest import mock, TestCase
 
 import requests
 
 import marvin_actions
 import marvin_general_actions
 
-class ActionTest(unittest.TestCase):
+class ActionTest(TestCase):
     """Test Marvin actions"""
     strings = {}
 
