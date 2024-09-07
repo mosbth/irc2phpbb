@@ -116,16 +116,10 @@ def mergeOptionsWithConfigFile(options, configFile):
     return options
 
 
-def parseOptions():
+def parseOptions(options):
     """
     Merge default options with incoming options and arguments and return them as a dictionary.
     """
-
-    # Default options to start with
-    options = marvin.getConfig()
-
-    # Read from config file if available
-    options.update(mergeOptionsWithConfigFile(options, "marvin_config.json"))
 
     # Switch through all options, commandline options overwrites.
     try:
@@ -190,8 +184,10 @@ def main():
     """
     Main function to carry out the work.
     """
-    options = parseOptions()
-    marvin.setConfig(options)
+    options = marvin.getConfig()
+    options.update(mergeOptionsWithConfigFile(options, "marvin_config.json"))
+    config = parseOptions(options)
+    marvin.setConfig(config)
     marvin_actions.setConfig(options)
     marvin_general_actions.setConfig(options)
     actions = marvin_actions.getAllActions()
