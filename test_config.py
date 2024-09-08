@@ -11,8 +11,8 @@ import os
 import sys
 from unittest import TestCase
 
-from main import mergeOptionsWithConfigFile, parseOptions
-from main import MSG_USAGE, MSG_USAGE_SHORT, MSG_VERSION
+from main import mergeOptionsWithConfigFile, parseOptions, MSG_VERSION
+
 
 class ConfigMergeTest(TestCase):
     """Test merging a config file with a dict"""
@@ -83,7 +83,7 @@ class ConfigParseTest(TestCase):
     def testOverrideHardcodedParameters(self):
         """Test that all the hard coded parameters can be overridden from commandline"""
         for parameter in ["server", "port", "channel", "nick", "realname", "ident"]:
-            sys.argv = ["./main.py", f"--{parameter}", self.CHANGED_CONFIG.get(parameter)]
+            sys.argv = ["./main.py", f"--{parameter}", str(self.CHANGED_CONFIG.get(parameter))]
             actual = parseOptions(self.SAMPLE_CONFIG)
             self.assertEqual(actual.get(parameter), self.CHANGED_CONFIG.get(parameter))
 
@@ -92,7 +92,7 @@ class ConfigParseTest(TestCase):
         sys.argv = ["./main.py", "--server", "dbwebb.se", "--port", "5432"]
         actual = parseOptions(self.SAMPLE_CONFIG)
         self.assertEqual(actual.get("server"), "dbwebb.se")
-        self.assertEqual(actual.get("port"), "5432")
+        self.assertEqual(actual.get("port"), 5432)
 
     def testOverrideWithFile(self):
         """Test that parameters can be overridden with the --config option"""
@@ -113,6 +113,19 @@ class ConfigParseTest(TestCase):
 class FormattingTest(TestCase):
     """Test the parameters that cause printouts"""
 
+    USAGE = ("usage: main.py [-h] [-v] [--config CONFIG] [--server SERVER] [--port PORT] "
+             "[--channel CHANNEL] [--nick NICK] [--realname REALNAME] [--ident IDENT]\n")
+    OPTIONS = ("options:\n"
+               "  -h, --help           show this help message and exit\n"
+               "  -v, --version\n"
+               "  --config CONFIG\n"
+               "  --server SERVER\n"
+               "  --port PORT\n"
+               "  --channel CHANNEL\n"
+               "  --nick NICK\n"
+               "  --realname REALNAME\n"
+               "  --ident IDENT")
+
     def assertPrintOption(self, options, returnCode, output):
         """Assert that parseOptions returns a certain code and prints a certain output"""
         with self.assertRaises(SystemExit) as e:
@@ -126,11 +139,11 @@ class FormattingTest(TestCase):
 
     def testHelpPrintout(self):
         """Test that a help is printed when providing the --help flag"""
-        self.assertPrintOption("--help", 0, MSG_USAGE)
+        self.assertPrintOption("--help", 0, f"{self.USAGE}\n{self.OPTIONS}")
 
     def testHelpPrintoutShort(self):
         """Test that a help is printed when providing the -h flag"""
-        self.assertPrintOption("-h", 0, MSG_USAGE)
+        self.assertPrintOption("-h", 0, f"{self.USAGE}\n{self.OPTIONS}")
 
     def testVersionPrintout(self):
         """Test that the version is printed when provided the --version flag"""
@@ -142,10 +155,22 @@ class FormattingTest(TestCase):
 
     def testUnhandledOption(self):
         """Test that unknown options gives an error"""
-        expectedPrintout = f"option -g not recognized\n{MSG_USAGE_SHORT}"
-        self.assertPrintOption("-g", 1, expectedPrintout)
+        with self.assertRaises(SystemExit) as e:
+            s = io.StringIO()
+            expectedError = f"{self.USAGE}main.py: error: unrecognized arguments: -g\n"
+            with contextlib.redirect_stderr(s):
+                sys.argv = ["./main.py", "-g"]
+                parseOptions({})
+        self.assertEqual(e.exception.code, 2)
+        self.assertEqual(s.getvalue(), expectedError)
 
     def testUnhandledArgument(self):
         """Test that any argument gives an error"""
-        expectedPrintout = f"Too many arguments, unknown argument.\n{MSG_USAGE_SHORT}"
-        self.assertPrintOption("arg", 1, expectedPrintout)
+        with self.assertRaises(SystemExit) as e:
+            s = io.StringIO()
+            expectedError = f"{self.USAGE}main.py: error: unrecognized arguments: arg\n"
+            with contextlib.redirect_stderr(s):
+                sys.argv = ["./main.py", "arg"]
+                parseOptions({})
+        self.assertEqual(e.exception.code, 2)
+        self.assertEqual(s.getvalue(), expectedError)
