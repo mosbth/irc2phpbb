@@ -163,9 +163,6 @@ def parseOptions(options):
             elif opt in "--ident":
                 options["ident"] = arg
 
-            else:
-                raise ValueError("Unhandled option")
-
         if args:
             raise ValueError("Too many arguments, unknown argument.")
 
