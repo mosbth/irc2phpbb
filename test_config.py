@@ -5,11 +5,14 @@
 Tests for reading, merging and parsing config
 """
 
+import contextlib
+import io
 import os
+import sys
 from unittest import TestCase
 
-from main import mergeOptionsWithConfigFile
 from main import mergeOptionsWithConfigFile, parseOptions
+from main import MSG_USAGE, MSG_USAGE_SHORT, MSG_VERSION
 
 class ConfigMergeTest(TestCase):
     """Test merging a config file with a dict"""
@@ -107,3 +110,42 @@ class ConfigParseTest(TestCase):
         actual = parseOptions(self.SAMPLE_CONFIG)
         self.assertEqual(actual.get("server"), "important.com")
 
+class FormattingTest(TestCase):
+    """Test the parameters that cause printouts"""
+
+    def assertPrintOption(self, options, returnCode, output):
+        """Assert that parseOptions returns a certain code and prints a certain output"""
+        with self.assertRaises(SystemExit) as e:
+            s = io.StringIO()
+            with contextlib.redirect_stdout(s):
+                sys.argv = ["./main.py"] + [options]
+                parseOptions({})
+        self.assertEqual(e.exception.code, returnCode)
+        self.assertEqual(s.getvalue(), output+"\n") # extra newline added by print()
+
+
+    def testHelpPrintout(self):
+        """Test that a help is printed when providing the --help flag"""
+        self.assertPrintOption("--help", 0, MSG_USAGE)
+
+    def testHelpPrintoutShort(self):
+        """Test that a help is printed when providing the -h flag"""
+        self.assertPrintOption("-h", 0, MSG_USAGE)
+
+    def testVersionPrintout(self):
+        """Test that the version is printed when provided the --version flag"""
+        self.assertPrintOption("--version", 0, MSG_VERSION)
+
+    def testVersionPrintoutShort(self):
+        """Test that the version is printed when provided the -v flag"""
+        self.assertPrintOption("-v", 0, MSG_VERSION)
+
+    def testUnhandledOption(self):
+        """Test that unknown options gives an error"""
+        expectedPrintout = f"option -g not recognized\n{MSG_USAGE_SHORT}"
+        self.assertPrintOption("-g", 1, expectedPrintout)
+
+    def testUnhandledArgument(self):
+        """Test that any argument gives an error"""
+        expectedPrintout = f"Too many arguments, unknown argument.\n{MSG_USAGE_SHORT}"
+        self.assertPrintOption("arg", 1, expectedPrintout)
