@@ -110,6 +110,15 @@ class ConfigParseTest(TestCase):
         actual = parseOptions(self.SAMPLE_CONFIG)
         self.assertEqual(actual.get("server"), "important.com")
 
+    def testOverridePrecedenceParameterFirst(self):
+        """Test that proper precedence is considered. From most to least significant it should be:
+        explicit parameter -> parameter in --config file -> default """
+
+        configFile = os.path.join("testConfigs", "server.json")
+        sys.argv = ["./main.py", "--server", "important.com", "--config", configFile]
+        actual = parseOptions(self.SAMPLE_CONFIG)
+        self.assertEqual(actual.get("server"), "important.com")
+
 class FormattingTest(TestCase):
     """Test the parameters that cause printouts"""
 
