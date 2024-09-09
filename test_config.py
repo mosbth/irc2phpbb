@@ -5,6 +5,7 @@
 Tests for reading, merging and parsing config
 """
 
+import argparse
 import contextlib
 import io
 import os
@@ -118,6 +119,13 @@ class ConfigParseTest(TestCase):
         sys.argv = ["./main.py", "--server", "important.com", "--config", configFile]
         actual = parseOptions(self.SAMPLE_CONFIG)
         self.assertEqual(actual.get("server"), "important.com")
+
+    def testBannedParameters(self):
+        """Don't allow config, help and version as parameters, as those options are special"""
+        for bannedParameter in ["config", "help", "version"]:
+            with self.assertRaises(argparse.ArgumentError):
+                parseOptions({bannedParameter: "test"})
+
 
 class FormattingTest(TestCase):
     """Test the parameters that cause printouts"""
