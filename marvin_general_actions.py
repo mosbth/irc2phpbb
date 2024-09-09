@@ -4,7 +4,6 @@
 """
 Make general actions for Marvin, one function for each action.
 """
-import time
 import datetime
 import json
 import random
@@ -59,6 +58,7 @@ def marvinMorning(row):
     """
     Marvin says Good morning after someone else says it
     """
+    msg = None
     phrases = [
         "morgon",
         "godmorgon",
@@ -79,8 +79,7 @@ def marvinMorning(row):
 
     for phrase in phrases:
         if phrase in row:
-
             if lastDateGreeted != datetime.date.today():
                 lastDateGreeted = datetime.date.today()
                 msg = random.choice(morning_phrases)
-                return msg
+    return msg

@@ -38,7 +38,8 @@ actions. Its just a small function.
 Marvin reads messages from the incoming/ directory, if it exists, and writes
 it out the the irc channel.
 """
-import getopt
+
+import argparse
 import json
 import os
 import sys
@@ -54,38 +55,8 @@ PROGRAM = "marvin"
 AUTHOR = "Mikael Roos"
 EMAIL = "mikael.t.h.roos@gmail.com"
 VERSION = "0.3.0"
-MSG_USAGE = """{program} - Act as an IRC bot and do useful things.
-By {author} ({email}), version {version}.
-
-Usage:
-  {program} [options]
-
-Options:
-  -h --help       Display this help message.
-  -v --version    Print version and exit.
-  --config=       Use this file as configfile.
-  --server=       Set the IRC server to connect to.
-  --port=         Set the port to use, default is 6667.
-  --channel=      Set what channel to join.
-  --nick=         Set nick to identify by.
-  --realname=     Set realname for verbose presentation.
-  --ident=        Set password for IDENTIFY for nick.
-
-GitHub: https://github.com/mosbth/irc2phpbb
-Issues: https://github.com/mosbth/irc2phpbb/issues
-""".format(program=PROGRAM, author=AUTHOR, email=EMAIL, version=VERSION)
-
 MSG_VERSION = "{program} version {version}.".format(program=PROGRAM, version=VERSION)
 
-MSG_USAGE_SHORT = "Use {program} --help to get usage.\n".format(program=PROGRAM)
-
-
-def printUsage(exitStatus):
-    """
-    Print usage information about the script and exit.
-    """
-    print(MSG_USAGE)
-    sys.exit(exitStatus)
 
 
 def printVersion():
@@ -101,7 +72,7 @@ def mergeOptionsWithConfigFile(options, configFile):
     Read information from config file.
     """
     if os.path.isfile(configFile):
-        with open(configFile) as f:
+        with open(configFile, encoding="UTF-8") as f:
             data = json.load(f)
 
         options.update(data)
@@ -116,69 +87,27 @@ def mergeOptionsWithConfigFile(options, configFile):
     return options
 
 
-def parseOptions():
+def parseOptions(options):
     """
     Merge default options with incoming options and arguments and return them as a dictionary.
     """
 
-    # Default options to start with
-    options = marvin.getConfig()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-v", "--version", action="store_true")
+    parser.add_argument("--config")
 
-    # Read from config file if available
-    options.update(mergeOptionsWithConfigFile(options, "marvin_config.json"))
+    for key, value in options.items():
+        parser.add_argument(f"--{key}", type=type(value))
 
-    # Switch through all options, commandline options overwrites.
-    try:
-        opts, args = getopt.getopt(sys.argv[1:], "hv", [
-            "help",
-            "version",
-            "config=",
-            "server=",
-            "port=",
-            "channel=",
-            "nick=",
-            "realname=",
-            "ident="
-        ])
+    args = vars(parser.parse_args())
+    if args["version"]:
+        printVersion()
+    if args["config"]:
+        mergeOptionsWithConfigFile(options, args["config"])
 
-        for opt, arg in opts:
-            if opt in ("-h", "--help"):
-                printUsage(0)
-
-            elif opt in ("-v", "--version"):
-                printVersion()
-
-            elif opt in "--config":
-                options = mergeOptionsWithConfigFile(options, arg)
-
-            elif opt in "--server":
-                options["server"] = arg
-
-            elif opt in "--port":
-                options["port"] = arg
-
-            elif opt in "--channel":
-                options["channel"] = arg
-
-            elif opt in "--nick":
-                options["nick"] = arg
-
-            elif opt in "--realname":
-                options["realname"] = arg
-
-            elif opt in "--ident":
-                options["ident"] = arg
-
-            else:
-                raise Exception("Unhandled option")
-
-        if args:
-            raise Exception("Too many arguments, unknown argument.")
-
-    except Exception as err:
-        print(err)
-        print(MSG_USAGE_SHORT)
-        sys.exit(1)
+    for parameter in options:
+        if args[parameter]:
+            options[parameter] = args[parameter]
 
     res = json.dumps(options, sort_keys=True, indent=4, separators=(',', ': '))
     print("Configuration updated after cli options:\n{config}".format(config=res))
@@ -190,8 +119,10 @@ def main():
     """
     Main function to carry out the work.
     """
-    options = parseOptions()
-    marvin.setConfig(options)
+    options = marvin.getConfig()
+    options.update(mergeOptionsWithConfigFile(options, "marvin_config.json"))
+    config = parseOptions(options)
+    marvin.setConfig(config)
     marvin_actions.setConfig(options)
     marvin_general_actions.setConfig(options)
     actions = marvin_actions.getAllActions()
