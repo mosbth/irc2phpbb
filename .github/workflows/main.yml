@@ -14,8 +14,8 @@ concurrency:
 jobs:
   install:
     name: Install dependencies
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
+    runs-on: ubuntu-24.04
+    timeout-minutes: 1
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -24,8 +24,8 @@ jobs:
 
   unit-test:
     name: Run unit test
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
+    runs-on: ubuntu-24.04
+    timeout-minutes: 1
     needs: [install]
     steps:
       - name: Check out repository
@@ -33,19 +33,17 @@ jobs:
       - name: Install dependencies
         uses: ./.github/actions/install
       - name: Run tests
-        run: python3 -m unittest discover
+        run: make test
 
   lint:
-    name: Lint with Ruff
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
+    name: Lint with Pylint
+    runs-on: ubuntu-24.04
+    timeout-minutes: 1
     needs: [install]
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
       - name: Install dependencies
         uses: ./.github/actions/install
-      - name: Lint with Ruff
-        run: |
-          pip install ruff
-          ruff check --output-format=github .
+      - name: Lint with Pylint
+        run: make pylint
