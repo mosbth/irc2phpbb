@@ -141,7 +141,7 @@ class FormattingTest(TestCase):
             s = io.StringIO()
             with contextlib.redirect_stdout(s):
                 sys.argv = ["./main.py"] + [options]
-                parseOptions({})
+                parseOptions(ConfigParseTest.SAMPLE_CONFIG)
         self.assertEqual(e.exception.code, returnCode)
         self.assertEqual(s.getvalue(), output+"\n") # extra newline added by print()
 
@@ -169,7 +169,7 @@ class FormattingTest(TestCase):
             expectedError = f"{self.USAGE}main.py: error: unrecognized arguments: -g\n"
             with contextlib.redirect_stderr(s):
                 sys.argv = ["./main.py", "-g"]
-                parseOptions({})
+                parseOptions(ConfigParseTest.SAMPLE_CONFIG)
         self.assertEqual(e.exception.code, 2)
         self.assertEqual(s.getvalue(), expectedError)
 
@@ -180,6 +180,6 @@ class FormattingTest(TestCase):
             expectedError = f"{self.USAGE}main.py: error: unrecognized arguments: arg\n"
             with contextlib.redirect_stderr(s):
                 sys.argv = ["./main.py", "arg"]
-                parseOptions({})
+                parseOptions(ConfigParseTest.SAMPLE_CONFIG)
         self.assertEqual(e.exception.code, 2)
         self.assertEqual(s.getvalue(), expectedError)

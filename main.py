@@ -91,36 +91,23 @@ def parseOptions(options):
     """
     Merge default options with incoming options and arguments and return them as a dictionary.
     """
-    parser = argparse.ArgumentParser()
 
+    parser = argparse.ArgumentParser()
     parser.add_argument("-v", "--version", action="store_true")
     parser.add_argument("--config")
-    parser.add_argument("--server")
-    parser.add_argument("--port", type=int)
-    parser.add_argument("--channel")
-    parser.add_argument("--nick")
-    parser.add_argument("--realname")
-    parser.add_argument("--ident")
 
-    args = parser.parse_args()
+    for key, value in options.items():
+        parser.add_argument(f"--{key}", type=type(value))
 
-    if args.version:
+    args = vars(parser.parse_args())
+    if args["version"]:
         printVersion()
-    if args.config:
-        mergeOptionsWithConfigFile(options, args.config)
+    if args["config"]:
+        mergeOptionsWithConfigFile(options, args["config"])
 
-    if args.server:
-        options["server"] = args.server
-    if args.port:
-        options["port"] = args.port
-    if args.channel:
-        options["channel"] = args.channel
-    if args.nick:
-        options["nick"] = args.nick
-    if args.realname:
-        options["realname"] = args.realname
-    if args.ident:
-        options["ident"] = args.ident
+    for parameter in options:
+        if args[parameter]:
+            options[parameter] = args[parameter]
 
     res = json.dumps(options, sort_keys=True, indent=4, separators=(',', ': '))
     print("Configuration updated after cli options:\n{config}".format(config=res))
