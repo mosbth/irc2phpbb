@@ -11,5 +11,4 @@ runs:
         cache-dependency-path: .requirements.txt
     - name: Install dependencies
       shell: bash
-      run: |
-        make install-tools
+      run: make install-tools
