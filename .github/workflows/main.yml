@@ -1,0 +1,49 @@
+name: Continuous integration
+
+on:
+  # Trigger the workflow on push or pull request,
+  push:
+  # Trigger the workflow via a manual run
+  workflow_dispatch:
+
+# Ensures that only one deploy task per branch/environment will run at a time.
+concurrency:
+  group: environment-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  install:
+    name: Install dependencies
+    runs-on: ubuntu-24.04
+    timeout-minutes: 1
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Install dependencies
+        uses: ./.github/actions/install
+
+  unit-test:
+    name: Run unit test
+    runs-on: ubuntu-24.04
+    timeout-minutes: 1
+    needs: [install]
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Install dependencies
+        uses: ./.github/actions/install
+      - name: Run tests
+        run: make test
+
+  lint:
+    name: Lint with Pylint
+    runs-on: ubuntu-24.04
+    timeout-minutes: 1
+    needs: [install]
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Install dependencies
+        uses: ./.github/actions/install
+      - name: Lint with Pylint
+        run: make pylint

@@ -1,0 +1,14 @@
+name: Install dependencies
+description: Install dependencies for the project
+runs:
+  using: composite
+  steps:
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.x'
+        cache: 'pip'
+        cache-dependency-path: .requirements.txt
+    - name: Install dependencies
+      shell: bash
+      run: make install-tools

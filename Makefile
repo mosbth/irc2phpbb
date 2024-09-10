@@ -153,7 +153,7 @@ coverage:
 .PHONY: install-tools
 install-tools:
 	@$(call HELPTEXT,$@)
-	python3 -m pip install --requirement .requirements.txt 
+	python3 -m pip install --requirement .requirements.txt
 
 
 
@@ -161,7 +161,7 @@ install-tools:
 .PHONY: upgrade-tools
 upgrade-tools:
 	@$(call HELPTEXT,$@)
-	python3 -m pip install --upgrade --requirement .requirements.txt 
+	python3 -m pip install --upgrade --requirement .requirements.txt
 
 
 # target: check               - Check versions of installed devtools.
