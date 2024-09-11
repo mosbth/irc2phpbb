@@ -143,6 +143,12 @@ class FormattingTest(TestCase):
                "  --realname REALNAME\n"
                "  --ident IDENT")
 
+    @classmethod
+    def setUpClass(cls):
+        """Set the terminal width to 160 to prevent the tests from failing on small terminals"""
+        os.environ["COLUMNS"] = "160"
+
+
     def assertPrintOption(self, options, returnCode, output):
         """Assert that parseOptions returns a certain code and prints a certain output"""
         with self.assertRaises(SystemExit) as e:
