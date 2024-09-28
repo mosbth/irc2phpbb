@@ -11,39 +11,18 @@ import re
 
 import discord
 
-class DiscordBot(discord.Client):
+from bot import Bot
+
+class DiscordBot(discord.Client, Bot):
     """Bot implementing the discord protocol"""
     def __init__(self):
-        self.ACTIONS = []
-        self.GENERAL_ACTIONS = []
+        Bot.__init__(self)
         self.CONFIG = {
             "token": ""
         }
         intents = discord.Intents.default()
         intents.message_content = True
-        super().__init__(intents=intents)
-
-    def getConfig(self):
-        """Return the current configuration"""
-        return self.CONFIG
-
-    def setConfig(self, config):
-        """Set the current configuration"""
-        self.CONFIG = config
-
-    def registerActions(self, actions):
-        """Register actions to use"""
-        print("Adding actions:")
-        for action in actions:
-            print(" - " + action.__name__)
-        self.ACTIONS.extend(actions)
-
-    def registerGeneralActions(self, actions):
-        """Register general actions to use"""
-        print("Adding general actions:")
-        for action in actions:
-            print(" - " + action.__name__)
-        self.GENERAL_ACTIONS.extend(actions)
+        discord.Client.__init__(self, intents=intents)
 
     def begin(self):
         """Start the bot"""
@@ -65,7 +44,7 @@ class DiscordBot(discord.Client):
 
     async def on_message(self, message):
         """Hook run on every message"""
-        print(f">>> #{message.channel.name} <{message.author}> {message.content}")
+        print(f"#{message.channel.name} <{message.author}> {message.content}")
         if message.author.name == self.user.name:
             # don't react to own messages
             return

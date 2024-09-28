@@ -18,10 +18,12 @@ import socket
 
 import chardet
 
+from bot import Bot
 
-class IrcBot():
+class IrcBot(Bot):
     """Bot implementing the IRC protocol"""
     def __init__(self):
+        super().__init__()
         self.CONFIG = {
             "server": None,
             "port": 6667,
@@ -39,34 +41,9 @@ class IrcBot():
         # Socket for IRC server
         self.SOCKET = None
 
-        # All actions to check for incoming messages
-        self.ACTIONS = []
-        self.GENERAL_ACTIONS = []
-
         # Keep a log of the latest messages
         self.IRCLOG = None
 
-    def getConfig(self):
-        """Return the current configuration"""
-        return self.CONFIG
-
-    def setConfig(self, config):
-        """Set the current configuration"""
-        self.CONFIG = config
-
-    def registerActions(self, actions):
-        """Register actions to use"""
-        print("Adding actions:")
-        for action in actions:
-            print(" - " + action.__name__)
-        self.ACTIONS.extend(actions)
-
-    def registerGeneralActions(self, actions):
-        """Register general actions to use"""
-        print("Adding general actions:")
-        for action in actions:
-            print(" - " + action.__name__)
-        self.GENERAL_ACTIONS.extend(actions)
 
     def connectToServer(self):
         """Connect to the IRC Server"""
