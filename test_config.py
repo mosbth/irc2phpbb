@@ -12,7 +12,9 @@ import os
 import sys
 from unittest import TestCase
 
-from main import mergeOptionsWithConfigFile, parseOptions, MSG_VERSION
+from main import mergeOptionsWithConfigFile, parseOptions, determineProtocol, MSG_VERSION, createBot
+from irc_bot import IrcBot
+from discord_bot import DiscordBot
 
 
 class ConfigMergeTest(TestCase):
@@ -131,8 +133,11 @@ class FormattingTest(TestCase):
     """Test the parameters that cause printouts"""
 
     USAGE = ("usage: main.py [-h] [-v] [--config CONFIG] [--server SERVER] [--port PORT] "
-             "[--channel CHANNEL] [--nick NICK] [--realname REALNAME] [--ident IDENT]\n")
-    OPTIONS = ("options:\n"
+             "[--channel CHANNEL] [--nick NICK] [--realname REALNAME] [--ident IDENT]\n"
+             "               [{irc,discord}]\n")
+
+    OPTIONS = ("positional arguments:\n  {irc,discord}\n\n"
+               "options:\n"
                "  -h, --help           show this help message and exit\n"
                "  -v, --version\n"
                "  --config CONFIG\n"
@@ -142,6 +147,7 @@ class FormattingTest(TestCase):
                "  --nick NICK\n"
                "  --realname REALNAME\n"
                "  --ident IDENT")
+
 
     @classmethod
     def setUpClass(cls):
@@ -191,9 +197,55 @@ class FormattingTest(TestCase):
         """Test that any argument gives an error"""
         with self.assertRaises(SystemExit) as e:
             s = io.StringIO()
-            expectedError = f"{self.USAGE}main.py: error: unrecognized arguments: arg\n"
+            expectedError = (f"{self.USAGE}main.py: error: argument protocol: "
+                             "invalid choice: 'arg' (choose from 'irc', 'discord')\n")
             with contextlib.redirect_stderr(s):
                 sys.argv = ["./main.py", "arg"]
                 parseOptions(ConfigParseTest.SAMPLE_CONFIG)
         self.assertEqual(e.exception.code, 2)
         self.assertEqual(s.getvalue(), expectedError)
+
+class TestArgumentParsing(TestCase):
+    """Test parsing argument to determine whether to launch as irc or discord bot """
+    def testDetermineDiscordProtocol(self):
+        """Test that the it's possible to give argument to start the bot as a discord bot"""
+        sys.argv = ["main.py", "discord"]
+        protocol = determineProtocol()
+        self.assertEqual(protocol, "discord")
+
+    def testDetermineIRCProtocol(self):
+        """Test that the it's possible to give argument to start the bot as an irc bot"""
+        sys.argv = ["main.py", "irc"]
+        protocol = determineProtocol()
+        self.assertEqual(protocol, "irc")
+
+    def testDetermineIRCProtocolisDefault(self):
+        """Test that if no argument is given, irc is the default"""
+        sys.argv = ["main.py"]
+        protocol = determineProtocol()
+        self.assertEqual(protocol, "irc")
+
+    def testDetermineConfigThrowsOnInvalidProto(self):
+        """Test that determineProtocol throws error on unsupported protocols"""
+        sys.argv = ["main.py", "gopher"]
+        with self.assertRaises(SystemExit) as e:
+            determineProtocol()
+        self.assertEqual(e.exception.code, 2)
+
+class TestBotFactoryMethod(TestCase):
+    """Test that createBot returns expected instances of Bots"""
+    def testCreateIRCBot(self):
+        """Test that an irc bot can be created"""
+        bot = createBot("irc")
+        self.assertIsInstance(bot, IrcBot)
+
+    def testCreateDiscordBot(self):
+        """Test that a discord bot can be created"""
+        bot = createBot("discord")
+        self.assertIsInstance(bot, DiscordBot)
+
+    def testCreateUnsupportedProtocolThrows(self):
+        """Test that trying to create a bot with an unsupported protocol will throw exception"""
+        with self.assertRaises(ValueError) as e:
+            createBot("gopher")
+        self.assertEqual(str(e.exception), "Unsupported protocol: gopher")

@@ -20,7 +20,7 @@ import chardet
 
 
 class IrcBot():
-    """IRC implementation of Marvin"""
+    """Bot implementing the IRC protocol"""
     def __init__(self):
         self.CONFIG = {
             "server": None,
@@ -224,6 +224,11 @@ class IrcBot():
                 self.checkIrcActions(words)
                 self.checkMarvinActions(words)
 
+    def begin(self):
+        """Start the bot"""
+        self.connectToServer()
+        self.mainLoop()
+
     def checkIrcActions(self, words):
         """
         Check if Marvin should take action on any messages defined in the
@@ -234,7 +239,6 @@ class IrcBot():
 
         if words[1] == 'INVITE':
             self.sendMsg('JOIN {CHANNEL}\r\n'.format(CHANNEL=words[3]))
-
 
     def checkMarvinActions(self, words):
         """Check if Marvin should perform any actions"""

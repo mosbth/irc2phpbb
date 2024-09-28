@@ -44,7 +44,9 @@ import json
 import os
 import sys
 
-import marvin
+from discord_bot import DiscordBot
+from irc_bot import IrcBot
+
 import marvin_actions
 import marvin_general_actions
 
@@ -93,6 +95,7 @@ def parseOptions(options):
     """
 
     parser = argparse.ArgumentParser()
+    parser.add_argument("protocol", choices=["irc", "discord"], nargs="?", default="irc")
     parser.add_argument("-v", "--version", action="store_true")
     parser.add_argument("--config")
 
@@ -115,11 +118,29 @@ def parseOptions(options):
     return options
 
 
+def determineProtocol():
+    """Parse the argument to determine what protocol to use"""
+    parser = argparse.ArgumentParser()
+    parser.add_argument("protocol", choices=["irc", "discord"], nargs="?", default="irc")
+    arg, _ = parser.parse_known_args()
+    return arg.protocol
+
+
+def createBot(protocol):
+    """Return an instance of a bot with the requested implementation"""
+    if protocol == "irc":
+        return IrcBot()
+    if protocol == "discord":
+        return DiscordBot()
+    raise ValueError(f"Unsupported protocol: {protocol}")
+
+
 def main():
     """
     Main function to carry out the work.
     """
-    bot = marvin.IrcBot()
+    protocol = determineProtocol()
+    bot = createBot(protocol)
     options = bot.getConfig()
     options.update(mergeOptionsWithConfigFile(options, "marvin_config.json"))
     config = parseOptions(options)
@@ -130,8 +151,7 @@ def main():
     general_actions = marvin_general_actions.getAllGeneralActions()
     bot.registerActions(actions)
     bot.registerGeneralActions(general_actions)
-    bot.connectToServer()
-    bot.mainLoop()
+    bot.begin()
 
     sys.exit(0)
 
