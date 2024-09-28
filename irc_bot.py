@@ -224,7 +224,7 @@ class IrcBot(Bot):
 
         if words[1] == 'PRIVMSG':
             raw = ' '.join(words[3:])
-            row = re.sub('[,.?:]', ' ', raw).strip().lower().split()
+            row = self.tokenize(raw)
 
             if self.CONFIG["nick"] in row:
                 for action in self.ACTIONS:

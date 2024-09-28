@@ -5,6 +5,8 @@
 Module for the common base class for all Bots
 """
 
+import re
+
 class Bot():
     """Base class for things common between different protocols"""
     def __init__(self):
@@ -33,3 +35,8 @@ class Bot():
         for action in actions:
             print(" - " + action.__name__)
         self.GENERAL_ACTIONS.extend(actions)
+
+    @staticmethod
+    def tokenize(message):
+        """Split a message into normalized tokens"""
+        return re.sub("[,.?:]", " ", message).strip().lower().split()

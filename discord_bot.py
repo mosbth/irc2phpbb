@@ -7,8 +7,6 @@ Module for the Discord bot.
 Connecting, sending and receiving messages and doing custom actions.
 """
 
-import re
-
 import discord
 
 from bot import Bot
@@ -30,7 +28,7 @@ class DiscordBot(discord.Client, Bot):
 
     async def checkMarvinActions(self, message):
         """Check if Marvin should perform any actions"""
-        words = re.sub("[,.?:]", " ", message.content).strip().lower().split()
+        words = self.tokenize(message.content)
         if self.user.name.lower() in words:
             for action in self.ACTIONS:
                 response = action(words)

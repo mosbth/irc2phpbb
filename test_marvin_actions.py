@@ -6,13 +6,13 @@ Tests for all Marvin actions
 """
 
 import json
-import re
 
 from datetime import date
 from unittest import mock, TestCase
 
 import requests
 
+from bot import Bot
 import marvin_actions
 import marvin_general_actions
 
@@ -28,7 +28,7 @@ class ActionTest(TestCase):
 
     def executeAction(self, action, message):
         """Execute an action for a message and return the response"""
-        return action(re.sub('[,.?:]', ' ', message).strip().lower().split())
+        return action(Bot.tokenize(message))
 
 
     def assertActionOutput(self, action, message, expectedOutput):
