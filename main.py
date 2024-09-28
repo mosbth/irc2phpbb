@@ -119,18 +119,19 @@ def main():
     """
     Main function to carry out the work.
     """
-    options = marvin.getConfig()
+    bot = marvin.IrcBot()
+    options = bot.getConfig()
     options.update(mergeOptionsWithConfigFile(options, "marvin_config.json"))
     config = parseOptions(options)
-    marvin.setConfig(config)
+    bot.setConfig(config)
     marvin_actions.setConfig(options)
     marvin_general_actions.setConfig(options)
     actions = marvin_actions.getAllActions()
     general_actions = marvin_general_actions.getAllGeneralActions()
-    marvin.registerActions(actions)
-    marvin.registerGeneralActions(general_actions)
-    marvin.connectToServer()
-    marvin.mainLoop()
+    bot.registerActions(actions)
+    bot.registerGeneralActions(general_actions)
+    bot.connectToServer()
+    bot.mainLoop()
 
     sys.exit(0)
 
