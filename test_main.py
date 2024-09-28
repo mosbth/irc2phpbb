@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Tests for reading, merging and parsing config
+Tests for the main launcher
 """
 
 import argparse
