@@ -494,7 +494,7 @@ def marvinNameday(row):
     """
     Check current nameday
     """
-    msg = getString("nameday", "nobody")
+    msg = None
     if any(r in row for r in ["nameday", "namnsdag"]):
         try:
             now = datetime.datetime.now()
@@ -505,6 +505,8 @@ def marvinNameday(row):
             names = nameday_data["dagar"][0]["namnsdag"]
             if names:
                 msg = getString("nameday", "somebody").format(",".join(names))
+            else:
+                msg = getString("nameday", "nobody")
         except Exception:
             msg = getString("nameday", "error")
     return msg

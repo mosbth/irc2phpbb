@@ -225,6 +225,10 @@ class ActionTest(TestCase):
         self.assertBBQResponse(date(2024, 9, 13), date(2024, 9, 20), "week")
         self.assertBBQResponse(date(2024, 9, 4), date(2024, 9, 20), "base")
 
+    def testNameDayReaction(self):
+        """Test that marvin only responds to nameday when asked"""
+        self.assertActionSilent(marvin_actions.marvinNameday, "anything")
+
     def testNameDayRequest(self):
         """Test that marvin sends a proper request for nameday info"""
         with mock.patch("marvin_actions.requests") as r:
