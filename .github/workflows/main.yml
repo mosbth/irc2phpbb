@@ -3,6 +3,7 @@ name: Continuous integration
 on:
   # Trigger the workflow on push or pull request,
   push:
+  pull_request:
   # Trigger the workflow via a manual run
   workflow_dispatch:
 
