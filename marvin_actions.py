@@ -399,11 +399,6 @@ def commitStrip(randomize=False):
     return msg.format(url=url)
 
 
-#      elif ('latest' in row or 'senaste' in row or 'senast' in row)
-# and ('forum' in row or 'forumet' in row):
-#        feed=feedparser.parse(FEED_FORUM)
-
-
 def marvinTimeToBBQ(row):
     """
     Calcuate the time to next barbecue and print a appropriate msg
