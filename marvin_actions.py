@@ -544,15 +544,13 @@ def marvinPrinciple(row):
 
 def getJoke():
     """
-    Retrieves joke from api.icndb.com/jokes/random?limitTo=[nerdy]
+    Retrieves joke from api.chucknorris.io/jokes/random?category=dev
     """
     try:
         url = getString("joke", "url")
-        soup = urlopen(url)
-        rawData = soup.read()
-        encoding = soup.info().get_content_charset('utf8')
-        joke = json.loads(rawData.decode(encoding))
-        return joke["value"]["joke"]
+        r = requests.get(url, timeout=5)
+        joke_data = r.json()
+        return joke_data["value"]
     except Exception:
         return getString("joke", "error")
 

@@ -264,7 +264,7 @@
         "any": "Det finns många filosofier som en programmerare kan förhålla sig till. Hämta lite inspiration från en längre lista https://en.wikipedia.org/wiki/List_of_software_development_philosophies"
     },
     "joke": {
-        "url": "http://api.icndb.com/jokes/random?limitTo=[nerdy]",
+        "url": "https://api.chucknorris.io/jokes/random?category=dev",
         "error": "Chuck Norris har inte tid underhålla er idag!"
     },
     "commit": {

@@ -80,6 +80,14 @@ class ActionTest(TestCase):
                 r.get.return_value = response
                 self.assertActionOutput(marvin_actions.marvinNameday, "nameday", expectedOutput)
 
+    def assertJokeOutput(self, exampleFile, expectedOutput):
+        """Assert that a joke is returned, given an input file"""
+        with open(f"jokeFiles/{exampleFile}.json", "r", encoding="UTF-8") as f:
+            response = requests.models.Response()
+            response._content = str.encode(json.dumps(json.load(f)))
+            with mock.patch("marvin_actions.requests") as r:
+                r.get.return_value = response
+                self.assertActionOutput(marvin_actions.marvinJoke, "joke", expectedOutput)
 
     def testSmile(self):
         """Test that marvin can smile"""
@@ -238,6 +246,16 @@ class ActionTest(TestCase):
         self.assertNameDayOutput("single", "Idag har Svea namnsdag")
         self.assertNameDayOutput("double", "Idag har Alfred,Alfrida namnsdag")
         self.assertNameDayOutput("nobody", "Ingen har namnsdag idag")
+
+    def testNameDayRequest(self):
+        """Test that marvin sends a proper request for a joke"""
+        with mock.patch("marvin_actions.requests") as r:
+            self.executeAction(marvin_actions.marvinJoke, "joke")
+            self.assertEqual(r.get.call_args.args[0], "https://api.chucknorris.io/jokes/random?category=dev")
+
+    def testJoke(self):
+        """Test that marvin sends a joke when requested"""
+        self.assertJokeOutput("joke", "There is no Esc key on Chuck Norris' keyboard, because no one escapes Chuck Norris.")
 
     def testUptime(self):
         """Test that marvin can provide the link to the uptime tournament"""
