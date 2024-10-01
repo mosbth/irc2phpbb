@@ -15,7 +15,7 @@ with open("marvin_strings.json", encoding="utf-8") as f:
 # Configuration loaded
 CONFIG = None
 
-lastDateGreeted = datetime.date.today()
+lastDateGreeted = None
 
 def setConfig(config):
     """

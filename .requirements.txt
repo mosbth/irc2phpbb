@@ -3,6 +3,7 @@ feedparser
 beautifulsoup4
 chardet
 requests
+discord
 
 # For development
 pylint >= 1.7.1

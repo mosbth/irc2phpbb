@@ -399,11 +399,6 @@ def commitStrip(randomize=False):
     return msg.format(url=url)
 
 
-#      elif ('latest' in row or 'senaste' in row or 'senast' in row)
-# and ('forum' in row or 'forumet' in row):
-#        feed=feedparser.parse(FEED_FORUM)
-
-
 def marvinTimeToBBQ(row):
     """
     Calcuate the time to next barbecue and print a appropriate msg
@@ -494,7 +489,7 @@ def marvinNameday(row):
     """
     Check current nameday
     """
-    msg = getString("nameday", "nobody")
+    msg = None
     if any(r in row for r in ["nameday", "namnsdag"]):
         try:
             now = datetime.datetime.now()
@@ -505,6 +500,8 @@ def marvinNameday(row):
             names = nameday_data["dagar"][0]["namnsdag"]
             if names:
                 msg = getString("nameday", "somebody").format(",".join(names))
+            else:
+                msg = getString("nameday", "nobody")
         except Exception:
             msg = getString("nameday", "error")
     return msg

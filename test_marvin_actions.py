@@ -6,13 +6,13 @@ Tests for all Marvin actions
 """
 
 import json
-import re
 
 from datetime import date
 from unittest import mock, TestCase
 
 import requests
 
+from bot import Bot
 import marvin_actions
 import marvin_general_actions
 
@@ -28,7 +28,7 @@ class ActionTest(TestCase):
 
     def executeAction(self, action, message):
         """Execute an action for a message and return the response"""
-        return action(re.sub('[,.?:]', ' ', message).strip().lower().split())
+        return action(Bot.tokenize(message))
 
 
     def assertActionOutput(self, action, message, expectedOutput):
@@ -224,6 +224,10 @@ class ActionTest(TestCase):
         self.assertBBQResponse(date(2024, 9, 19), date(2024, 9, 20), "tomorrow")
         self.assertBBQResponse(date(2024, 9, 13), date(2024, 9, 20), "week")
         self.assertBBQResponse(date(2024, 9, 4), date(2024, 9, 20), "base")
+
+    def testNameDayReaction(self):
+        """Test that marvin only responds to nameday when asked"""
+        self.assertActionSilent(marvin_actions.marvinNameday, "anything")
 
     def testNameDayRequest(self):
         """Test that marvin sends a proper request for nameday info"""
