@@ -247,7 +247,7 @@ class ActionTest(TestCase):
         self.assertNameDayOutput("double", "Idag har Alfred,Alfrida namnsdag")
         self.assertNameDayOutput("nobody", "Ingen har namnsdag idag")
 
-    def testNameDayRequest(self):
+    def testJokeRequest(self):
         """Test that marvin sends a proper request for a joke"""
         with mock.patch("marvin_actions.requests") as r:
             self.executeAction(marvin_actions.marvinJoke, "joke")
