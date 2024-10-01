@@ -1,0 +1,9 @@
+{
+    "categories":["dev"],
+    "created_at":"2020-01-05 13:42:19.324003",
+    "icon_url":"https://api.chucknorris.io/img/avatar/chuck-norris.png",
+    "id":"ae-78cogr-cb6x9hluwqtw",
+    "updated_at":"2020-01-05 13:42:19.324003",
+    "url":"https://api.chucknorris.io/jokes/ae-78cogr-cb6x9hluwqtw",
+    "value":"There is no Esc key on Chuck Norris' keyboard, because no one escapes Chuck Norris."
+}
