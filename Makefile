@@ -142,10 +142,11 @@ doctest:
 .PHONY: coverage
 coverage:
 	@$(call HELPTEXT,$@)
-	@install -d build/coverage-html
-	$(ENV) && coverage run --source=. -m unittest discover -b -s tests
-	$(ENV) && coverage html --directory=build/coverage-html
-	$(ENV) && coverage report -m
+	@install -d build/coverage
+	coverage run --source=. -m unittest discover -b
+	coverage html --directory=build/coverage
+	rsync -a build/coverage/ docs/coverage/
+	coverage report -m
 
 
 
