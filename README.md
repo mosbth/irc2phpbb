@@ -5,6 +5,7 @@ Marvin, an IRC bot
 [![Build Status GitHub Actions](https://github.com/mosbth/irc2phpbb/actions/workflows/main.yml/badge.svg)](https://github.com/mosbth/irc2phpbb/actions)
 [![Build Status Scrutinizer](https://scrutinizer-ci.com/g/mosbth/irc2phpbb/badges/build.png?b=master)](https://scrutinizer-ci.com/g/mosbth/irc2phpbb/build-status/master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/mosbth/irc2phpbb/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/mosbth/irc2phpbb/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/mosbth/irc2phpbb/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/mosbth/irc2phpbb/?branch=master)
 =======
 
 Get a quick start by checking out the main script `main.py` and read on how to contribute.
