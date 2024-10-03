@@ -14,6 +14,8 @@ Get a quick start by checking out the main script `main.py` and read on how to c
 Contribute
 --------------------------
 
+Before you actually start contributing, create an issue and discuss what you want to do. This is just to avoid that your PR will be denied for some random reason. 
+
 Create your own virtual environment, install the local devevelopment environment and run the script. 
 
 ```bash
