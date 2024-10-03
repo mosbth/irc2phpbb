@@ -98,6 +98,19 @@ Marvin will join your channel and then you can start playing.
 
 
 
+API documentation 
+--------------------------
+
+The code and API documentation is generated using pdoc and make.
+
+```bash
+make pdoc
+```
+
+The docs are saved at `docs/pdoc` and can be [viewed online](https://mosbth.github.io/irc2phpbb/pdoc/).
+
+
+
 History
 --------------------------
 The python script, `irc2phpbb.py`, is a implementation of an irc bot. The bot can answer 
