@@ -1,7 +1,37 @@
-version: "2"
+
 services:
-    marvin:
-        build: .
-        container_name: "MarvinBot"
+    ngircd:
+        image: lscr.io/linuxserver/ngircd:latest
+        container_name: ngircd
+        environment:
+            - PUID=1000
+            - PGID=1000
+            - TZ=Etc/UTC
         volumes:
-            - "./incoming/:/app/incoming/"
+            - ./.docker/ngircd/config:/config
+        ports:
+            - 6667:6667
+        restart: unless-stopped
+    
+    marvin:
+        build: 
+            context: .
+            dockerfile: .docker/marvin/Dockerfile
+        container_name: MarvinBot
+        volumes:
+            - ./marvin_config.json:/app/marvin_config.json
+            - ./incoming/:/app/incoming/
+        depends_on:
+            - ngircd
+
+    irssi:
+        image: irssi
+        container_name: irssi
+        environment:
+            - TERM=screen-256color
+            - COLORTERM=truecolor
+        volumes:
+            - $HOME/.irssi:/home/user/.irssi:ro
+            - /etc/localtime:/etc/localtime:ro
+        depends_on:
+            - ngircd
