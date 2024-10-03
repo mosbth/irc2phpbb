@@ -150,6 +150,14 @@ coverage:
 
 
 
+# target: pdoc                - Create documentation of the code.
+.PHONY: pdoc
+pdoc:
+	@$(call MESSAGE,$@)
+	pdoc --output-dir docs/pdoc *.py
+
+
+
 # target: install-tools       - Install needed devtools.
 .PHONY: install-tools
 install-tools:
