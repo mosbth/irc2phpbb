@@ -45,6 +45,57 @@ make coverage
 
 A html report of the code coverage is generated into `build/coverage/index.html`.
 
+[View the latest published code coverage report](https://mosbth.github.io/irc2phpbb/coverage/).
+
+
+
+Execute marvin in docker
+--------------------------
+
+Start by creating your own copy of the configuration file.
+
+```bash
+cp marvin_config_default.json marvin_config.json
+```
+
+Edit the following settings in the file `marvin_config.json`.
+
+```json
+{
+    "server":   "ngircd",
+    "channel":  "#marvin",
+}
+```
+
+Now start the irc-server [ngircd](https://hub.docker.com/r/linuxserver/ngircd) using docker (in its own terminal window).
+
+```bash
+docker compose up ngircd
+```
+
+Now start the irc-client [irssi](https://hub.docker.com/_/irssi) through docker (or from your desktop).
+
+```bash
+docker compose run irssi
+```
+
+Use the following commands to connect and join the channel where marvin will be.
+
+```
+/connect ngircd
+/join #marvin
+```
+
+If you are using a client  outside of docker, then connect to localhost instead of ngircd.
+
+Then build and start marvin through docker. 
+
+```
+docker compose up marvin
+```
+
+Marvin will join your channel and then you can start playing.
+
 
 
 History
