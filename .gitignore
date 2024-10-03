@@ -15,3 +15,4 @@ build/
 .venv
 __pycache__/
 data/marvinMorning_date.txt
+.coverage

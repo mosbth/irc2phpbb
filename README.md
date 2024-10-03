@@ -28,6 +28,25 @@ Check `main.py` for more details (should be moved to pydoc or other proper docum
 
 
 
+Verify unitttest and code coverage
+--------------------------
+
+Run the unittests.
+
+```bash
+make unittest
+```
+
+Run code coverage and create reports.
+
+```bash
+make coverage
+```
+
+A html report of the code coverage is generated into `build/coverage/index.html`.
+
+
+
 History
 --------------------------
 The python script, `irc2phpbb.py`, is a implementation of an irc bot. The bot can answer 
