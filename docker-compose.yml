@@ -3,12 +3,6 @@ services:
     ngircd:
         image: lscr.io/linuxserver/ngircd:latest
         container_name: ngircd
-        environment:
-            - PUID=1000
-            - PGID=1000
-            - TZ=Etc/UTC
-        volumes:
-            - ./.docker/ngircd/config:/config
         ports:
             - 6667:6667
         restart: unless-stopped
