@@ -13,7 +13,7 @@ services:
             dockerfile: .docker/marvin/Dockerfile
         container_name: MarvinBot
         volumes:
-            - ./marvin_config.json:/app/marvin_config.json
+            - ./.docker/marvin/marvin_docker_config.json:/app/marvin_config.json
             - ./incoming/:/app/incoming/
         depends_on:
             - ngircd
