@@ -17,7 +17,7 @@ Contribute
 
 Before you actually start contributing, create an issue and discuss what you want to do. This is just to avoid that your PR will be denied for some random reason. 
 
-Create your own virtual environment, install the local devevelopment environment and run the script. 
+Create your own virtual environment, install the local development environment and run the script. 
 
 ```bash
 $ python3 -m venv .venv
