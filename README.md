@@ -57,43 +57,28 @@ A html report of the code coverage is generated into `build/coverage/index.html`
 Execute marvin in docker
 --------------------------
 
-Start by creating your own copy of the configuration file.
-
-```bash
-cp marvin_config_default.json marvin_config.json
-```
-
-Edit the following settings in the file `marvin_config.json`.
-
-```json
-{
-    "server":   "ngircd",
-    "channel":  "#marvin",
-}
-```
-
-Now start the irc-server [ngircd](https://hub.docker.com/r/linuxserver/ngircd) using docker (in its own terminal window).
+Start the irc-server [ngircd](https://hub.docker.com/r/linuxserver/ngircd) using docker (in its own terminal window).
 
 ```bash
 docker compose up ngircd
 ```
 
-Now start the irc-client [irssi](https://hub.docker.com/_/irssi) through docker (or from your desktop).
+Now start the irc-client [irssi](https://hub.docker.com/_/irssi) through docker (or from your desktop) in another terminal.
 
 ```bash
 docker compose run irssi
 ```
 
-Use the following commands to connect and join the channel where marvin will be.
+Use the following commands in your irc-client to connect and join the channel where marvin will be.
 
 ```
 /connect ngircd
 /join #marvin
 ```
 
-If you are using a client  outside of docker, then connect to localhost instead of ngircd.
+If you are using a client outside of docker, then connect to localhost instead of ngircd.
 
-Then build and start marvin through docker. 
+Then build and start marvin through docker (in a third terminal). 
 
 ```
 docker compose up marvin
