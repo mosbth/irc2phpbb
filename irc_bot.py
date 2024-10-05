@@ -181,6 +181,7 @@ class IrcBot(Bot):
             try:
                 shutil.move(filename, self.CONFIG["dirDone"])
             except Exception:
+                LOG.warning("Failed to move %s to %s. Deleting.", filename, self.CONFIG["dirDone"])
                 os.remove(filename)
 
     def mainLoop(self):
