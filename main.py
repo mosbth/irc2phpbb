@@ -41,6 +41,8 @@ it out the the irc channel.
 
 import argparse
 import json
+import logging
+import logging.config
 import os
 import sys
 
@@ -59,6 +61,7 @@ EMAIL = "mikael.t.h.roos@gmail.com"
 VERSION = "0.3.0"
 MSG_VERSION = "{program} version {version}.".format(program=PROGRAM, version=VERSION)
 
+LOG = logging.getLogger("main")
 
 
 def printVersion():
@@ -79,12 +82,10 @@ def mergeOptionsWithConfigFile(options, configFile):
 
         options.update(data)
         res = json.dumps(options, sort_keys=True, indent=4, separators=(',', ': '))
-
-        msg = "Read configuration from config file '{file}'. Current configuration is:\n{config}"
-        print(msg.format(config=res, file=configFile))
-
+        LOG.info("Read configuration from config file '%s'.", configFile)
+        LOG.info("Current configuration is: %s", res)
     else:
-        print("Config file '{file}' is not readable, skipping.".format(file=configFile))
+        LOG.info("Config file '{%s}' is not readable, skipping.", configFile)
 
     return options
 
@@ -113,7 +114,7 @@ def parseOptions(options):
             options[parameter] = args[parameter]
 
     res = json.dumps(options, sort_keys=True, indent=4, separators=(',', ': '))
-    print("Configuration updated after cli options:\n{config}".format(config=res))
+    LOG.info("Configuration updated after cli options: %s", res)
 
     return options
 
@@ -135,10 +136,17 @@ def createBot(protocol):
     raise ValueError(f"Unsupported protocol: {protocol}")
 
 
+def setupLogging():
+    """Set up the logging config"""
+    with open("logging.json", encoding="UTF-8") as f:
+        config = json.load(f)
+    logging.config.dictConfig(config)
+
 def main():
     """
     Main function to carry out the work.
     """
+    setupLogging()
     protocol = determineProtocol()
     bot = createBot(protocol)
     options = bot.getConfig()

@@ -11,6 +11,7 @@ Keeping a log and reading incoming material.
 from collections import deque
 from datetime import datetime
 import json
+import logging
 import os
 import re
 import shutil
@@ -19,6 +20,8 @@ import socket
 import chardet
 
 from bot import Bot
+
+LOG = logging.getLogger("bot")
 
 class IrcBot(Bot):
     """Bot implementing the IRC protocol"""
@@ -54,10 +57,10 @@ class IrcBot(Bot):
 
         if server and port:
             self.SOCKET = socket.socket()
-            print("Connecting: {SERVER}:{PORT}".format(SERVER=server, PORT=port))
+            LOG.info("Connecting: %s:%d", server, port)
             self.SOCKET.connect((server, port))
         else:
-            print("Failed to connect, missing server or port in configuration.")
+            LOG.error("Failed to connect, missing server or port in configuration.")
             return
 
         # Send the nick to server
@@ -66,7 +69,7 @@ class IrcBot(Bot):
             msg = 'NICK {NICK}\r\n'.format(NICK=nick)
             self.sendMsg(msg)
         else:
-            print("Ignore sending nick, missing nick in configuration.")
+            LOG.info("Ignore sending nick, missing nick in configuration.")
 
         # Present yourself
         realname = self.CONFIG["realname"]
@@ -77,14 +80,14 @@ class IrcBot(Bot):
         if ident:
             self.sendMsg('PRIVMSG nick IDENTIFY {IDENT}\r\n'.format(IDENT=ident))
         else:
-            print("Ignore identifying with password, ident is not set.")
+            LOG.info("Ignore identifying with password, ident is not set.")
 
         # Join a channel
         channel = self.CONFIG["channel"]
         if channel:
             self.sendMsg('JOIN {CHANNEL}\r\n'.format(CHANNEL=channel))
         else:
-            print("Ignore joining channel, missing channel name in configuration.")
+            LOG.info("Ignore joining channel, missing channel name in configuration.")
 
     def sendPrivMsg(self, message, channel):
         """Send and log a PRIV message"""
@@ -96,7 +99,7 @@ class IrcBot(Bot):
 
     def sendMsg(self, msg):
         """Send and occasionally print the message sent"""
-        print("SEND: " + msg.rstrip('\r\n'))
+        LOG.info("SEND: %s", msg.rstrip("\r\n"))
         self.SOCKET.send(msg.encode())
 
     def decode_irc(self, raw, preferred_encs=None):
@@ -135,7 +138,7 @@ class IrcBot(Bot):
             lines = lines.split("\n")
             buf = lines.pop()
         except Exception as err:
-            print("Error reading incoming message. " + err)
+            LOG.error("Error reading incoming message %s", err)
 
         return lines
 
@@ -192,7 +195,7 @@ class IrcBot(Bot):
             self.readincoming()
 
             for line in self.receive():
-                print(line)
+                LOG.debug(line)
                 words = line.strip().split()
 
                 if not words:

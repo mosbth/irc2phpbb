@@ -5,7 +5,10 @@
 Module for the common base class for all Bots
 """
 
+import logging
 import re
+
+LOG = logging.getLogger("bot")
 
 class Bot():
     """Base class for things common between different protocols"""
@@ -24,16 +27,16 @@ class Bot():
 
     def registerActions(self, actions):
         """Register actions to use"""
-        print("Adding actions:")
+        LOG.info("Adding actions")
         for action in actions:
-            print(" - " + action.__name__)
+            LOG.info("Adding action: %s", action.__name__)
         self.ACTIONS.extend(actions)
 
     def registerGeneralActions(self, actions):
         """Register general actions to use"""
-        print("Adding general actions:")
+        LOG.info("Adding actions")
         for action in actions:
-            print(" - " + action.__name__)
+            LOG.info("Adding action: %s", action.__name__)
         self.GENERAL_ACTIONS.extend(actions)
 
     @staticmethod

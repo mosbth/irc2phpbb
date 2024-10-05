@@ -7,9 +7,13 @@ Module for the Discord bot.
 Connecting, sending and receiving messages and doing custom actions.
 """
 
+import logging
+
 import discord
 
 from bot import Bot
+
+LOG = logging.getLogger("bot")
 
 class DiscordBot(discord.Client, Bot):
     """Bot implementing the discord protocol"""
@@ -42,7 +46,7 @@ class DiscordBot(discord.Client, Bot):
 
     async def on_message(self, message):
         """Hook run on every message"""
-        print(f"#{message.channel.name} <{message.author}> {message.content}")
+        LOG.debug("#%s <%s> %s", message.channel.name, message.author, message.content)
         if message.author.name == self.user.name:
             # don't react to own messages
             return
