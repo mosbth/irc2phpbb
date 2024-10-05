@@ -9,11 +9,13 @@ from urllib.request import urlopen
 import calendar
 import datetime
 import json
+import logging
 import random
 import requests
 
 from bs4 import BeautifulSoup
 
+LOG = logging.getLogger("action")
 
 def getAllActions():
     """
@@ -350,7 +352,8 @@ def marvinSun(row):
             msg = getString("sun", "msg").format(sunrise, sunset)
             return msg
 
-        except Exception:
+        except Exception as e:
+            LOG.error("Failed to get sun times: %s", e)
             return getString("sun", "error")
 
     return msg
@@ -371,7 +374,8 @@ def marvinWeather(row):
                 soup.h4.findNextSibling("p").text
             )
 
-        except Exception:
+        except Exception as e:
+            LOG.error("Failed to get weather: %s", e)
             msg = getString("smhi", "failed")
 
     return msg
@@ -485,7 +489,8 @@ def marvinBirthday(row):
             else:
                 msg = getString("birthday", "somebody").format(my_strings)
 
-        except Exception:
+        except Exception as e:
+            LOG.error("Failed to get birthday: %s", e)
             msg = getString("birthday", "error")
 
     return msg
@@ -507,7 +512,8 @@ def marvinNameday(row):
                 msg = getString("nameday", "somebody").format(",".join(names))
             else:
                 msg = getString("nameday", "nobody")
-        except Exception:
+        except Exception as e:
+            LOG.error("Failed to get nameday: %s", e)
             msg = getString("nameday", "error")
     return msg
 
@@ -553,7 +559,8 @@ def getJoke():
         r = requests.get(url, timeout=5)
         joke_data = r.json()
         return joke_data["value"]
-    except Exception:
+    except Exception as e:
+        LOG.error("Failed to get joke: %s", e)
         return getString("joke", "error")
 
 def marvinJoke(row):
@@ -575,7 +582,8 @@ def getCommit():
         res = r.text.strip()
         msg = f"Använd detta meddelandet: '{res}'"
         return msg
-    except Exception:
+    except Exception as e:
+        LOG.error("Failed to get commit message: %s", e)
         return getString("commit", "error")
 
 def marvinCommit(row):
