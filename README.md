@@ -50,8 +50,6 @@ make coverage
 
 A html report of the code coverage is generated into `build/coverage/index.html`.
 
-[View the latest published code coverage report](https://mosbth.github.io/irc2phpbb/coverage/).
-
 
 
 Execute marvin in docker

@@ -146,7 +146,6 @@ coverage:
 	@rm -f build/coverage/*
 	coverage run --source=. -m unittest discover -b 
 	coverage html --directory=build/coverage --omit=test_*
-	rsync -a --delete build/coverage/ docs/coverage/
 	coverage report -m --omit=test_*
 
 
