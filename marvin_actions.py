@@ -336,16 +336,22 @@ def marvinSun(row):
     Check when the sun goes up and down.
     """
     msg = None
-    if any(r in row for r in ["sol", "solen", "solnedgång", "soluppgång"]):
+    if any(r in row for r in ["sol", "solen", "solnedgång", "soluppgång", "sun"]):
         try:
-            soup = BeautifulSoup(urlopen('http://www.timeanddate.com/sun/sweden/jonkoping'))
-            spans = soup.find_all("span", {"class": "three"})
-            sunrise = spans[0].text
-            sunset = spans[1].text
-            msg = getString("sun").format(sunrise, sunset)
+            url = getString("sun", "url")
+            r = requests.get(url, timeout=5)
+            sundata = r.json()
+            # Formats the time from the response to HH:mm instead of hh:mm:ss
+            sunrise = sundata["results"]["sunrise"].split()[0][:-3]
+            sunset = sundata["results"]["sunset"].split()[0][:-3]
+            # The api uses AM/PM notation, this converts the sunset to 12 hour time
+            sunsetHour = int(sunset.split(":")[0]) + 12
+            sunset = str(sunsetHour) + sunset[-3:]
+            msg = getString("sun", "msg").format(sunrise, sunset)
+            return msg
 
         except Exception:
-            msg = getString("sun-no")
+            return getString("sun", "error")
 
     return msg
 

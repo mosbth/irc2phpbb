@@ -89,6 +89,16 @@ class ActionTest(TestCase):
                 r.get.return_value = response
                 self.assertActionOutput(marvin_actions.marvinJoke, "joke", expectedOutput)
 
+    def assertSunOutput(self, expectedOutput):
+        """Test that marvin knows when the sun comes up, given an input file"""
+        with open("sunFiles/sun.json", "r", encoding="UTF-8") as f:
+            response = requests.models.Response()
+            response._content = str.encode(json.dumps(json.load(f)))
+            with mock.patch("marvin_actions.requests") as r:
+                r.get.return_value = response
+                print(response)
+                self.assertActionOutput(marvin_actions.marvinSun, "sol", expectedOutput)
+
     def testSmile(self):
         """Test that marvin can smile"""
         with mock.patch("marvin_actions.random") as r:
@@ -262,6 +272,21 @@ class ActionTest(TestCase):
     def testJoke(self):
         """Test that marvin sends a joke when requested"""
         self.assertJokeOutput("joke", "There is no Esc key on Chuck Norris' keyboard, because no one escapes Chuck Norris.")
+
+    def testJokeError(self):
+        """Tests that marvin returns the proper error message when joke API is down"""
+        with mock.patch("marvin_actions.requests.get", side_effect=Exception("API Down!")):
+            self.assertStringsOutput(marvin_actions.marvinJoke, "kör ett skämt", "joke", "error")
+
+    def testSun(self):
+        """Test that marvin sends the sunrise and sunset times """
+        self.assertSunOutput(
+            "Idag går solen upp 7:12 och ner 18:21. Iallafall i trakterna kring BTH.")
+
+    def testSunError(self):
+        """Tests that marvin returns the proper error message when joke API is down"""
+        with mock.patch("marvin_actions.requests.get", side_effect=Exception("API Down!")):
+            self.assertStringsOutput(marvin_actions.marvinSun, "när går solen ner?", "sun", "error")
 
     def testUptime(self):
         """Test that marvin can provide the link to the uptime tournament"""
