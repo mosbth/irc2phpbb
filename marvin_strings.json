@@ -199,8 +199,11 @@
         ]
     },
 
-    "sun": "Idag går solen upp {} och ner {}. Iallafall i trakterna kring Jönköping.",
-    "sun-no": "Jag hittade tyvär inga solar idag :( så jag håller på och lär mig hur Python kan räkna ut soluppgången, återkommer.",
+    "sun": {
+        "url": "https://api.sunrisesunset.io/json?lat=56.182244&lng=15.5882305",
+        "msg": "Idag går solen upp {} och ner {}. Iallafall i trakterna kring BTH.",
+        "error": "Jag hittade tyvärr inga solar idag :( Jag håller på och lär mig hur Python kan räkna ut soluppgången, återkommer."
+    },
 
     "commitstrip": {
         "message": "Ta en paus och hämta energi med dagens comic strip från commitStrip: {url}, kolla lite gifs på http://thecodinglove.com/, läs dagens artikel på http://thedailywtf.com/ och slösurfa https://www.reddit.com/r/programmerhumor",

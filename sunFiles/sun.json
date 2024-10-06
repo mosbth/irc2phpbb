@@ -1,0 +1,17 @@
+{
+    "results": {
+      "date": "2024-10-06",
+      "sunrise": "7:12:16 AM",
+      "sunset": "6:21:28 PM",
+      "first_light": "5:07:21 AM",
+      "last_light": "8:26:24 PM",
+      "dawn": "6:35:00 AM",
+      "dusk": "6:58:45 PM",
+      "solar_noon": "12:46:52 PM",
+      "golden_hour": "5:30:54 PM",
+      "day_length": "11:09:12",
+      "timezone": "Europe/Stockholm",
+      "utc_offset": 120
+    },
+    "status": "OK"
+}
