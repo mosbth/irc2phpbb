@@ -89,8 +89,7 @@ def marvinSmile(row):
     """
     msg = None
     if any(r in row for r in ["smile", "le", "skratta", "smilies"]):
-        smilie = getString("smile")
-        msg = "{SMILE}".format(SMILE=smilie)
+        msg = getString("smile")
     return msg
 
 
@@ -267,7 +266,7 @@ def marvinSayHi(row):
         smile = getString("smile")
         hello = getString("hello")
         friendly = getString("friendly")
-        msg = "{} {} {}".format(smile, hello, friendly)
+        msg = f"{smile} {hello} {friendly}"
 
     return msg
 
@@ -568,7 +567,8 @@ def getCommit():
         url = getString("commit", "url")
         r = requests.get(url, timeout=5)
         res = r.text.strip()
-        return res
+        msg = f"Använd detta meddelandet: '{res}'"
+        return msg
     except Exception:
         return getString("commit", "error")
 
@@ -578,6 +578,5 @@ def marvinCommit(row):
     """
     msg = None
     if any(r in row for r in ["commit", "-m"]):
-        commitMsg = getCommit()
-        msg = "Använd detta meddelandet: '{}'".format(commitMsg)
+        msg = getCommit()
     return msg
