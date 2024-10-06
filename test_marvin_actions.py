@@ -255,7 +255,9 @@ class ActionTest(TestCase):
         """Test that marvin sends a proper request for a joke"""
         with mock.patch("marvin_actions.requests") as r:
             self.executeAction(marvin_actions.marvinJoke, "joke")
-            self.assertEqual(r.get.call_args.args[0], "https://api.chucknorris.io/jokes/random?category=dev")
+            self.assertEqual(
+                r.get.call_args.args[0],
+                "https://api.chucknorris.io/jokes/random?category=dev")
 
     def testJoke(self):
         """Test that marvin sends a joke when requested"""
