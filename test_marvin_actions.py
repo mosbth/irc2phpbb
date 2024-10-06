@@ -146,7 +146,7 @@ class ActionTest(TestCase):
 
     def testBudord(self):
         """Test that marvin knows all the commandments"""
-        for n in range(1, 5):
+        for n in range(1, 6):
             self.assertStringsOutput(marvin_actions.marvinBudord, f"budord #{n}", "budord", f"#{n}")
 
         self.assertStringsOutput(marvin_actions.marvinBudord,"visa stentavla 1", "budord", "#1")
@@ -261,6 +261,15 @@ class ActionTest(TestCase):
         self.assertNameDayOutput("double", "Idag har Alfred,Alfrida namnsdag")
         self.assertNameDayOutput("nobody", "Ingen har namnsdag idag")
 
+    def testNameDayError(self):
+        """Tests that marvin returns the proper error message when nameday API is down"""
+        with mock.patch("marvin_actions.requests.get", side_effect=Exception("API Down!")):
+            self.assertStringsOutput(
+                marvin_actions.marvinNameday,
+                "har någon namnsdag idag?",
+                "nameday",
+                "error")
+
     def testJokeRequest(self):
         """Test that marvin sends a proper request for a joke"""
         with mock.patch("marvin_actions.requests") as r:
@@ -323,6 +332,15 @@ class ActionTest(TestCase):
             r.get.return_value = response
             expected = f"Använd detta meddelandet: '{message}'"
             self.assertActionOutput(marvin_actions.marvinCommit, "commit", expected)
+
+    def testCommitError(self):
+        """Tests that marvin sends the proper message when get commit fails"""
+        with mock.patch("marvin_actions.requests.get", side_effect=Exception('API Down!')):
+            self.assertStringsOutput(
+                marvin_actions.marvinCommit,
+                "vad skriver man efter commit -m?",
+                "commit",
+                "error")
 
     def testMorning(self):
         """Test that marvin wishes good morning, at most once per day"""
