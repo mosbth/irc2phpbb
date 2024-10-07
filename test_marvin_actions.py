@@ -96,7 +96,6 @@ class ActionTest(TestCase):
             response._content = str.encode(json.dumps(json.load(f)))
             with mock.patch("marvin_actions.requests") as r:
                 r.get.return_value = response
-                print(response)
                 self.assertActionOutput(marvin_actions.marvinSun, "sol", expectedOutput)
 
     def testSmile(self):
