@@ -1,7 +1,6 @@
 Marvin, an IRC bot
 ==================
 
-[![Join the chat at https://discord.gg/6qQATZjv](https://dcbadge.limes.pink/api/server/https://discord.gg/6qQATZjv?theme=default-inverted&compact=true)](https://discord.gg/6qQATZjv)
 [![Build Status GitHub Actions](https://github.com/mosbth/irc2phpbb/actions/workflows/main.yml/badge.svg)](https://github.com/mosbth/irc2phpbb/actions)
 [![Build Status Scrutinizer](https://scrutinizer-ci.com/g/mosbth/irc2phpbb/badges/build.png?b=master)](https://scrutinizer-ci.com/g/mosbth/irc2phpbb/build-status/master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/mosbth/irc2phpbb/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/mosbth/irc2phpbb/?branch=master)
