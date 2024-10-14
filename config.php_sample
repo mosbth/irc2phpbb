@@ -1,7 +1,0 @@
-<?php
-/**
- * Copy file to config.php and set user and password for the user who logs 
- * into the forum.
- */
-define('USER', 'user');
-define('PWD', 'password');
