@@ -145,8 +145,6 @@ def main():
     options.update(mergeOptionsWithConfigFile(options, "marvin_config.json"))
     config = parseOptions(options)
     bot.setConfig(config)
-    marvin_actions.setConfig(options)
-    marvin_general_actions.setConfig(options)
     actions = marvin_actions.getAllActions()
     general_actions = marvin_general_actions.getAllGeneralActions()
     bot.registerActions(actions)

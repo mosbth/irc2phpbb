@@ -51,16 +51,6 @@ def getAllActions():
 with open("marvin_strings.json", encoding="utf-8") as f:
     STRINGS = json.load(f)
 
-# Configuration loaded
-CONFIG = None
-
-def setConfig(config):
-    """
-    Keep reference to the loaded configuration.
-    """
-    global CONFIG
-    CONFIG = config
-
 
 def getString(key, key1=None):
     """
