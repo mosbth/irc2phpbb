@@ -184,21 +184,6 @@
         "sallad på MiXiT (http://mixitgbg.se/mixit-garda/)"
     ],
 
-    "listen": {
-        "success": [
-            "Senaste låten jag lyssnade på var '{title}' med {artist} - {link}",
-            "Jag lyssnar just nu på '{title}' med {artist} - {link}",
-            "Har du hört '{title}' med {artist} - {link}",
-            "Jag kan tipsa om en bra låt som heter '{title}' med {artist} - {link}"
-        ],
-        "failed": [
-            "Något gick fel..."
-        ],
-        "disabled": [
-            "Funktionen är disablad i konfigurationen."
-        ]
-    },
-
     "sun": {
         "url": "https://api.sunrisesunset.io/json?lat=56.182244&lng=15.5882305",
         "msg": "Idag går solen upp {} och ner {}. Iallafall i trakterna kring BTH.",

@@ -31,7 +31,6 @@ def getAllActions():
         marvinQuote,
         marvinStats,
         marvinIrcLog,
-        marvinListen,
         marvinWeather,
         marvinSun,
         marvinSayHi,
@@ -293,42 +292,6 @@ def marvinLunch(row):
         return lunchStr.format(getString('lunch-bth'))
 
     return None
-
-
-def marvinListen(row):
-    """
-    Return music last listened to.
-    """
-    msg = None
-    if any(r in row for r in ["lyssna", "lyssnar", "musik"]):
-
-        if not CONFIG["lastfm"]:
-            return getString("listen", "disabled")
-
-        url = "http://ws.audioscrobbler.com/2.0/"
-
-        try:
-            params = dict(
-                method="user.getrecenttracks",
-                user=CONFIG["lastfm"]["user"],
-                api_key=CONFIG["lastfm"]["apikey"],
-                format="json",
-                limit="1"
-            )
-
-            resp = requests.get(url=url, params=params, timeout=5)
-            data = json.loads(resp.text)
-
-            artist = data["recenttracks"]["track"][0]["artist"]["#text"]
-            title = data["recenttracks"]["track"][0]["name"]
-            link = data["recenttracks"]["track"][0]["url"]
-
-            msg = getString("listen", "success").format(artist=artist, title=title, link=link)
-
-        except Exception:
-            msg = getString("listen", "failed")
-
-    return msg
 
 
 def marvinSun(row):
