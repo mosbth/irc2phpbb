@@ -16,6 +16,7 @@ class Bot():
         self.CONFIG = {}
         self.ACTIONS = []
         self.GENERAL_ACTIONS = []
+        self.MSG_LOG = logging.getLogger("message")
 
     def getConfig(self):
         """Return the current configuration"""
