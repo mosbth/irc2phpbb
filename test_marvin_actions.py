@@ -332,6 +332,11 @@ class ActionTest(TestCase):
             expected = f"Använd detta meddelandet: '{message}'"
             self.assertActionOutput(marvin_actions.marvinCommit, "commit", expected)
 
+    def testCommitReaction(self):
+        """Test that marvin only generates commit messages when asked"""
+        self.assertActionSilent(marvin_actions.marvinCommit, "nocommit")
+
+
     def testCommitError(self):
         """Tests that marvin sends the proper message when get commit fails"""
         with mock.patch("marvin_actions.requests.get", side_effect=Exception('API Down!')):
