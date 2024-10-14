@@ -93,13 +93,14 @@ class IrcBot(Bot):
         """Send and log a PRIV message"""
         if channel == self.CONFIG["channel"]:
             self.ircLogAppend(user=self.CONFIG["nick"].ljust(8), message=message)
+            self.MSG_LOG.debug("%s <%s>  %s", channel, self.CONFIG["nick"], message)
 
         msg = "PRIVMSG {CHANNEL} :{MSG}\r\n".format(CHANNEL=channel, MSG=message)
         self.sendMsg(msg)
 
     def sendMsg(self, msg):
         """Send and occasionally print the message sent"""
-        LOG.info("SEND: %s", msg.rstrip("\r\n"))
+        LOG.debug("SEND: %s", msg.rstrip("\r\n"))
         self.SOCKET.send(msg.encode())
 
     def decode_irc(self, raw, preferred_encs=None):
@@ -224,6 +225,10 @@ class IrcBot(Bot):
     def checkMarvinActions(self, words):
         """Check if Marvin should perform any actions"""
         if words[1] == 'PRIVMSG' and words[2] == self.CONFIG["channel"]:
+            self.MSG_LOG.debug("%s <%s>  %s",
+                               words[2],
+                               words[0].split(":")[1].split("!")[0],
+                               " ".join(words[3:]))
             self.ircLogAppend(words)
 
         if words[1] == 'PRIVMSG':

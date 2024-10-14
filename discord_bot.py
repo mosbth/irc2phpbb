@@ -13,7 +13,6 @@ import discord
 
 from bot import Bot
 
-LOG = logging.getLogger("bot")
 
 class DiscordBot(discord.Client, Bot):
     """Bot implementing the discord protocol"""
@@ -46,7 +45,7 @@ class DiscordBot(discord.Client, Bot):
 
     async def on_message(self, message):
         """Hook run on every message"""
-        LOG.debug("#%s <%s> %s", message.channel.name, message.author, message.content)
+        self.MSG_LOG.debug("#%s <%s> %s", message.channel.name, message.author, message.content)
         if message.author.name == self.user.name:
             # don't react to own messages
             return
