@@ -48,3 +48,34 @@ jobs:
         uses: ./.github/actions/install
       - name: Lint with Pylint
         run: make pylint
+
+  build:
+    runs-on: ubuntu-24.04
+    needs: [install]
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Install dependencies
+        uses: ./.github/actions/install
+      - name: Build pdoc
+        id: build
+        run: make pdoc
+      - name: Upload pdoc
+        id: deploy
+        uses: actions/upload-pages-artifact@v3.0.1
+        with:
+          path: docs
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}/pdoc
+    runs-on: ubuntu-24.04
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deploy
+        uses: actions/deploy-pages@v4.0.5
+    permissions:
+      id-token: write
+      pages: write
