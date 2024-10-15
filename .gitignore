@@ -4,6 +4,7 @@ aggregate.error
 aggregate.ignore
 aggregate.log
 db.sqlite
+docs/
 logs/
 # pycharm
 .idea/
