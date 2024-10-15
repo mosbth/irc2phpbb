@@ -8,12 +8,8 @@ Connecting, sending and receiving messages and doing custom actions.
 
 Keeping a log and reading incoming material.
 """
-from collections import deque
-from datetime import datetime
-import json
 import logging
 import os
-import re
 import shutil
 import socket
 
@@ -34,8 +30,6 @@ class IrcBot(Bot):
             "nick": "marvin",
             "realname": "Marvin The All Mighty dbwebb-bot",
             "ident": None,
-            "irclogfile": "irclog.txt",
-            "irclogmax": 20,
             "dirIncoming": "incoming",
             "dirDone": "done",
             "lastfm": None,
@@ -43,10 +37,6 @@ class IrcBot(Bot):
 
         # Socket for IRC server
         self.SOCKET = None
-
-        # Keep a log of the latest messages
-        self.IRCLOG = None
-
 
     def connectToServer(self):
         """Connect to the IRC Server"""
@@ -92,7 +82,6 @@ class IrcBot(Bot):
     def sendPrivMsg(self, message, channel):
         """Send and log a PRIV message"""
         if channel == self.CONFIG["channel"]:
-            self.ircLogAppend(user=self.CONFIG["nick"].ljust(8), message=message)
             self.MSG_LOG.debug("%s <%s>  %s", channel, self.CONFIG["nick"], message)
 
         msg = "PRIVMSG {CHANNEL} :{MSG}\r\n".format(CHANNEL=channel, MSG=message)
@@ -143,25 +132,6 @@ class IrcBot(Bot):
 
         return lines
 
-    def ircLogAppend(self, line=None, user=None, message=None):
-        """Read incoming message and guess encoding"""
-        if not user:
-            user = re.search(r"(?<=:)\w+", line[0]).group(0)
-
-        if not message:
-            message = ' '.join(line[3:]).lstrip(':')
-
-        self.IRCLOG.append({
-            'time': datetime.now().strftime("%H:%M").rjust(5),
-            'user': user,
-            'msg': message
-        })
-
-    def ircLogWriteToFile(self):
-        """Write IRClog to file"""
-        with open(self.CONFIG["irclogfile"], 'w', encoding="UTF-8") as f:
-            json.dump(list(self.IRCLOG), f, indent=2)
-
     def readincoming(self):
         """
         Read all files in the directory incoming, send them as a message if
@@ -187,12 +157,7 @@ class IrcBot(Bot):
 
     def mainLoop(self):
         """For ever, listen and answer to incoming chats"""
-        self.IRCLOG = deque([], self.CONFIG["irclogmax"])
-
         while 1:
-            # Write irclog
-            self.ircLogWriteToFile()
-
             # Check in any in the incoming directory
             self.readincoming()
 
@@ -229,7 +194,6 @@ class IrcBot(Bot):
                                words[2],
                                words[0].split(":")[1].split("!")[0],
                                " ".join(words[3:]))
-            self.ircLogAppend(words)
 
         if words[1] == 'PRIVMSG':
             raw = ' '.join(words[3:])
