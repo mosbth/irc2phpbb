@@ -1,11 +1,11 @@
 {
-    "source": "I PHP-kurserna kan du länka till source.php. Annars delar du koden som en gist (https://gist.github.com) eller i CodeShare, (http://codeshare.io).",
+    "source": "I PHP-kurserna kan du länka till source.php. Annars delar du koden som en gist (https://gist.github.com) eller i CodeShare, (https://codeshare.io).",
 
-    "whois": "Jag är en tjänstvillig själ som gillar webbprogrammering. Jag bor på GitHub https://github.com/mosbth/irc2phpbb och du kan diskutera mig i forumet http://dbwebb.se/t/20",
+    "whois": "Jag är en tjänstvillig själ som gillar webbprogrammering. Jag bor på GitHub https://github.com/mosbth/irc2phpbb och du kan diskutera mig i forumet https://dbwebb.se/t/20",
 
     "menu": "[ vem är | le | lunch [var] | citat | budord 1 - 5 | source | väder | solen | dagens video | nöje/paus/strip/comic [slump] | grill | birthday/födelsedag | nameday/namnsdag | stats | google/googla | explain/förklara | uptime | stream | princip | skämt/joke | hjälp ]",
 
-    "ircstats": "Statistik för kanalen finns här: http://dbwebb.se/irssistats/db-o-webb.html",
+    "ircstats": "Statistik för kanalen finns här: https://dbwebb.se/irssistats/db-o-webb.html",
 
     "google": [
         "Googla {}",
@@ -62,10 +62,10 @@
 
     "budord": {
         "#1": "Ställ din fråga, länka till exempel och källkod. Häng kvar och vänta på svar.",
-        "#2": "Var inte rädd för att fråga och fråga tills du får svar: http://dbwebb.se/f/6249",
-        "#3": "Öva dig ställa smarta frågor: http://dbwebb.se/f/7802",
-        "#4": "When in doubt - gör ett testprogram. http://dbwebb.se/f/13570",
-        "#5": "Hey Luke - use the source! http://catb.org/jargon/html/U/UTSL.html"
+        "#2": "Var inte rädd för att fråga och fråga tills du får svar: https://dbwebb.se/f/6249",
+        "#3": "Öva dig ställa smarta frågor: https://dbwebb.se/f/7802",
+        "#4": "When in doubt - gör ett testprogram. https://dbwebb.se/f/13570",
+        "#5": "Hey Luke - use the source! https://catb.org/jargon/html/U/UTSL.html"
     },
 
 
@@ -158,28 +158,28 @@
     ],
 
     "lunch-malmo": [
-        "afrikanskt på Calabass (http://www.calabass.com/)",
-        "mexikanskt på Zócalo (http://zocalo.se/restaurangerna/malmo/)",
-        "hamburgare på Surf Shack (http://surfshacksmashburgers.com/)",
-        "hamburgare på Casual Street Food (http://www.casualstreetfood.se/)",
-        "hamburgare på Tommi's (http://www.tommisburgerjoint.se/)",
-        "kebab på Döner Kebab (http://www.triangeln.com/doner_kebab)"
+        "afrikanskt på Calabass (https://www.calabass.com/)",
+        "mexikanskt på Zócalo (https://zocalo.se/restaurangerna/malmo/)",
+        "hamburgare på Surf Shack (https://surfshacksmashburgers.com/)",
+        "hamburgare på Casual Street Food (https://www.casualstreetfood.se/)",
+        "hamburgare på Tommi's (https://www.tommisburgerjoint.se/)",
+        "kebab på Döner Kebab (https://www.triangeln.com/doner_kebab)"
     ],
 
     "lunch-goteborg": [
         "halvspecial på Preem",
-        "grillat på Odinsgrillen (http://www.odinsparkgrill.se/)",
-        "hamburgare på Burgersson Frigga (http://www.burgersson.se/)",
-        "hamburgare på Tugg (http://gbg.tuggburgers.se/)",
-        "japanskt på Mikado (http://www.mikadogoteborg.se/)",
-        "pizza på I love pizza (http://www.ilovepizza.se/)",
-        "burrito på TomToms Burritos (http://www.tomtoms.se/)",
-        "steak på Brasa (http://www.restaurangbrasa.se/)",
-        "något fint på Post-hotellet (http://www.nordabargrill.se/lunch/)",
-        "något på John Scott's Place (http://johnscotts.se/palace/)",
-        "husman på Vällagat (http://www.vallagat.se/)",
-        "husman på AtWork (http://atwork.nu/restaurang/)",
-        "sallad på MiXiT (http://mixitgbg.se/mixit-garda/)"
+        "grillat på Odinsgrillen (https://www.odinsparkgrill.se/)",
+        "hamburgare på Burgersson Frigga (https://www.burgersson.se/)",
+        "hamburgare på Tugg (https://gbg.tuggburgers.se/)",
+        "japanskt på Mikado (https://www.mikadogoteborg.se/)",
+        "pizza på I love pizza (https://www.ilovepizza.se/)",
+        "burrito på TomToms Burritos (https://www.tomtoms.se/)",
+        "steak på Brasa (https://www.restaurangbrasa.se/)",
+        "något fint på Post-hotellet (https://www.nordabargrill.se/lunch/)",
+        "något på John Scott's Place (https://johnscotts.se/palace/)",
+        "husman på Vällagat (https://www.vallagat.se/)",
+        "husman på AtWork (https://atwork.nu/restaurang/)",
+        "sallad på MiXiT (https://mixitgbg.se/mixit-garda/)"
     ],
 
     "sun": {
@@ -189,9 +189,9 @@
     },
 
     "commitstrip": {
-        "message": "Ta en paus och hämta energi med dagens comic strip från commitStrip: {url}, kolla lite gifs på http://thecodinglove.com/, läs dagens artikel på http://thedailywtf.com/ och slösurfa https://www.reddit.com/r/programmerhumor",
-        "url": "http://www.commitstrip.com/en/",
-        "urlPage": "http://www.commitstrip.com/en/page/",
+        "message": "Ta en paus och hämta energi med dagens comic strip från commitStrip: {url}, kolla lite gifs på https://thecodinglove.com/, läs dagens artikel på https://thedailywtf.com/ och slösurfa https://www.reddit.com/r/programmerhumor",
+        "url": "https://www.commitstrip.com/en/",
+        "urlPage": "https://www.commitstrip.com/en/page/",
         "first": 1,
         "last": 688
     },
@@ -220,7 +220,7 @@
     },
 
     "birthday": {
-        "url": "http://dbwebb.se/forum/",
+        "url": "https://dbwebb.se/forum/",
         "somebody": "Idag gratulerar vi {}",
         "nobody": "Ingen som fyller år idag.",
         "error": "Något gick snett, jag har inte en susning om någon fyller år eller inte."
@@ -231,7 +231,7 @@
         "error": "Något gick snett, jag har inte en susning om någon har namnsdag idag eller inte."
     },
     "uptime": {
-        "info": "Kolla in statsen för uptime-tävlingen på http://uptime.dbwebb.se/"
+        "info": "Kolla in statsen för uptime-tävlingen på https://uptime.dbwebb.se/"
     },
     "stream": {
         "info": "Streamen finns på https://dbwebb.se/stream och sparas i spellistan 'Streamade föreläsningar/seminarier' https://www.youtube.com/playlist?list=PLKtP9l5q3ce8Bhxn22oBYWZZ4-3ms1rMl"
@@ -256,7 +256,7 @@
         "error": "Chuck Norris har inte tid underhålla er idag!"
     },
     "commit": {
-        "url": "http://whatthecommit.com/index.txt",
+        "url": "https://whatthecommit.com/index.txt",
         "error": "Du får komma på ett själv. Jag är trasig för tillfället!"
     }
 }

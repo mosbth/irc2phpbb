@@ -123,7 +123,7 @@ def marvinExplainShell(row):
     if not query:
         return None
     cmd = " ".join(query)
-    url = "http://explainshell.com/explain?cmd="
+    url = "https://explainshell.com/explain?cmd="
     url += quote_plus(cmd, "/:")
     msg = getString("explainShell")
     return msg.format(url)
@@ -458,7 +458,7 @@ def marvinNameday(row):
     if any(r in row for r in ["nameday", "namnsdag"]):
         try:
             now = datetime.datetime.now()
-            raw_url = "http://api.dryg.net/dagar/v2.1/{year}/{month}/{day}"
+            raw_url = "https://api.dryg.net/dagar/v2.1/{year}/{month}/{day}"
             url = raw_url.format(year=now.year, month=now.month, day=now.day)
             r = requests.get(url, timeout=5)
             nameday_data = r.json()
