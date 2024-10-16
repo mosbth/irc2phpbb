@@ -127,7 +127,7 @@ class ActionTest(TestCase):
 
     def testExplainShell(self):
         """Test that marvin can explain shell commands"""
-        url = "http://explainshell.com/explain?cmd=pwd"
+        url = "https://explainshell.com/explain?cmd=pwd"
         self.assertActionOutput(marvin_actions.marvinExplainShell, "explain pwd", url)
         self.assertActionOutput(marvin_actions.marvinExplainShell, "can you explain pwd", url)
         self.assertActionOutput(
@@ -247,7 +247,7 @@ class ActionTest(TestCase):
             with mock.patch("marvin_actions.datetime") as d:
                 d.datetime.now.return_value = date(2024, 1, 2)
                 self.executeAction(marvin_actions.marvinNameday, "namnsdag")
-                self.assertEqual(r.get.call_args.args[0], "http://api.dryg.net/dagar/v2.1/2024/1/2")
+                self.assertEqual(r.get.call_args.args[0], "https://api.dryg.net/dagar/v2.1/2024/1/2")
 
     def testNameDayResponse(self):
         """Test that marvin properly parses nameday responses"""
@@ -315,7 +315,7 @@ class ActionTest(TestCase):
         """Test that marvin sends proper requests when generating commit messages"""
         with mock.patch("marvin_actions.requests") as r:
             self.executeAction(marvin_actions.marvinCommit, "vad skriver man efter commit -m?")
-            self.assertEqual(r.get.call_args.args[0], "http://whatthecommit.com/index.txt")
+            self.assertEqual(r.get.call_args.args[0], "https://whatthecommit.com/index.txt")
 
     def testCommitResponse(self):
         """Test that marvin properly handles responses when generating commit messages"""
