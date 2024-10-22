@@ -304,20 +304,34 @@ def marvinWeather(row):
     """
     Check what the weather prognosis looks like.
     """
-    msg = None
+    msg = ""
     if any(r in row for r in ["väder", "vädret", "prognos", "prognosen", "smhi"]):
-        url = getString("smhi", "url")
+        forecast = ""
+        observation = ""
+
         try:
-            soup = BeautifulSoup(urlopen(url))
-            msg = "{}. {}. {}".format(
-                soup.h1.text,
-                soup.h4.text,
-                soup.h4.findNextSibling("p").text
-            )
+            station_req = requests.get(getString("smhi", "station_url"), timeout=5)
+            weather_code:int = int(station_req.json().get("value")[0].get("value"))
+
+            weather_codes_req = requests.get(getString("smhi", "weather_codes_url"), timeout=5)
+            weather_codes_arr: list = weather_codes_req.json().get("entry")
+
+            current_weather_req = requests.get(getString("smhi", "current_weather_url"), timeout=5)
+            current_w_data: list = current_weather_req.json().get("timeSeries")[0].get("parameters")
+
+            for curr_w in current_w_data:
+                if curr_w.get("name") == "t":
+                    forecast = curr_w.get("values")[0]
+
+            for code in weather_codes_arr:
+                if code.get("key") == weather_code:
+                    observation = code.get("value")
+
+            msg = f"Karlskrona just nu: {forecast} °C. {observation}."
 
         except Exception as e:
             LOG.error("Failed to get weather: %s", e)
-            msg = getString("smhi", "failed")
+            msg: str = getString("smhi", "failed")
 
     return msg
 

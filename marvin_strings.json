@@ -197,7 +197,9 @@
     },
 
     "smhi": {
-        "url": "http://www.smhi.se/weatherSMHI2/landvader/prognos15_2.htm",
+        "station_url": "https://opendata-download-metobs.smhi.se/api/version/1.0/parameter/13/station/65090/period/latest-hour/data.json",
+        "current_weather_url": "https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/15.5890/lat/56.1500/data.json",
+        "weather_codes_url": "https://opendata-download-metobs.smhi.se/api/version/1.0/parameter/13/codes.json",
         "failed": "Något har hänt med SMHI, de svarar inte."
     },
 
