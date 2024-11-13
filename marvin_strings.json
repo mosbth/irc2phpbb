@@ -63,7 +63,8 @@
         "#2": "Var inte rädd för att fråga och fråga tills du får svar: https://dbwebb.se/f/6249",
         "#3": "Öva dig ställa smarta frågor: https://dbwebb.se/f/7802",
         "#4": "When in doubt - gör ett testprogram. https://dbwebb.se/f/13570",
-        "#5": "Hey Luke - use the source! https://catb.org/jargon/html/U/UTSL.html"
+        "#5": "Hey Luke - use the source! https://catb.org/jargon/html/U/UTSL.html",
+        "#6": "Om du googlar på felkoden från pylint så hittar du bra förklaringar på nätet, med exempel!"
     },
 
     "video-of-today": {
