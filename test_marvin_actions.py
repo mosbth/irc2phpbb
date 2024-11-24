@@ -6,6 +6,7 @@ Tests for all Marvin actions
 """
 
 import json
+import os
 
 from datetime import date
 from unittest import mock, TestCase
@@ -72,7 +73,7 @@ class ActionTest(TestCase):
 
     def assertNameDayOutput(self, exampleFile, expectedOutput):
         """Assert that the proper nameday message is returned, given an inputfile"""
-        with open(f"namedayFiles/{exampleFile}.json", "r", encoding="UTF-8") as f:
+        with open(os.path.join("namedayFiles", f"{exampleFile}.json"), "r", encoding="UTF-8") as f:
             response = requests.models.Response()
             response._content = str.encode(json.dumps(json.load(f)))
             with mock.patch("marvin_actions.requests") as r:
@@ -81,7 +82,7 @@ class ActionTest(TestCase):
 
     def assertJokeOutput(self, exampleFile, expectedOutput):
         """Assert that a joke is returned, given an input file"""
-        with open(f"jokeFiles/{exampleFile}.json", "r", encoding="UTF-8") as f:
+        with open(os.path.join("jokeFiles", f"{exampleFile}.json"), "r", encoding="UTF-8") as f:
             response = requests.models.Response()
             response._content = str.encode(json.dumps(json.load(f)))
             with mock.patch("marvin_actions.requests") as r:
@@ -90,7 +91,7 @@ class ActionTest(TestCase):
 
     def assertSunOutput(self, expectedOutput):
         """Test that marvin knows when the sun comes up, given an input file"""
-        with open("sunFiles/sun.json", "r", encoding="UTF-8") as f:
+        with open(os.path.join("sunFiles", "sun.json"), "r", encoding="UTF-8") as f:
             response = requests.models.Response()
             response._content = str.encode(json.dumps(json.load(f)))
             with mock.patch("marvin_actions.requests") as r:
