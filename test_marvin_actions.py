@@ -171,8 +171,8 @@ class ActionTest(TestCase):
                 day = date(2024, 11, 25) + timedelta(days=d)
                 dt.date.today.return_value = day
                 weekday = day.strftime("%A")
-                weekdayPhrase = self.strings.get("weekdays").get(weekday)
-                videoPhrase = self.strings.get("video-of-today").get(weekday)
+                weekdayPhrase = self.strings.get("video-of-today").get(weekday).get("message")
+                videoPhrase = self.strings.get("video-of-today").get(weekday).get("url")
                 response = f"{weekdayPhrase} En passande video är {videoPhrase}"
                 self.assertActionOutput(marvin_actions.marvinVideoOfToday, "dagens video", response)
         self.assertActionSilent(marvin_actions.marvinVideoOfToday, "videoidag")

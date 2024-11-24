@@ -174,12 +174,12 @@ def videoOfToday():
     """
     Check what day it is and provide a url to a suitable video together with a greeting.
     """
-    day = datetime.date.today().strftime("%A")
-    msg = getString("weekdays", day)
-    video = getString("video-of-today", day)
+    weekday = datetime.date.today().strftime("%A")
+    day = getString("video-of-today", weekday)
+    msg = day.get("message")
 
-    if video:
-        msg += " En passande video är " + video
+    if day:
+        msg += " En passande video är " + day.get("url")
     else:
         msg += " Jag har ännu ingen passande video för denna dagen."
 
