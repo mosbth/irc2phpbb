@@ -3,9 +3,7 @@
 
     "whois": "Jag är en tjänstvillig själ som gillar webbprogrammering. Jag bor på GitHub https://github.com/mosbth/irc2phpbb och du kan diskutera mig i forumet https://dbwebb.se/t/20",
 
-    "menu": "[ vem är | le | lunch [var] | citat | budord 1 - 5 | source | väder | solen | dagens video | nöje/paus/strip/comic [slump] | grill | birthday/födelsedag | nameday/namnsdag | stats | google/googla | explain/förklara | uptime | stream | princip | skämt/joke | hjälp ]",
-
-    "ircstats": "Statistik för kanalen finns här: https://dbwebb.se/irssistats/db-o-webb.html",
+    "menu": "[ vem är | le | lunch [var] | citat | budord 1 - 5 | source | väder | solen | dagens video | nöje/paus/strip/comic [slump] | grill | birthday/födelsedag | nameday/namnsdag |  google/googla | explain/förklara | uptime | stream | princip | skämt/joke | hjälp ]",
 
     "google": [
         "Googla {}",

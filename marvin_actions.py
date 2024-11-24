@@ -31,7 +31,6 @@ def getAllActions():
         marvinSource,
         marvinBudord,
         marvinQuote,
-        marvinStats,
         marvinWeather,
         marvinSun,
         marvinSayHi,
@@ -217,17 +216,6 @@ def marvinHelp(row):
     msg = None
     if any(r in row for r in ["hjälp", "help", "menu", "meny"]):
         msg = getString("menu")
-
-    return msg
-
-
-def marvinStats(row):
-    """
-    Provide a link to the stats.
-    """
-    msg = None
-    if any(r in row for r in ["stats", "statistik", "ircstats"]):
-        msg = getString("ircstats")
 
     return msg
 

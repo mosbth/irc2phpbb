@@ -180,11 +180,6 @@ class ActionTest(TestCase):
         self.assertStringsOutput(marvin_actions.marvinHelp, "help", "menu")
         self.assertActionSilent(marvin_actions.marvinHelp, "halp")
 
-    def testStats(self):
-        """Test that marvin can provide a link to the IRC stats page"""
-        self.assertStringsOutput(marvin_actions.marvinStats, "stats", "ircstats")
-        self.assertActionSilent(marvin_actions.marvinStats, "statistics")
-
     def testSayHi(self):
         """Test that marvin responds to greetings"""
         with mock.patch("marvin_actions.random") as r:
