@@ -68,6 +68,8 @@ def getString(key, key1=None):
                 res = res[random.randint(0, len(res) - 1)]
     elif isinstance(data, str):
         res = data
+    else:
+        raise ValueError("Unsupported datatype in strings.json")
 
     return res
 
