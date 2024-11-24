@@ -6,6 +6,7 @@ Tests for all Marvin actions
 """
 
 import json
+import os
 
 from datetime import date
 from unittest import mock, TestCase
@@ -326,6 +327,29 @@ class ActionTest(TestCase):
             r.get.return_value = response
             expected = f"Använd detta meddelandet: '{message}'"
             self.assertActionOutput(marvin_actions.marvinCommit, "commit", expected)
+
+    def testWeatherRequest(self):
+        """Test that marvin sends the expected requests for weather info"""
+        with mock.patch("marvin_actions.requests") as r:
+            self.executeAction(marvin_actions.marvinWeather, "väder")
+            for url in ["https://opendata-download-metobs.smhi.se/api/version/1.0/parameter/13/station/65090/period/latest-hour/data.json",
+                        "https://opendata-download-metobs.smhi.se/api/version/1.0/parameter/13/codes.json",
+                        "https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/15.5890/lat/56.1500/data.json"]:
+                self.assertTrue(mock.call(url, timeout=5) in r.get.call_args_list)
+
+    def testWeatherResponse(self):
+        """Test that marvin properly parses weather responses"""
+        responses = []
+        for responseFile in ["station.json", "codes.json", "weather.json"]:
+            with open(os.path.join("weatherFiles", responseFile), "r", encoding="UTF-8") as f:
+                response = requests.models.Response()
+                response._content = str.encode(json.dumps(json.load(f)))
+                responses.append(response)
+
+        with mock.patch("marvin_actions.requests") as r:
+            r.get.side_effect = responses
+            expected = "Karlskrona just nu: 11.7 °C. Inget signifikant väder observerat."
+            self.assertActionOutput(marvin_actions.marvinWeather, "väder", expected)
 
     def testCommitReaction(self):
         """Test that marvin only generates commit messages when asked"""
