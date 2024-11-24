@@ -1,0 +1,78 @@
+{
+  "updated": 1729620000000,
+  "parameter": {
+    "key": "13",
+    "name": "Rådande väder",
+    "summary": "momentanvärde, 1 gång/tim resp 8 gånger/dygn",
+    "unit": "kod"
+  },
+  "station": {
+    "key": "65090",
+    "name": "Karlskrona-Söderstjerna",
+    "owner": "Försvarsmakten",
+    "ownerCategory": "CLIMATE",
+    "measuringStations": "CORE",
+    "height": 2.0
+  },
+  "period": {
+    "key": "latest-hour",
+    "from": 1729616401000,
+    "to": 1729620000000,
+    "summary": "Data från senaste timmen",
+    "sampling": "Ej angivet"
+  },
+  "position": [
+    {
+      "from": 1267401600000,
+      "to": 1729621220000,
+      "height": 2.4,
+      "latitude": 56.15,
+      "longitude": 15.589
+    }
+  ],
+  "link": [
+    {
+      "href": "https://opendata-download-metobs.smhi.se/api/version/1.0/parameter/13/station/65090/period/latest-hour/data.json",
+      "rel": "data",
+      "type": "application/json"
+    },
+    {
+      "href": "https://opendata-download-metobs.smhi.se/api/version/1.0/parameter/13/station/65090/period/latest-hour/data.xml",
+      "rel": "data",
+      "type": "application/xml"
+    },
+    {
+      "href": "https://opendata-download-metobs.smhi.se/api/version/1.0/parameter/13/station/65090/period/latest-hour/data.csv",
+      "rel": "data",
+      "type": "text/plain"
+    },
+    {},
+    {
+      "href": "https://opendata-download-metobs.smhi.se/api/version/1.0/parameter/13/codes.json",
+      "rel": "codes",
+      "type": "application/json"
+    },
+    {
+      "href": "https://opendata-download-metobs.smhi.se/api/version/1.0/parameter/13/codes.xml",
+      "rel": "codes",
+      "type": "application/xml"
+    },
+    {
+      "href": "https://opendata-catalog.smhi.se/md/25080190-38ba-4279-a65d-d9ef8d0bf949",
+      "rel": "iso19139",
+      "type": "application/vnd.iso.19139+xml"
+    },
+    {
+      "href": "https://opendata-catalog.smhi.se/md/b451cab6-2a8f-4b14-a125-fe0c49a6c9aa",
+      "rel": "iso19139",
+      "type": "application/vnd.iso.19139+xml"
+    }
+  ],
+  "value": [
+    {
+      "date": 1729620000000,
+      "value": "100",
+      "quality": "G"
+    }
+  ]
+}
