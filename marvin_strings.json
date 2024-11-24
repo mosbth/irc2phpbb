@@ -97,98 +97,96 @@
       }
     },
 
-    "lunch-message": [
-        "Ska vi ta {}?",
-        "Jag är lite sugen på {}?",
-        "Jag tänkte käka på {}, ska du med?",
-        "{}, där är det mysigt, ska vi ta där?"
-    ],
-
-    "lunch-karlskrona": [
-        "Olles krovbar",
-        "Lila thai stället",
-        "donken",
-        "tex mex stället vid subway",
-        "Subway",
-        "Nya peking",
-        "kebab house",
-        "Royal thai",
-        "thai stället vid hemmakväll",
-        "Gelato",
-        "Indian garden",
-        "Sumo sushi",
-        "Pasterian i stan",
-        "Biobaren",
-        "Michelangelo"
-    ],
-
-    "lunch-bth": [
-        "thairestaurangen vid korsningen",
-        "fiket jämte demolabbet",
-        "Indiska",
-        "Pappa curry",
-        "boden uppe på parkeringen",
-        "Bergåsa kebab",
-        "Pasterian",
-        "Villa Oscar",
-        "Eat here",
-        "Bistro J"
-    ],
-
-    "lunch-angelholm": [
-        "Kirris",
-        "Passagen",
-        "Ica (mmmm broccoli)",
-        "Åkanten (Om sommar och sol)",
-        "Top Falafel",
-        "Subway",
-        "Acapulco",
-        "Kebab på torget",
-        "Ostbutiken",
-        "Hummerhuset",
-        "Klitterhus (fancy stuff)"
-    ],
-
-    "lunch-hassleholm": [
-        "pastavagnen på torget",
-        "Freds",
-        "mcDonalds",
-        "subway",
-        "kinabuffé på Cats",
-        "valentino",
-        "lotterilådan",
-        "casablance",
-        "det där stället i gallerian",
-        "infinity",
-        "östervärn",
-        "argentina",
-        "T4"
-    ],
-
-    "lunch-malmo": [
-        "afrikanskt på Calabass (https://www.calabass.com/)",
-        "mexikanskt på Zócalo (https://zocalo.se/restaurangerna/malmo/)",
-        "hamburgare på Surf Shack (https://surfshacksmashburgers.com/)",
-        "hamburgare på Casual Street Food (https://www.casualstreetfood.se/)",
-        "hamburgare på Tommi's (https://www.tommisburgerjoint.se/)",
-        "kebab på Döner Kebab (https://www.triangeln.com/doner_kebab)"
-    ],
-
-    "lunch-goteborg": [
-        "halvspecial på Preem",
-        "grillat på Odinsgrillen (https://www.odinsparkgrill.se/)",
-        "hamburgare på Burgersson Frigga (https://www.burgersson.se/)",
-        "hamburgare på Tugg (https://gbg.tuggburgers.se/)",
-        "japanskt på Mikado (https://www.mikadogoteborg.se/)",
-        "pizza på I love pizza (https://www.ilovepizza.se/)",
-        "burrito på TomToms Burritos (https://www.tomtoms.se/)",
-        "steak på Brasa (https://www.restaurangbrasa.se/)",
-        "något fint på Post-hotellet (https://www.nordabargrill.se/lunch/)",
-        "något på John Scott's Place (https://johnscotts.se/palace/)",
-        "husman på Vällagat (https://www.vallagat.se/)",
-        "husman på AtWork (https://atwork.nu/restaurang/)",
-        "sallad på MiXiT (https://mixitgbg.se/mixit-garda/)"
-    ],
+    "lunch": {
+        "message" : [
+            "Ska vi ta {}?",
+            "Jag är lite sugen på {}?",
+            "Jag tänkte käka på {}, ska du med?",
+            "{}, där är det mysigt, ska vi ta där?"
+        ],
+        "location": {
+            "karlskrona": [
+                "Olles krovbar",
+                "Lila thai stället",
+                "donken",
+                "tex mex stället vid subway",
+                "Subway",
+                "Nya peking",
+                "kebab house",
+                "Royal thai",
+                "thai stället vid hemmakväll",
+                "Gelato",
+                "Indian garden",
+                "Sumo sushi",
+                "Pasterian i stan",
+                "Biobaren",
+                "Michelangelo"
+            ],
+            "bth": [
+                "thairestaurangen vid korsningen",
+                "fiket jämte demolabbet",
+                "Indiska",
+                "Pappa curry",
+                "boden uppe på parkeringen",
+                "Bergåsa kebab",
+                "Pasterian",
+                "Villa Oscar",
+                "Eat here",
+                "Bistro J"
+            ],
+            "angelholm": [
+                "Kirris",
+                "Passagen",
+                "Ica (mmmm broccoli)",
+                "Åkanten (Om sommar och sol)",
+                "Top Falafel",
+                "Subway",
+                "Acapulco",
+                "Kebab på torget",
+                "Ostbutiken",
+                "Hummerhuset",
+                "Klitterhus (fancy stuff)"
+            ],
+            "hassleholm": [
+                "pastavagnen på torget",
+                "Freds",
+                "mcDonalds",
+                "subway",
+                "kinabuffé på Cats",
+                "valentino",
+                "lotterilådan",
+                "casablance",
+                "det där stället i gallerian",
+                "infinity",
+                "östervärn",
+                "argentina",
+                "T4"
+            ],
+            "malmo": [
+                "afrikanskt på Calabass (https://www.calabass.com/)",
+                "mexikanskt på Zócalo (https://zocalo.se/restaurangerna/malmo/)",
+                "hamburgare på Surf Shack (https://surfshacksmashburgers.com/)",
+                "hamburgare på Casual Street Food (https://www.casualstreetfood.se/)",
+                "hamburgare på Tommi's (https://www.tommisburgerjoint.se/)",
+                "kebab på Döner Kebab (https://www.triangeln.com/doner_kebab)"
+            ],
+            "goteborg": [
+                "halvspecial på Preem",
+                "grillat på Odinsgrillen (https://www.odinsparkgrill.se/)",
+                "hamburgare på Burgersson Frigga (https://www.burgersson.se/)",
+                "hamburgare på Tugg (https://gbg.tuggburgers.se/)",
+                "japanskt på Mikado (https://www.mikadogoteborg.se/)",
+                "pizza på I love pizza (https://www.ilovepizza.se/)",
+                "burrito på TomToms Burritos (https://www.tomtoms.se/)",
+                "steak på Brasa (https://www.restaurangbrasa.se/)",
+                "något fint på Post-hotellet (https://www.nordabargrill.se/lunch/)",
+                "något på John Scott's Place (https://johnscotts.se/palace/)",
+                "husman på Vällagat (https://www.vallagat.se/)",
+                "husman på AtWork (https://atwork.nu/restaurang/)",
+                "sallad på MiXiT (https://mixitgbg.se/mixit-garda/)"
+            ]
+        }
+    },
 
     "sun": {
         "url": "https://api.sunrisesunset.io/json?lat=56.182244&lng=15.5882305",
