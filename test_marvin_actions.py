@@ -63,12 +63,11 @@ class ActionTest(TestCase):
         if expectedMessageKey in ["base", "week", "eternity"]:
             message = message % bbqDate
 
-        with mock.patch("marvin_actions.datetime") as d:
+        with mock.patch("marvin_actions.datetime") as d, mock.patch("marvin_actions.random") as r:
             d.date.today.return_value = todaysDate
-            with mock.patch("marvin_actions.random") as r:
-                r.randint.return_value = 1
-                expected = f"{url}. {message}"
-                self.assertActionOutput(marvin_actions.marvinTimeToBBQ, "dags att grilla", expected)
+            r.randint.return_value = 1
+            expected = f"{url}. {message}"
+            self.assertActionOutput(marvin_actions.marvinTimeToBBQ, "dags att grilla", expected)
 
 
     def assertNameDayOutput(self, exampleFile, expectedOutput):
@@ -243,11 +242,10 @@ class ActionTest(TestCase):
 
     def testNameDayRequest(self):
         """Test that marvin sends a proper request for nameday info"""
-        with mock.patch("marvin_actions.requests") as r:
-            with mock.patch("marvin_actions.datetime") as d:
-                d.datetime.now.return_value = date(2024, 1, 2)
-                self.executeAction(marvin_actions.marvinNameday, "namnsdag")
-                self.assertEqual(r.get.call_args.args[0], "https://api.dryg.net/dagar/v2.1/2024/1/2")
+        with mock.patch("marvin_actions.requests") as r, mock.patch("marvin_actions.datetime") as d:
+            d.datetime.now.return_value = date(2024, 1, 2)
+            self.executeAction(marvin_actions.marvinNameday, "namnsdag")
+            self.assertEqual(r.get.call_args.args[0], "https://api.dryg.net/dagar/v2.1/2024/1/2")
 
     def testNameDayResponse(self):
         """Test that marvin properly parses nameday responses"""
