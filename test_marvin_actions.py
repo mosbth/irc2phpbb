@@ -8,7 +8,7 @@ Tests for all Marvin actions
 import json
 import os
 
-from datetime import date
+from datetime import date, timedelta
 from unittest import mock, TestCase
 
 import requests
@@ -168,10 +168,12 @@ class ActionTest(TestCase):
         """Test that marvin can link to a different video each day of the week"""
         with mock.patch("marvin_actions.datetime") as dt:
             for d in range(1, 8):
-                dt.date.weekday.return_value = d - 1
-                day =  self.strings.get("weekdays").get(str(d))
-                video = self.strings.get("video-of-today").get(str(d))
-                response = f"{day} En passande video är {video}"
+                day = date(2024, 11, 25) + timedelta(days=d)
+                dt.date.today.return_value = day
+                weekday = day.strftime("%A")
+                weekdayPhrase = self.strings.get("weekdays").get(weekday)
+                videoPhrase = self.strings.get("video-of-today").get(weekday)
+                response = f"{weekdayPhrase} En passande video är {videoPhrase}"
                 self.assertActionOutput(marvin_actions.marvinVideoOfToday, "dagens video", response)
         self.assertActionSilent(marvin_actions.marvinVideoOfToday, "videoidag")
 
