@@ -68,23 +68,23 @@
 
 
     "weekdays": {
-        "1": "Idag är det måndag.",
-        "2": "Idag är det tisdag.",
-        "3": "Idag är det onsdag.",
-        "4": "Idag är det torsdag.",
-        "5": "Idag är det fredag.",
-        "6": "Idag är det lördag.",
-        "7": "Idag är det söndag."
+        "Monday": "Idag är det måndag.",
+        "Tuesday": "Idag är det tisdag.",
+        "Wednesday": "Idag är det onsdag.",
+        "Thursday": "Idag är det torsdag.",
+        "Friday": "Idag är det fredag.",
+        "Saturday": "Idag är det lördag.",
+        "Sunday": "Idag är det söndag."
     },
 
     "video-of-today": {
-        "1": "https://www.youtube.com/watch?v=HbJ6Jsy0JfY  https://www.youtube.com/watch?v=-Kobdb37Cwc eller https://www.youtube.com/watch?v=d-diB65scQU",
-        "2": "https://www.youtube.com/watch?v=sL4znuvCuRg",
-        "3": "https://www.youtube.com/watch?v=F3jnymeJof4",
-        "4": "https://www.youtube.com/watch?v=9Tg_zvDg3Xo",
-        "5": "https://www.youtube.com/watch?v=kfVsfOSbJY0",
-        "6": "https://www.youtube.com/watch?v=GVCzdpagXOQ",
-        "7": "https://www.youtube.com/watch?v=c3BvW56tjB0"
+        "Monday": "https://www.youtube.com/watch?v=HbJ6Jsy0JfY  https://www.youtube.com/watch?v=-Kobdb37Cwc eller https://www.youtube.com/watch?v=d-diB65scQU",
+        "Tuesday": "https://www.youtube.com/watch?v=sL4znuvCuRg",
+        "Wednesday": "https://www.youtube.com/watch?v=F3jnymeJof4",
+        "Thursday": "https://www.youtube.com/watch?v=9Tg_zvDg3Xo",
+        "Friday": "https://www.youtube.com/watch?v=kfVsfOSbJY0",
+        "Saturday": "https://www.youtube.com/watch?v=GVCzdpagXOQ",
+        "Sunday": "https://www.youtube.com/watch?v=c3BvW56tjB0"
     },
 
     "lunch-message": [
