@@ -66,25 +66,35 @@
         "#5": "Hey Luke - use the source! https://catb.org/jargon/html/U/UTSL.html"
     },
 
-
-    "weekdays": {
-        "Monday": "Idag är det måndag.",
-        "Tuesday": "Idag är det tisdag.",
-        "Wednesday": "Idag är det onsdag.",
-        "Thursday": "Idag är det torsdag.",
-        "Friday": "Idag är det fredag.",
-        "Saturday": "Idag är det lördag.",
-        "Sunday": "Idag är det söndag."
-    },
-
     "video-of-today": {
-        "Monday": "https://www.youtube.com/watch?v=HbJ6Jsy0JfY  https://www.youtube.com/watch?v=-Kobdb37Cwc eller https://www.youtube.com/watch?v=d-diB65scQU",
-        "Tuesday": "https://www.youtube.com/watch?v=sL4znuvCuRg",
-        "Wednesday": "https://www.youtube.com/watch?v=F3jnymeJof4",
-        "Thursday": "https://www.youtube.com/watch?v=9Tg_zvDg3Xo",
-        "Friday": "https://www.youtube.com/watch?v=kfVsfOSbJY0",
-        "Saturday": "https://www.youtube.com/watch?v=GVCzdpagXOQ",
-        "Sunday": "https://www.youtube.com/watch?v=c3BvW56tjB0"
+      "Monday": {
+        "url": "https://www.youtube.com/watch?v=HbJ6Jsy0JfY  https://www.youtube.com/watch?v=-Kobdb37Cwc eller https://www.youtube.com/watch?v=d-diB65scQU",
+        "message": "Idag är det måndag."
+      },
+      "Tuesday": {
+        "url": "https://www.youtube.com/watch?v=sL4znuvCuRg",
+        "message": "Idag är det tisdag."
+      },
+      "Wednesday": {
+        "url": "https://www.youtube.com/watch?v=F3jnymeJof4",
+        "message": "Idag är det onsdag."
+      },
+      "Thursday": {
+        "url": "https://www.youtube.com/watch?v=9Tg_zvDg3Xo",
+        "message": "Idag är det torsdag."
+      },
+      "Friday": {
+        "url": "https://www.youtube.com/watch?v=kfVsfOSbJY0",
+        "message": "Idag är det fredag."
+      },
+      "Saturday": {
+        "url": "https://www.youtube.com/watch?v=GVCzdpagXOQ",
+        "message": "Idag är det lördag."
+      },
+      "Sunday": {
+        "url": "https://www.youtube.com/watch?v=c3BvW56tjB0",
+        "message": "Idag är det söndag."
+      }
     },
 
     "lunch-message": [
