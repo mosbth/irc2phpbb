@@ -243,21 +243,23 @@ def marvinLunch(row):
     Help decide where to eat.
     """
     lunchOptions = {
-        'stan centrum karlskrona kna': 'lunch-karlskrona',
-        'ängelholm angelholm engelholm': 'lunch-angelholm',
-        'hässleholm hassleholm': 'lunch-hassleholm',
-        'malmö malmo malmoe': 'lunch-malmo',
-        'göteborg goteborg gbg': 'lunch-goteborg'
+        'stan centrum karlskrona kna': 'karlskrona',
+        'ängelholm angelholm engelholm': 'angelholm',
+        'hässleholm hassleholm': 'hassleholm',
+        'malmö malmo malmoe': 'malmo',
+        'göteborg goteborg gbg': 'goteborg'
     }
 
-    if any(r in row for r in ["lunch", "mat", "äta", "luncha"]):
-        lunchStr = getString('lunch-message')
+    data = getString("lunch")
 
+    if any(r in row for r in ["lunch", "mat", "äta", "luncha"]):
+        places = data.get("location").get("bth")
         for keys, value in lunchOptions.items():
             if any(r in row for r in keys.split(" ")):
-                return lunchStr.format(getString(value))
+                places = data.get("location").get(value)
 
-        return lunchStr.format(getString('lunch-bth'))
+        lunchStr = getString("lunch", "message")
+        return lunchStr.format(places[random.randint(0, len(places) - 1)])
 
     return None
 

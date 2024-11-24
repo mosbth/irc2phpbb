@@ -197,8 +197,8 @@ class ActionTest(TestCase):
         locations = ["karlskrona", "goteborg", "angelholm", "hassleholm", "malmo"]
         with mock.patch("marvin_actions.random") as r:
             for location in locations:
-                for index, place in enumerate(self.strings.get(f"lunch-{location}")):
-                    r.randint.side_effect = [0, index]
+                for i, place in enumerate(self.strings.get("lunch").get("location").get(location)):
+                    r.randint.side_effect = [0, i]
                     self.assertActionOutput(
                         marvin_actions.marvinLunch, f"mat {location}", f"Ska vi ta {place}?")
             r.randint.side_effect = [1, 2]
