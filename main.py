@@ -59,7 +59,7 @@ PROGRAM = "marvin"
 AUTHOR = "Mikael Roos"
 EMAIL = "mikael.t.h.roos@gmail.com"
 VERSION = "0.3.0"
-MSG_VERSION = "{program} version {version}.".format(program=PROGRAM, version=VERSION)
+MSG_VERSION = f"{PROGRAM} version {VERSION}."
 
 LOG = logging.getLogger("main")
 
