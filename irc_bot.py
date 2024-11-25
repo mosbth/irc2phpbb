@@ -56,26 +56,26 @@ class IrcBot(Bot):
         # Send the nick to server
         nick = self.CONFIG["nick"]
         if nick:
-            msg = 'NICK {NICK}\r\n'.format(NICK=nick)
+            msg = f'NICK {nick}\r\n'
             self.sendMsg(msg)
         else:
             LOG.info("Ignore sending nick, missing nick in configuration.")
 
         # Present yourself
         realname = self.CONFIG["realname"]
-        self.sendMsg('USER  {NICK} 0 * :{REALNAME}\r\n'.format(NICK=nick, REALNAME=realname))
+        self.sendMsg(f'USER  {nick} 0 * :{realname}\r\n')
 
         # This is my nick, i promise!
         ident = self.CONFIG["ident"]
         if ident:
-            self.sendMsg('PRIVMSG nick IDENTIFY {IDENT}\r\n'.format(IDENT=ident))
+            self.sendMsg(f'PRIVMSG nick IDENTIFY {ident}\r\n')
         else:
             LOG.info("Ignore identifying with password, ident is not set.")
 
         # Join a channel
         channel = self.CONFIG["channel"]
         if channel:
-            self.sendMsg('JOIN {CHANNEL}\r\n'.format(CHANNEL=channel))
+            self.sendMsg(f'JOIN {channel}\r\n')
         else:
             LOG.info("Ignore joining channel, missing channel name in configuration.")
 
@@ -84,7 +84,7 @@ class IrcBot(Bot):
         if channel == self.CONFIG["channel"]:
             self.MSG_LOG.debug("%s <%s>  %s", channel, self.CONFIG["nick"], message)
 
-        msg = "PRIVMSG {CHANNEL} :{MSG}\r\n".format(CHANNEL=channel, MSG=message)
+        msg = f"PRIVMSG {channel} :{message}\r\n"
         self.sendMsg(msg)
 
     def sendMsg(self, msg):
@@ -182,10 +182,10 @@ class IrcBot(Bot):
         IRC protocol.
         """
         if words[0] == "PING":
-            self.sendMsg("PONG {ARG}\r\n".format(ARG=words[1]))
+            self.sendMsg(f"PONG {words[1]}\r\n")
 
         if words[1] == 'INVITE':
-            self.sendMsg('JOIN {CHANNEL}\r\n'.format(CHANNEL=words[3]))
+            self.sendMsg(f'JOIN {words[3]}\r\n')
 
     def checkMarvinActions(self, words):
         """Check if Marvin should perform any actions"""
