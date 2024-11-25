@@ -103,6 +103,7 @@ class IrcBot(Bot):
 
         changed = False
         enc = None
+        res = None
         for enc in preferred_encs:
             try:
                 res = raw.decode(enc)
@@ -122,6 +123,7 @@ class IrcBot(Bot):
 
     def receive(self):
         """Read incoming message and guess encoding"""
+        lines = None
         try:
             buf = self.SOCKET.recv(2048)
             lines = self.decode_irc(buf)
