@@ -71,32 +71,37 @@ class ActionTest(TestCase):
             self.assertActionOutput(marvin_actions.marvinTimeToBBQ, "dags att grilla", expected)
 
 
-    def assertNameDayOutput(self, exampleFile, expectedOutput):
-        """Assert that the proper nameday message is returned, given an inputfile"""
-        with open(os.path.join("namedayFiles", f"{exampleFile}.json"), "r", encoding="UTF-8") as f:
+    def createResponseFrom(self, directory, filename):
+        """Create a response object with contect as contained in the specified file"""
+        with open(os.path.join(directory, f"{filename}.json"), "r", encoding="UTF-8") as f:
             response = requests.models.Response()
             response._content = str.encode(json.dumps(json.load(f)))
-            with mock.patch("marvin_actions.requests") as r:
-                r.get.return_value = response
-                self.assertActionOutput(marvin_actions.marvinNameday, "nameday", expectedOutput)
+            return response
+
+
+    def assertNameDayOutput(self, exampleFile, expectedOutput):
+        """Assert that the proper nameday message is returned, given an inputfile"""
+        response = self.createResponseFrom("namedayFiles", exampleFile)
+        with mock.patch("marvin_actions.requests") as r:
+            r.get.return_value = response
+            self.assertActionOutput(marvin_actions.marvinNameday, "nameday", expectedOutput)
+
 
     def assertJokeOutput(self, exampleFile, expectedOutput):
         """Assert that a joke is returned, given an input file"""
-        with open(os.path.join("jokeFiles", f"{exampleFile}.json"), "r", encoding="UTF-8") as f:
-            response = requests.models.Response()
-            response._content = str.encode(json.dumps(json.load(f)))
-            with mock.patch("marvin_actions.requests") as r:
-                r.get.return_value = response
-                self.assertActionOutput(marvin_actions.marvinJoke, "joke", expectedOutput)
+        response = self.createResponseFrom("jokeFiles", exampleFile)
+        with mock.patch("marvin_actions.requests") as r:
+            r.get.return_value = response
+            self.assertActionOutput(marvin_actions.marvinJoke, "joke", expectedOutput)
+
 
     def assertSunOutput(self, expectedOutput):
         """Test that marvin knows when the sun comes up, given an input file"""
-        with open(os.path.join("sunFiles", "sun.json"), "r", encoding="UTF-8") as f:
-            response = requests.models.Response()
-            response._content = str.encode(json.dumps(json.load(f)))
-            with mock.patch("marvin_actions.requests") as r:
-                r.get.return_value = response
-                self.assertActionOutput(marvin_actions.marvinSun, "sol", expectedOutput)
+        response = self.createResponseFrom("sunFiles", "sun")
+        with mock.patch("marvin_actions.requests") as r:
+            r.get.return_value = response
+            self.assertActionOutput(marvin_actions.marvinSun, "sol", expectedOutput)
+
 
     def testSmile(self):
         """Test that marvin can smile"""
