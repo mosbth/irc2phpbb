@@ -40,7 +40,8 @@ def getAllActions():
         marvinStream,
         marvinPrinciple,
         marvinJoke,
-        marvinCommit
+        marvinCommit,
+        marvinPowerPrice
     ]
 
 
@@ -519,3 +520,35 @@ def marvinCommit(row):
     if any(r in row for r in ["commit", "-m"]):
         msg = getCommit()
     return msg
+
+def marvinPowerPrice(row):
+    """
+    Display the current power price
+    """
+    msg = None
+    if any(r in row for r in ["elpris"]):
+        try:
+            price = getPowerPrice(datetime.datetime.utcnow(), "SE4")
+        except Exception as e:
+            LOG.error("Failed to get power price: %s", e)
+            return None
+        msg = getString("powerprice", "msg").format(price, "SE4")
+        if price > 1.5:
+            msg += " " + getString("powerprice", "exclamation")
+    return msg
+
+
+def getPowerPrice(time, area):
+    """
+    Return todays power price (in SEK per kWh) at the given time of day in an area
+    """
+    today = datetime.datetime.today().strftime('%Y-%m-%d')
+    r = requests.get(getString("powerprice").get("url").format(today), timeout=5)
+    data = r.json().get("multiAreaEntries")
+    for entry in data:
+        start = datetime.datetime.fromisoformat(entry.get("deliveryStart"))
+        if start.hour == time.hour:
+            price = entry.get("entryPerArea").get(area)
+            break
+    price /= 1000 # MWh -> kWh
+    return price
