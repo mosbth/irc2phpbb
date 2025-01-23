@@ -248,7 +248,8 @@ class ActionTest(TestCase):
     def testNameDayResponse(self):
         """Test that marvin properly parses nameday responses"""
         self.assertNameDayOutput("single", "Idag har Svea namnsdag")
-        self.assertNameDayOutput("double", "Idag har Alfred,Alfrida namnsdag")
+        self.assertNameDayOutput("double", "Idag har Alfred och Alfrida namnsdag")
+        self.assertNameDayOutput("triple", "Idag har Kasper, Melker och Baltsar namnsdag")
         self.assertNameDayOutput("nobody", "Ingen har namnsdag idag")
 
     def testNameDayError(self):

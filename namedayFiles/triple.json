@@ -1,0 +1,24 @@
+{
+    "cachetid": "2025-01-23 10:31:50",
+    "version": "2.1",
+    "uri": "/dagar/v2.1/2025/01/06",
+    "startdatum": "2025-01-06",
+    "slutdatum": "2025-01-06",
+    "dagar": [
+      {
+        "datum": "2025-01-06",
+        "veckodag": "Måndag",
+        "arbetsfri dag": "Ja",
+        "röd dag": "Ja",
+        "vecka": "02",
+        "dag i vecka": "1",
+        "helgdag": "Trettondedag jul",
+        "namnsdag": [
+          "Kasper",
+          "Melker",
+          "Baltsar"
+        ],
+        "flaggdag": ""
+      }
+    ]
+}
