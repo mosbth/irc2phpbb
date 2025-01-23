@@ -453,14 +453,23 @@ def marvinNameday(row):
             r = requests.get(url, timeout=5)
             nameday_data = r.json()
             names = nameday_data["dagar"][0]["namnsdag"]
+            parsed_names = formatNames(names)
             if names:
-                msg = getString("nameday", "somebody").format(",".join(names))
+                msg = getString("nameday", "somebody").format(parsed_names)
             else:
                 msg = getString("nameday", "nobody")
         except Exception as e:
             LOG.error("Failed to get nameday: %s", e)
             msg = getString("nameday", "error")
     return msg
+
+def formatNames(names):
+    """
+    Parses namedata from nameday API
+    """
+    if len(names) > 1:
+        return " och ".join([", ".join(names[:-1])] + names[-1:])
+    return "".join(names)
 
 def marvinUptime(row):
     """
