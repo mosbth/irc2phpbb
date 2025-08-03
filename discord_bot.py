@@ -7,8 +7,6 @@ Module for the Discord bot.
 Connecting, sending and receiving messages and doing custom actions.
 """
 
-import logging
-
 import discord
 
 from bot import Bot
