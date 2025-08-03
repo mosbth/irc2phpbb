@@ -50,3 +50,7 @@ class DiscordBot(discord.Client, Bot):
             # don't react to own messages
             return
         await self.checkMarvinActions(message)
+
+    async def on_message_edit(self, _, after):
+        """Hook run on every edited message"""
+        await self.on_message(after)
