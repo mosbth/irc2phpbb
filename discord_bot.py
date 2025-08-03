@@ -36,12 +36,12 @@ class DiscordBot(discord.Client, Bot):
             for action in self.ACTIONS:
                 response = action(words)
                 if response:
-                    await message.channel.send(response)
+                    await message.reply(response)
         else:
             for action in self.GENERAL_ACTIONS:
                 response = action(words)
                 if response:
-                    await message.channel.send(response)
+                    await message.reply(response)
 
     async def on_message(self, message):
         """Hook run on every message"""
