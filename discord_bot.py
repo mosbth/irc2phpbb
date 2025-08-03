@@ -32,7 +32,7 @@ class DiscordBot(discord.Client, Bot):
     async def checkMarvinActions(self, message):
         """Check if Marvin should perform any actions"""
         words = self.tokenize(message.content)
-        if self.user.name.lower() in words:
+        if self.user.mentioned_in(message) or self.user.name.lower() in words:
             for action in self.ACTIONS:
                 response = action(words)
                 if response:
