@@ -1,17 +1,5 @@
 [MESSAGES CONTROL]
-
-#disable=locally-disabled,locally-enabled
-disable=locally-disabled,locally-enabled,invalid-name,unused-argument,broad-except,too-many-branches,global-statement
-
-
+disable=locally-disabled,invalid-name,unused-argument,broad-except,too-many-branches,global-statement
 
 [FORMAT]
-
-# Maximum number of characters on a single line.
-#max-line-length=79
 max-line-length=100
-
-
-[REPORTS]
-
-#reports=no
