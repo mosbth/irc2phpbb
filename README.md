@@ -1,4 +1,4 @@
-Marvin, an IRC bot
+Marvin, an IRC/discord bot
 ==================
 
 [![Build Status GitHub Actions](https://github.com/mosbth/irc2phpbb/actions/workflows/main.yml/badge.svg)](https://github.com/mosbth/irc2phpbb/actions)
@@ -7,8 +7,7 @@ Marvin, an IRC bot
 [![Code Coverage](https://scrutinizer-ci.com/g/mosbth/irc2phpbb/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/mosbth/irc2phpbb/?branch=master)
 =======
 
-Get a quick start by checking out the main script `main.py` and read on how to contribute.
-
+Marvin was originally an IRC bot (now also supporting discord) that responds to basic questions and provides guidance in the life of anyone involved in any [dbwebb](https://www.dbwebb.se) courses. 
 
 
 Contribute
@@ -16,84 +15,69 @@ Contribute
 
 Before you actually start contributing, create an issue and discuss what you want to do. This is just to avoid that your PR will be denied for some random reason. 
 
-Create your own virtual environment, install the local development environment and run the script. 
 
-```bash
-$ python3 -m venv .venv
-$ alias activate='. .venv/bin/activate'
-$ activate
-$ make install-tools
-$ make test
-$ python3 main.py
-$ deactivate
-```
-
-Check `main.py` for more details (should be moved to pydoc or other proper documentation like here in this README...).
+This project uses [`uv`](https://github.com/astral-sh/uv) to manage dependencies and tools. Refer their [documentation](https://docs.astral.sh/uv/getting-started/) for instructions how to install it and getting started.
 
 
-
-Verify unitttest and code coverage
+Running tests and code coverage
 --------------------------
 
 Run the unittests.
 
 ```bash
-make unittest
+uv run pytest
 ```
 
-Run code coverage and create reports.
+Run code coverage and report results in terminal.
 
 ```bash
-make coverage
+uv run pytest --cov=irc2phpbb
 ```
 
-A html report of the code coverage is generated into `build/coverage/index.html`.
+Run pylint on both production code and the tests.
+```bash
+uv run pylint irc2phpbb
+uv run pylint tests
+```
 
-
+Run code coverage and create an html report. An html report of the code coverage is generated in `htmlcov/index.html`. [Other report formats](https://pytest-cov.readthedocs.io/en/latest/reporting.html) are also supported. If you generate other formats, take care not to commit them to the repository.
+```bash
+uv run pytest --cov=irc2phpbb --cov-report=html
+```
 
 Execute marvin in docker
 --------------------------
+The easiest way to run marvin in a *real* setting is to run it in IRC mode, as that doesn't require any registration with discord services.
 
-Start the irc-server [ngircd](https://hub.docker.com/r/linuxserver/ngircd) using docker (in its own terminal window).
+
+Build the python package and the docker image, then start marvin as a container in the background.
+```bash
+uv build
+docker compose build
+docker compose up -d marvin
+```
+
+Now you can connect to `localhost` with any IRC client of your choice, or you can follow the instructions below to run [irssi](https://irssi.org/) in a [container](https://hub.docker.com/_/irssi).
 
 ```bash
-docker compose up ngircd
+docker compose run --rm irssi
 ```
+You should be automatically connected to the server and join the `#marvin` channel.
 
-Now start the irc-client [irssi](https://hub.docker.com/_/irssi) through docker (or from your desktop) in another terminal.
 
+When you are done, you can shut down all the containers.
 ```bash
-docker compose run irssi
+docker compose down
 ```
-
-Use the following commands in your irc-client to connect and join the channel where marvin will be.
-
-```
-/connect ngircd
-/join #marvin
-```
-
-If you are using a client outside of docker, then connect to localhost instead of ngircd.
-
-Then build and start marvin through docker (in a third terminal). 
-
-```
-docker compose up marvin
-```
-
-Marvin will join your channel and then you can start playing.
-
-
 
 API documentation 
 --------------------------
 
-The code and API documentation is generated using pdoc and make.
+The code and API documentation is generated using [pdoc](https://pdoc.dev/).
 
 ```bash
-make pdoc
+uv run pdoc --output-dir=docs/pdoc irc2phpbb
 ```
-
 The docs are saved at `docs/pdoc` and can be [viewed online](https://mosbth.github.io/irc2phpbb/pdoc/).
 
 

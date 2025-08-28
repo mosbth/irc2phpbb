@@ -46,18 +46,21 @@ import logging.config
 import os
 import sys
 
-from discord_bot import DiscordBot
-from irc_bot import IrcBot
+from importlib import resources as impresources
 
-import marvin_actions
-import marvin_general_actions
+from irc2phpbb.discord_bot import DiscordBot
+from irc2phpbb.irc_bot import IrcBot
+
+from irc2phpbb import marvin_actions
+from irc2phpbb import marvin_general_actions
+
+from . import config as pkgconfig
+
 
 #
 # General stuff about this program
 #
 PROGRAM = "marvin"
-AUTHOR = "Mikael Roos"
-EMAIL = "mikael.t.h.roos@gmail.com"
 VERSION = "0.3.0"
 MSG_VERSION = f"{PROGRAM} version {VERSION}."
 
@@ -138,7 +141,8 @@ def createBot(protocol):
 
 def setupLogging():
     """Set up the logging config"""
-    with open("logging.json", encoding="UTF-8") as f:
+    logConfig = impresources.files(pkgconfig) / "logging.json"
+    with open(logConfig, encoding="UTF-8") as f:
         config = json.load(f)
     logging.config.dictConfig(config)
 

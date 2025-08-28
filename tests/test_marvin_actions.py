@@ -14,9 +14,9 @@ from unittest import mock, TestCase
 
 import requests
 
-from bot import Bot
-import marvin_actions
-import marvin_general_actions
+from irc2phpbb.bot import Bot
+from irc2phpbb import marvin_actions
+from irc2phpbb import marvin_general_actions
 
 class ActionTest(TestCase):
     """Test Marvin actions"""
@@ -24,7 +24,7 @@ class ActionTest(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        with open("marvin_strings.json", encoding="utf-8") as f:
+        with open("irc2phpbb/data/marvin_strings.json", encoding="utf-8") as f:
             cls.strings = json.load(f)
 
 
@@ -65,7 +65,7 @@ class ActionTest(TestCase):
         if expectedMessageKey in ["base", "week", "eternity"]:
             message = message % bbqDate
 
-        with mock.patch("marvin_actions.datetime") as d, mock.patch("marvin_actions.random") as r:
+        with mock.patch("irc2phpbb.marvin_actions.datetime") as d, mock.patch("irc2phpbb.marvin_actions.random") as r:
             d.date.today.return_value = todaysDate
             r.randint.return_value = 1
             expected = f"{url}. {message}"
@@ -74,7 +74,8 @@ class ActionTest(TestCase):
 
     def createResponseFrom(self, directory, filename):
         """Create a response object with contect as contained in the specified file"""
-        with open(os.path.join(directory, f"{filename}.json"), "r", encoding="UTF-8") as f:
+        path = os.path.join(os.path.dirname(__file__), "resources", directory, f"{filename}.json")
+        with open(path, "r", encoding="UTF-8") as f:
             response = requests.models.Response()
             response._content = str.encode(json.dumps(json.load(f)))
             return response
@@ -82,24 +83,24 @@ class ActionTest(TestCase):
 
     def assertNameDayOutput(self, exampleFile, expectedOutput):
         """Assert that the proper nameday message is returned, given an inputfile"""
-        response = self.createResponseFrom("namedayFiles", exampleFile)
-        with mock.patch("marvin_actions.requests") as r:
+        response = self.createResponseFrom("nameday", exampleFile)
+        with mock.patch("irc2phpbb.marvin_actions.requests") as r:
             r.get.return_value = response
             self.assertActionOutput(marvin_actions.marvinNameday, "nameday", expectedOutput)
 
 
     def assertJokeOutput(self, exampleFile, expectedOutput):
         """Assert that a joke is returned, given an input file"""
-        response = self.createResponseFrom("jokeFiles", exampleFile)
-        with mock.patch("marvin_actions.requests") as r:
+        response = self.createResponseFrom("joke", exampleFile)
+        with mock.patch("irc2phpbb.marvin_actions.requests") as r:
             r.get.return_value = response
             self.assertActionOutput(marvin_actions.marvinJoke, "joke", expectedOutput)
 
 
     def assertSunOutput(self, expectedOutput):
         """Test that marvin knows when the sun comes up, given an input file"""
-        response = self.createResponseFrom("sunFiles", "sun")
-        with mock.patch("marvin_actions.requests") as r:
+        response = self.createResponseFrom("sun", "sun")
+        with mock.patch("irc2phpbb.marvin_actions.requests") as r:
             r.get.return_value = response
             self.assertActionOutput(marvin_actions.marvinSun, "sol", expectedOutput)
 
@@ -107,16 +108,16 @@ class ActionTest(TestCase):
     def assertPowerPriceOutput(self, exampleFile, timeOfDay,  expectedOutput):
         """Assert that marvin knows the current power price, given an input file and a time (in UTC)"""
         response = self.createResponseFrom("powerPriceFiles", exampleFile)
-        with mock.patch("marvin_actions.datetime", wraps=datetime) as d:
+        with mock.patch("irc2phpbb.marvin_actions.datetime", wraps=datetime) as d:
             d.datetime.utcnow.return_value = timeOfDay
-            with mock.patch("marvin_actions.requests") as r:
+            with mock.patch("irc2phpbb.marvin_actions.requests") as r:
                 r.get.return_value = response
                 self.assertActionOutput(marvin_actions.marvinPowerPrice, "elpris", expectedOutput)
 
 
     def testSmile(self):
         """Test that marvin can smile"""
-        with mock.patch("marvin_actions.random") as r:
+        with mock.patch("irc2phpbb.marvin_actions.random") as r:
             r.randint.return_value = 1
             self.assertStringsOutput(marvin_actions.marvinSmile, "le lite?", "smile", 1)
         self.assertActionSilent(marvin_actions.marvinSmile, "sur idag?")
@@ -128,7 +129,7 @@ class ActionTest(TestCase):
 
     def testGoogle(self):
         """Test that marvin can help google stuff"""
-        with mock.patch("marvin_actions.random") as r:
+        with mock.patch("irc2phpbb.marvin_actions.random") as r:
             r.randint.return_value = 1
             self.assertActionOutput(
                 marvin_actions.marvinGoogle,
@@ -169,7 +170,7 @@ class ActionTest(TestCase):
 
     def testQuote(self):
         """Test that marvin can quote The Hitchhikers Guide to the Galaxy"""
-        with mock.patch("marvin_actions.random") as r:
+        with mock.patch("irc2phpbb.marvin_actions.random") as r:
             r.randint.return_value = 1
             self.assertStringsOutput(marvin_actions.marvinQuote, "ge os ett citat", "hitchhiker", 1)
             self.assertStringsOutput(marvin_actions.marvinQuote, "filosofi", "hitchhiker", 1)
@@ -182,7 +183,7 @@ class ActionTest(TestCase):
 
     def testVideoOfToday(self):
         """Test that marvin can link to a different video each day of the week"""
-        with mock.patch("marvin_actions.datetime") as dt:
+        with mock.patch("irc2phpbb.marvin_actions.datetime") as dt:
             for d in range(1, 8):
                 day = date(2024, 11, 25) + timedelta(days=d)
                 dt.date.today.return_value = day
@@ -200,7 +201,7 @@ class ActionTest(TestCase):
 
     def testSayHi(self):
         """Test that marvin responds to greetings"""
-        with mock.patch("marvin_actions.random") as r:
+        with mock.patch("irc2phpbb.marvin_actions.random") as r:
             for skey, s in enumerate(self.strings.get("smile")):
                 for hkey, h in enumerate(self.strings.get("hello")):
                     for fkey, f in enumerate(self.strings.get("friendly")):
@@ -211,7 +212,7 @@ class ActionTest(TestCase):
     def testLunchLocations(self):
         """Test that marvin can provide lunch suggestions for certain places"""
         locations = ["karlskrona", "goteborg", "angelholm", "hassleholm", "malmo"]
-        with mock.patch("marvin_actions.random") as r:
+        with mock.patch("irc2phpbb.marvin_actions.random") as r:
             for location in locations:
                 for i, place in enumerate(self.strings.get("lunch").get("location").get(location)):
                     r.randint.side_effect = [0, i]
@@ -233,7 +234,7 @@ class ActionTest(TestCase):
         """Test that marvin can recommend random comics"""
         messageFormat = self.strings.get("commitstrip").get("message")
         expected = messageFormat.format(url=self.strings.get("commitstrip").get("urlPage") + "123")
-        with mock.patch("marvin_actions.random") as r:
+        with mock.patch("irc2phpbb.marvin_actions.random") as r:
             r.randint.return_value = 123
             self.assertActionOutput(marvin_actions.marvinStrip, "random strip kanske?", expected)
 
@@ -256,7 +257,7 @@ class ActionTest(TestCase):
 
     def testNameDayRequest(self):
         """Test that marvin sends a proper request for nameday info"""
-        with mock.patch("marvin_actions.requests") as r, mock.patch("marvin_actions.datetime") as d:
+        with mock.patch("irc2phpbb.marvin_actions.requests") as r, mock.patch("irc2phpbb.marvin_actions.datetime") as d:
             d.datetime.now.return_value = date(2024, 1, 2)
             self.executeAction(marvin_actions.marvinNameday, "namnsdag")
             self.assertEqual(r.get.call_args.args[0], "https://api.dryg.net/dagar/v2.1/2024/1/2")
@@ -270,7 +271,7 @@ class ActionTest(TestCase):
 
     def testNameDayError(self):
         """Tests that marvin returns the proper error message when nameday API is down"""
-        with mock.patch("marvin_actions.requests.get", side_effect=Exception("API Down!")):
+        with mock.patch("irc2phpbb.marvin_actions.requests.get", side_effect=Exception("API Down!")):
             self.assertStringsOutput(
                 marvin_actions.marvinNameday,
                 "har någon namnsdag idag?",
@@ -279,7 +280,7 @@ class ActionTest(TestCase):
 
     def testJokeRequest(self):
         """Test that marvin sends a proper request for a joke"""
-        with mock.patch("marvin_actions.requests") as r:
+        with mock.patch("irc2phpbb.marvin_actions.requests") as r:
             self.executeAction(marvin_actions.marvinJoke, "joke")
             self.assertEqual(
                 r.get.call_args.args[0],
@@ -291,7 +292,7 @@ class ActionTest(TestCase):
 
     def testJokeError(self):
         """Tests that marvin returns the proper error message when joke API is down"""
-        with mock.patch("marvin_actions.requests.get", side_effect=Exception("API Down!")):
+        with mock.patch("irc2phpbb.marvin_actions.requests.get", side_effect=Exception("API Down!")):
             self.assertStringsOutput(marvin_actions.marvinJoke, "kör ett skämt", "joke", "error")
 
     def testSun(self):
@@ -301,7 +302,7 @@ class ActionTest(TestCase):
 
     def testSunError(self):
         """Tests that marvin returns the proper error message when joke API is down"""
-        with mock.patch("marvin_actions.requests.get", side_effect=Exception("API Down!")):
+        with mock.patch("irc2phpbb.marvin_actions.requests.get", side_effect=Exception("API Down!")):
             self.assertStringsOutput(marvin_actions.marvinSun, "när går solen ner?", "sun", "error")
 
     def testUptime(self):
@@ -319,14 +320,14 @@ class ActionTest(TestCase):
         principles = self.strings.get("principle")
         for key, value in principles.items():
             self.assertActionOutput(marvin_actions.marvinPrinciple, f"princip {key}", value)
-        with mock.patch("marvin_actions.random") as r:
+        with mock.patch("irc2phpbb.marvin_actions.random") as r:
             r.choice.return_value = "dry"
             self.assertStringsOutput(marvin_actions.marvinPrinciple, "princip", "principle", "dry")
         self.assertActionSilent(marvin_actions.marvinPrinciple, "principlös")
 
     def testCommitRequest(self):
         """Test that marvin sends proper requests when generating commit messages"""
-        with mock.patch("marvin_actions.requests") as r:
+        with mock.patch("irc2phpbb.marvin_actions.requests") as r:
             self.executeAction(marvin_actions.marvinCommit, "vad skriver man efter commit -m?")
             self.assertEqual(r.get.call_args.args[0], "https://whatthecommit.com/index.txt")
 
@@ -335,14 +336,14 @@ class ActionTest(TestCase):
         message = "Secret sauce #9"
         response = requests.models.Response()
         response._content = str.encode(message)
-        with mock.patch("marvin_actions.requests") as r:
+        with mock.patch("irc2phpbb.marvin_actions.requests") as r:
             r.get.return_value = response
             expected = f"Använd detta meddelandet: '{message}'"
             self.assertActionOutput(marvin_actions.marvinCommit, "commit", expected)
 
     def testWeatherRequest(self):
         """Test that marvin sends the expected requests for weather info"""
-        with mock.patch("marvin_actions.requests") as r:
+        with mock.patch("irc2phpbb.marvin_actions.requests") as r:
             self.executeAction(marvin_actions.marvinWeather, "väder")
             for url in ["https://opendata-download-metobs.smhi.se/api/version/1.0/parameter/13/station/65090/period/latest-hour/data.json",
                         "https://opendata-download-metobs.smhi.se/api/version/1.0/parameter/13/codes.json",
@@ -353,12 +354,13 @@ class ActionTest(TestCase):
         """Test that marvin properly parses weather responses"""
         responses = []
         for responseFile in ["station.json", "codes.json", "weather.json"]:
-            with open(os.path.join("weatherFiles", responseFile), "r", encoding="UTF-8") as f:
+            path = os.path.join(os.path.dirname(__file__), "resources", "weather", responseFile)
+            with open(path, "r", encoding="UTF-8") as f:
                 response = requests.models.Response()
                 response._content = str.encode(json.dumps(json.load(f)))
                 responses.append(response)
 
-        with mock.patch("marvin_actions.requests") as r:
+        with mock.patch("irc2phpbb.marvin_actions.requests") as r:
             r.get.side_effect = responses
             expected = "Karlskrona just nu: 11.7 °C. Inget signifikant väder observerat."
             self.assertActionOutput(marvin_actions.marvinWeather, "väder", expected)
@@ -370,7 +372,7 @@ class ActionTest(TestCase):
 
     def testCommitError(self):
         """Tests that marvin sends the proper message when get commit fails"""
-        with mock.patch("marvin_actions.requests.get", side_effect=Exception('API Down!')):
+        with mock.patch("irc2phpbb.marvin_actions.requests.get", side_effect=Exception('API Down!')):
             self.assertStringsOutput(
                 marvin_actions.marvinCommit,
                 "vad skriver man efter commit -m?",
@@ -380,9 +382,9 @@ class ActionTest(TestCase):
     def testMorning(self):
         """Test that marvin wishes good morning, at most once per day"""
         marvin_general_actions.lastDateGreeted = None
-        with mock.patch("marvin_general_actions.datetime") as d:
+        with mock.patch("irc2phpbb.marvin_general_actions.datetime") as d:
             d.date.today.return_value = date(2024, 5, 17)
-            with mock.patch("marvin_general_actions.random") as r:
+            with mock.patch("irc2phpbb.marvin_general_actions.random") as r:
                 r.choice.return_value = "Morgon"
                 self.assertActionOutput(marvin_general_actions.marvinMorning, "morrn", "Morgon")
                 # Should only greet once per day
@@ -397,16 +399,16 @@ class ActionTest(TestCase):
 
     def testPowerPriceRequest(self):
         """Test that marvin sends the expected request for power price info"""
-        with mock.patch("marvin_actions.datetime", wraps=datetime) as d:
+        with mock.patch("irc2phpbb.marvin_actions.datetime", wraps=datetime) as d:
             d.datetime.today.return_value = date(2025, 1, 12)
-            with mock.patch("marvin_actions.requests") as r:
+            with mock.patch("irc2phpbb.marvin_actions.requests") as r:
                 self.executeAction(marvin_actions.marvinPowerPrice, "elpris")
                 expectedUrl = self.strings.get("powerprice").get("url").format("2025-01-12")
                 self.assertEqual(r.get.call_args.args[0], expectedUrl)
 
     def testPowerPriceResponse(self):
         """Test that marvin properly parses weather responses"""
-        with mock.patch("marvin_actions.random") as r:
+        with mock.patch("irc2phpbb.marvin_actions.random") as r:
             r.randint.return_value = 0
             self.assertPowerPriceOutput("singleAreaResponse", time(12, 1, 0, 0), "Just nu kostar en kWh 1.4007 SEK i SE4.")
             self.assertPowerPriceOutput("singleAreaResponse", time(15, 0, 1, 0), "Just nu kostar en kWh 1.5130 SEK i SE4. Huvva!")

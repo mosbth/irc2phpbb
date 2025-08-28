@@ -12,17 +12,16 @@ import os
 import sys
 from unittest import TestCase
 
-from main import mergeOptionsWithConfigFile, parseOptions, determineProtocol, MSG_VERSION, createBot
-from irc_bot import IrcBot
-from discord_bot import DiscordBot
+from irc2phpbb.__main__ import mergeOptionsWithConfigFile, parseOptions, determineProtocol, MSG_VERSION, createBot
+from irc2phpbb.irc_bot import IrcBot
+from irc2phpbb.discord_bot import DiscordBot
 
 
 class ConfigMergeTest(TestCase):
     """Test merging a config file with a dict"""
-
     def assertMergedConfig(self, config, fileName, expected):
         """Merge dict with file and assert the result matches expected"""
-        configFile = os.path.join("testConfigs", f"{fileName}.json")
+        configFile = os.path.join(os.path.dirname(__file__), "resources", "config", f"{fileName}.json")
         actualConfig = mergeOptionsWithConfigFile(config, configFile)
         self.assertEqual(actualConfig, expected)
 
@@ -65,6 +64,8 @@ class ConfigMergeTest(TestCase):
 class ConfigParseTest(TestCase):
     """Test parsing options into a config"""
 
+    TEST_CONFIG_DIR = os.path.join(os.path.dirname(__file__), "resources", "config")
+
     SAMPLE_CONFIG = {
         "server": "localhost",
         "port": 6667,
@@ -99,7 +100,7 @@ class ConfigParseTest(TestCase):
 
     def testOverrideWithFile(self):
         """Test that parameters can be overridden with the --config option"""
-        configFile = os.path.join("testConfigs", "server.json")
+        configFile = os.path.join(self.TEST_CONFIG_DIR, "server.json")
         sys.argv = ["./main.py", "--config", configFile]
         actual = parseOptions(self.SAMPLE_CONFIG)
         self.assertEqual(actual.get("server"), "irc.dbwebb.se")
@@ -108,7 +109,7 @@ class ConfigParseTest(TestCase):
         """Test that proper precedence is considered. From most to least significant it should be:
         explicit parameter -> parameter in --config file -> default """
 
-        configFile = os.path.join("testConfigs", "server.json")
+        configFile = os.path.join(self.TEST_CONFIG_DIR, "server.json")
         sys.argv = ["./main.py", "--config", configFile, "--server", "important.com"]
         actual = parseOptions(self.SAMPLE_CONFIG)
         self.assertEqual(actual.get("server"), "important.com")
@@ -117,7 +118,7 @@ class ConfigParseTest(TestCase):
         """Test that proper precedence is considered. From most to least significant it should be:
         explicit parameter -> parameter in --config file -> default """
 
-        configFile = os.path.join("testConfigs", "server.json")
+        configFile = os.path.join(self.TEST_CONFIG_DIR, "server.json")
         sys.argv = ["./main.py", "--server", "important.com", "--config", configFile]
         actual = parseOptions(self.SAMPLE_CONFIG)
         self.assertEqual(actual.get("server"), "important.com")

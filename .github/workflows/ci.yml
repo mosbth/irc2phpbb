@@ -1,0 +1,35 @@
+name: Continuous Integration
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  unit-test:
+    name: Run unit test
+    runs-on: ubuntu-24.04
+    timeout-minutes: 1
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.9.5"
+      - name: Run tests
+        run: uv run pytest
+
+  lint:
+    name: Run linter
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.9.5"
+      - name: Run linter on code
+        run: uv run pylint irc2phpbb

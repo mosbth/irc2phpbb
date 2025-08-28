@@ -9,7 +9,7 @@ Connecting, sending and receiving messages and doing custom actions.
 
 import discord
 
-from bot import Bot
+from irc2phpbb.bot import Bot
 
 
 class DiscordBot(discord.Client, Bot):

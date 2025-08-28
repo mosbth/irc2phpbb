@@ -1,0 +1,41 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "irc2phpbb"
+version = "0.4.0"
+authors = [{ name = "Mikael Roos", email = "mos@bth.se" }]
+description = "A chatbot that answers random questions (un)related to dbwebb"
+requires-python = ">=3.10"
+readme = "README.md"
+dependencies = [
+    "discord (>=2.3.2,<3.0.0)",
+    "requests (>=2.32.4,<3.0.0)",
+    "chardet (>=5.2.0,<6.0.0)",
+]
+
+[project.urls]
+homepage = "https://www.dbwebb.se"
+repository = "https://github.com/mosbth/irc2phpbb"
+issues = "https://github.com/mosbth/irc2phpbb/issues"
+
+[project.scripts]
+irc2phpbb = "irc2phpbb.__main__:main"
+
+[dependency-groups]
+test = ["pytest>=8.4.1,<9"]
+dev = [
+    "pylint>=3.3.8,<4",
+    "flake8>=7.3.0,<8",
+    "flake8-docstrings>=1.7.0,<2",
+    "pycodestyle>=2.14.0,<3",
+    "pdoc>=15.0.4,<16",
+    "pytest-cov>=7.0.0,<8",
+]
+
+[tool.uv]
+default-groups = [
+    "test",
+    "dev",
+]

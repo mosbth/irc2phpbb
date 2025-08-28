@@ -11,7 +11,12 @@ import json
 import logging
 import random
 import re
+
+from importlib import resources as impresources
+
 import requests
+
+from . import data as pkgdata
 
 
 LOG = logging.getLogger("action")
@@ -47,7 +52,8 @@ def getAllActions():
 
 
 # Load all strings from file
-with open("marvin_strings.json", encoding="utf-8") as f:
+strings = impresources.files(pkgdata) / "marvin_strings.json"
+with open(strings, encoding="utf-8") as f:
     STRINGS = json.load(f)
 
 
@@ -146,7 +152,7 @@ def marvinBudord(row):
     """
     msg = None
     if any(r in row for r in ["budord", "stentavla"]):
-        number = re.search(r"\d+", "".join(row)).group(0)
+        number = re.search(r"\d+", " ".join(row)).group(0)
         if number:
             msg = getString("budord", number)
     return msg

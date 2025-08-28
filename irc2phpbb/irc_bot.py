@@ -15,7 +15,7 @@ import socket
 
 import chardet
 
-from bot import Bot
+from irc2phpbb.bot import Bot
 
 LOG = logging.getLogger("bot")
 

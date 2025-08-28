@@ -1,0 +1,40 @@
+name: Documentation
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build API documentation
+    runs-on: ubuntu-24.04
+    timeout-minutes: 1
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.9.5"
+      - name: Build the API documentation
+        run: uv run pdoc --output-dir=docs/pdoc irc2phpbb
+      - name: Deploy documentation to github pages
+        uses: actions/upload-pages-artifact@v3.0.1
+        with:
+          path: docs
+
+  deploy:
+    name: Deploy API documentation to github pages
+    runs-on: ubuntu-24.04
+    timeout-minutes: 1
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}/pdoc
+    permissions:
+      id-token: write
+      pages: write
+    steps:
+      - name: Deploy to gitub pages
+        uses: actions/deploy-pages@v4.0.5

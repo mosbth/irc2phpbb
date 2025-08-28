@@ -1,9 +1,11 @@
 FROM python:3.11-alpine
 
-COPY . /app
 RUN mkdir -p /app/logs
+
+COPY ./dist/*.whl /app
+
 WORKDIR /app
 
-RUN python3 -m pip install -r .requirements.txt
+RUN python3 -m pip install *.whl
 
-CMD ["python", "/app/main.py"]
+CMD ["irc2phpbb"]
