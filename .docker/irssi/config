@@ -1,0 +1,24 @@
+servers = (
+  {
+    address = "ngircd";
+    chatnet = "marvinnet";
+    port = "6667";
+    autoconnect = "yes";
+  }
+);
+
+chatnets = {
+  marvinnet = {
+    type = "IRC";
+    nick = "User";
+    realname = "Marvin Test User";
+  };
+};
+
+channels = (
+  {
+    name = "#marvintest";
+    chatnet = "marvinnet";
+    autojoin = "yes";
+  }
+);

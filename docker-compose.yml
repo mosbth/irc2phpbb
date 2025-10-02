@@ -25,7 +25,7 @@ services:
             - TERM=screen-256color
             - COLORTERM=truecolor
         volumes:
-            - $HOME/.irssi:/home/user/.irssi:ro
+            - .docker/irssi:/home/user/.irssi:ro
             - /etc/localtime:/etc/localtime:ro
         depends_on:
             - ngircd
