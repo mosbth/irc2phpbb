@@ -31,10 +31,15 @@ class DiscordBot(discord.Client, Bot):
         """Check if Marvin should perform any actions"""
         words = self.tokenize(message.content)
         if self.user.mentioned_in(message) or self.user.name.lower() in words:
+            first = True
             for action in self.ACTIONS:
                 response = action(words)
                 if response:
-                    await message.reply(response)
+                    if first:
+                        await message.reply(response)
+                        first = False
+                    else:
+                        await message.channel.send(response)
         else:
             for action in self.GENERAL_ACTIONS:
                 response = action(words)
