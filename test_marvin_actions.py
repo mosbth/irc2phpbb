@@ -161,10 +161,10 @@ class ActionTest(TestCase):
 
     def testBudord(self):
         """Test that marvin knows all the commandments"""
-        for n, _ in enumerate(self.strings.get("budord")):
-            self.assertStringsOutput(marvin_actions.marvinBudord, f"budord #{n}", "budord", f"#{n}")
+        for n, _ in enumerate(self.strings.get("budord"), 1):
+            self.assertStringsOutput(marvin_actions.marvinBudord, f"budord #{n}", "budord", f"{n}")
 
-        self.assertStringsOutput(marvin_actions.marvinBudord,"visa stentavla 1", "budord", "#1")
+        self.assertStringsOutput(marvin_actions.marvinBudord,"visa stentavla 1", "budord", "1")
         self.assertActionSilent(marvin_actions.marvinBudord, "var är stentavlan?")
 
     def testQuote(self):

@@ -10,6 +10,7 @@ import datetime
 import json
 import logging
 import random
+import re
 import requests
 
 
@@ -145,17 +146,9 @@ def marvinBudord(row):
     """
     msg = None
     if any(r in row for r in ["budord", "stentavla"]):
-        if any(r in row for r in ["#1", "1"]):
-            msg = getString("budord", "#1")
-        elif any(r in row for r in ["#2", "2"]):
-            msg = getString("budord", "#2")
-        elif any(r in row for r in ["#3", "3"]):
-            msg = getString("budord", "#3")
-        elif any(r in row for r in ["#4", "4"]):
-            msg = getString("budord", "#4")
-        elif any(r in row for r in ["#5", "5"]):
-            msg = getString("budord", "#5")
-
+        number = re.search(r"\d+", "".join(row)).group(0)
+        if number:
+            msg = getString("budord", number)
     return msg
 
 
