@@ -335,16 +335,15 @@ def marvinWeather(row):
         try:
             temperature, wind_speed, compass_direction, observation = getCurrentWeather()
 
-            parts = [f"Karlskrona: {temperature} °C, {wind_speed} m/s {compass_direction}."]
+            parts = [f"Karlskrona: {temperature} °C, {wind_speed} m/s {compass_direction}"]
 
             if observation and observation != getString("smhi", "no_significant_weather"):
-                parts.append(f"{observation}.")
+                parts.append(observation)
+
+            current = ". ".join(parts)
 
             forecast = getWeatherForecast()
-            if forecast:
-                parts.append(f"{forecast}.")
-
-            msg = " ".join(parts)
+            msg = f"{current} → {forecast}." if forecast else f"{current}."
 
         except Exception as e:
             LOG.error("Failed to get weather: %s", e)
