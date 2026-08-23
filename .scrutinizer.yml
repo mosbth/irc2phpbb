@@ -9,7 +9,7 @@ build:
 
     tests:
         override:
-            - command: uv run pytest --cov=irc2phpbb --cov-report=xml
+            - command: uv run pytest --cov=irc2phpbb
               coverage:
-                  file: coverage.xml
+                  file: .coverage
                   format: py-cc
