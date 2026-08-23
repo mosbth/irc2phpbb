@@ -342,7 +342,7 @@ def marvinWeather(row):
 
             forecast = getWeatherForecast()
             if forecast:
-                parts.append(f"Kommande timmar: {forecast}.")
+                parts.append(f"{forecast}.")
 
             msg = " ".join(parts)
 
@@ -377,7 +377,7 @@ def getWeatherForecast():
         steps.append(f"{local_time:%H:%M} {temperature}°C {symbol}, "
                      f"{wind_speed} m/s {wind_direction}")
 
-    return ", ".join(steps)
+    return " - ".join(steps)
 
 
 def marvinStrip(row):
