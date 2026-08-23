@@ -334,15 +334,16 @@ def marvinWeather(row):
     if any(r in row for r in ["väder", "vädret", "prognos", "prognosen", "smhi"]):
         try:
             temperature, wind_speed, compass_direction, observation = getCurrentWeather()
+            current_symbol, forecast = getWeatherForecast()
 
-            parts = [f"Karlskrona {temperature}° {wind_speed} m/s {compass_direction}"]
+            parts = [f"Karlskrona {temperature}° {current_symbol} "
+                     f"{wind_speed} m/s {compass_direction}"]
 
             if observation and observation != getString("smhi", "no_significant_weather"):
                 parts.append(observation)
 
             current = ". ".join(parts)
 
-            forecast = getWeatherForecast()
             msg = f"{current} · {forecast}." if forecast else f"{current}."
 
         except Exception as e:
@@ -354,11 +355,14 @@ def marvinWeather(row):
 
 def getWeatherForecast():
     """
-    Get a short summary of the weather forecast for the coming hours.
+    Get the current sky symbol plus a short summary of the weather forecast
+    for the coming hours.
     """
     symbols = getString("smhi")["symbols"]
     forecast_req = requests.get(getString("smhi", "forecast_url"), timeout=5)
     time_series = forecast_req.json().get("timeSeries")
+
+    current_symbol = symbols.get(str(time_series[0].get("data").get("symbol_code")))
 
     # Pick two points a few hours apart instead of showing every hour.
     step_indices = [3, 7]
@@ -376,7 +380,7 @@ def getWeatherForecast():
         steps.append(f"{local_time:%H:%M} {temperature}° {symbol} "
                      f"{wind_speed} m/s {wind_direction}")
 
-    return " · ".join(steps)
+    return current_symbol, " · ".join(steps)
 
 
 def marvinStrip(row):
