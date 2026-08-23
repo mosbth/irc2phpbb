@@ -343,7 +343,7 @@ def marvinWeather(row):
             current = ". ".join(parts)
 
             forecast = getWeatherForecast()
-            msg = f"{current} → {forecast}." if forecast else f"{current}."
+            msg = f"{current} - {forecast}." if forecast else f"{current}."
 
         except Exception as e:
             LOG.error("Failed to get weather: %s", e)
