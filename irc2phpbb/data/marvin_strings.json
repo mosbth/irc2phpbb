@@ -210,7 +210,7 @@
         "weather_codes_url": "https://opendata-download-metobs.smhi.se/api/version/1.0/parameter/13/codes.json",
         "wind_direction_url": "https://opendata-download-metobs.smhi.se/api/version/1.0/parameter/3/station/65090/period/latest-hour/data.json",
         "wind_speed_url": "https://opendata-download-metobs.smhi.se/api/version/1.0/parameter/4/station/65090/period/latest-hour/data.json",
-        "forecast_url": "https://opendata-download-metfcst.smhi.se/api/category/snow1g/version/1/geotype/point/lon/15.589/lat/56.15/data.json?parameters=air_temperature,symbol_code&timeseries=3",
+        "forecast_url": "https://opendata-download-metfcst.smhi.se/api/category/snow1g/version/1/geotype/point/lon/15.589/lat/56.15/data.json?parameters=air_temperature,symbol_code,wind_from_direction,wind_speed&timeseries=3",
         "no_significant_weather": "Inget signifikant väder observerat",
         "compass": ["N", "NO", "O", "SO", "S", "SV", "V", "NV"],
         "symbols": {

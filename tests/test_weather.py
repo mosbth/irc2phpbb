@@ -39,7 +39,9 @@ class WeatherTest(ActionTest):
         with mock.patch("irc2phpbb.marvin_actions.requests") as r:
             r.get.side_effect = responses
             expected = ("Karlskrona just nu: 16.6 °C, vind 3.2 m/s från SV. "
-                        "Kommande timmar: 15.8°C halvklart, 15.2°C molnigt, 14.6°C mulet.")
+                        "Kommande timmar: 00:00 15.8°C halvklart, vind 2.6 m/s från N, "
+                        "01:00 15.2°C molnigt, vind 3.1 m/s från NV, "
+                        "02:00 14.6°C mulet, vind 3.4 m/s från NV.")
             self.assertActionOutput(marvin_actions.marvinWeather, "väder", expected)
 
     def testWeatherResponseWithSignificantWeather(self):
@@ -56,5 +58,7 @@ class WeatherTest(ActionTest):
         with mock.patch("irc2phpbb.marvin_actions.requests") as r:
             r.get.side_effect = responses
             expected = ("Karlskrona just nu: 16.6 °C, vind 3.2 m/s från SV. Lätt regn. "
-                        "Kommande timmar: 15.8°C halvklart, 15.2°C molnigt, 14.6°C mulet.")
+                        "Kommande timmar: 00:00 15.8°C halvklart, vind 2.6 m/s från N, "
+                        "01:00 15.2°C molnigt, vind 3.1 m/s från NV, "
+                        "02:00 14.6°C mulet, vind 3.4 m/s från NV.")
             self.assertActionOutput(marvin_actions.marvinWeather, "väder", expected)

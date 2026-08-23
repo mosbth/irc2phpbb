@@ -11,6 +11,7 @@ import json
 import logging
 import random
 import re
+import zoneinfo
 
 from importlib import resources as impresources
 
@@ -364,9 +365,14 @@ def getWeatherForecast():
     steps = []
     for step in time_series:
         data = step.get("data")
+        time = datetime.datetime.fromisoformat(step.get("time"))
+        local_time = time.astimezone(zoneinfo.ZoneInfo("Europe/Stockholm"))
         temperature = data.get("air_temperature")
         symbol = symbols.get(str(data.get("symbol_code")))
-        steps.append(f"{temperature}°C {symbol}")
+        wind_speed = data.get("wind_speed")
+        wind_direction = windDirectionToCompass(data.get("wind_from_direction"))
+        steps.append(f"{local_time:%H:%M} {temperature}°C {symbol}, "
+                     f"vind {wind_speed} m/s från {wind_direction}")
 
     return ", ".join(steps)
 

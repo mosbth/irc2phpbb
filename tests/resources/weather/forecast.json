@@ -11,7 +11,9 @@
       "intervalParametersStartTime": "2026-08-23T21:00:00Z",
       "data": {
         "air_temperature": 15.8,
-        "symbol_code": 4
+        "symbol_code": 4,
+        "wind_from_direction": 340,
+        "wind_speed": 2.6
       }
     },
     {
@@ -19,7 +21,9 @@
       "intervalParametersStartTime": "2026-08-23T22:00:00Z",
       "data": {
         "air_temperature": 15.2,
-        "symbol_code": 5
+        "symbol_code": 5,
+        "wind_from_direction": 320,
+        "wind_speed": 3.1
       }
     },
     {
@@ -27,7 +31,9 @@
       "intervalParametersStartTime": "2026-08-23T23:00:00Z",
       "data": {
         "air_temperature": 14.6,
-        "symbol_code": 6
+        "symbol_code": 6,
+        "wind_from_direction": 300,
+        "wind_speed": 3.4
       }
     }
   ]
