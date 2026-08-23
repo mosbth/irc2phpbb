@@ -372,7 +372,7 @@ def getWeatherForecast():
         wind_speed = data.get("wind_speed")
         wind_direction = windDirectionToCompass(data.get("wind_from_direction"))
         steps.append(f"{local_time:%H:%M} {temperature}°C {symbol}, "
-                     f"vind {wind_speed} m/s från {wind_direction}")
+                     f"{wind_speed} m/s {wind_direction}")
 
     return ", ".join(steps)
 
