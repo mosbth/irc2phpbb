@@ -1,0 +1,26 @@
+build:
+    environment:
+        python: '3.12'
+
+    nodes:
+        analysis:
+            dependencies:
+                before: &dependencies
+                    - pip install uv coverage
+                    - uv sync
+
+        tests:
+            dependencies:
+                before: *dependencies
+            tests:
+                override: &tests_override
+                    - command: uv run pytest --cov=irc2phpbb
+                      coverage:
+                          file: .coverage
+                          format: py-cc
+
+        coverage:
+            dependencies:
+                before: *dependencies
+            tests:
+                override: *tests_override

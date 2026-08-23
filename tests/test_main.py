@@ -199,12 +199,15 @@ class FormattingTest(TestCase):
         with self.assertRaises(SystemExit) as e:
             s = io.StringIO()
             expectedError = (f"{self.USAGE}main.py: error: argument protocol: "
-                             "invalid choice: 'arg' (choose from 'irc', 'discord')\n")
+                             "invalid choice: 'arg' (choose from irc, discord)\n")
             with contextlib.redirect_stderr(s):
                 sys.argv = ["./main.py", "arg"]
                 parseOptions(ConfigParseTest.SAMPLE_CONFIG)
         self.assertEqual(e.exception.code, 2)
-        self.assertEqual(s.getvalue(), expectedError)
+        # argparse's quoting of the choices list in this message varies between Python
+        # patch releases ("'irc', 'discord'" vs "irc, discord"); normalize it away.
+        actualError = s.getvalue().replace("'irc'", "irc").replace("'discord'", "discord")
+        self.assertEqual(actualError, expectedError)
 
 class TestArgumentParsing(TestCase):
     """Test parsing argument to determine whether to launch as irc or discord bot """

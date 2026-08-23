@@ -18,5 +18,6 @@ build/
 __pycache__/
 data/marvinMorning_date.txt
 .coverage
+coverage.xml
 dist
 htmlcov/
