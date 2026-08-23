@@ -361,14 +361,14 @@ def getWeatherForecast():
     time_series = forecast_req.json().get("timeSeries")
 
     # Pick two points a few hours apart instead of showing every hour.
-    hours_ahead = [3, 7]
-    selected_steps = [time_series[hour] for hour in hours_ahead if hour < len(time_series)]
+    step_indices = [3, 7]
+    selected_steps = [time_series[i] for i in step_indices if i < len(time_series)]
 
+    stockholm = zoneinfo.ZoneInfo("Europe/Stockholm")
     steps = []
     for step in selected_steps:
         data = step.get("data")
-        time = datetime.datetime.fromisoformat(step.get("time"))
-        local_time = time.astimezone(zoneinfo.ZoneInfo("Europe/Stockholm"))
+        local_time = datetime.datetime.fromisoformat(step.get("time")).astimezone(stockholm)
         temperature = data.get("air_temperature")
         symbol = symbols.get(str(data.get("symbol_code")))
         wind_speed = data.get("wind_speed")
