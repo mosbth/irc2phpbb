@@ -295,28 +295,24 @@ def marvinWeather(row):
     """
     msg = ""
     if any(r in row for r in ["väder", "vädret", "prognos", "prognosen", "smhi"]):
-        forecast = ""
+        temperature = ""
         observation = ""
 
         try:
             station_req = requests.get(getString("smhi", "station_url"), timeout=5)
-            weather_code:int = int(station_req.json().get("value")[0].get("value"))
+            weather_code: int = int(station_req.json().get("value")[0].get("value"))
 
             weather_codes_req = requests.get(getString("smhi", "weather_codes_url"), timeout=5)
             weather_codes_arr: list = weather_codes_req.json().get("entry")
 
             current_weather_req = requests.get(getString("smhi", "current_weather_url"), timeout=5)
-            current_w_data: list = current_weather_req.json().get("timeSeries")[0].get("parameters")
-
-            for curr_w in current_w_data:
-                if curr_w.get("name") == "t":
-                    forecast = curr_w.get("values")[0]
+            temperature: str = current_weather_req.json().get("value")[0].get("value")
 
             for code in weather_codes_arr:
                 if code.get("key") == weather_code:
                     observation = code.get("value")
 
-            msg = f"Karlskrona just nu: {forecast} °C. {observation}."
+            msg = f"Karlskrona just nu: {temperature} °C. {observation}."
 
         except Exception as e:
             LOG.error("Failed to get weather: %s", e)
