@@ -212,7 +212,7 @@
         "wind_speed_url": "https://opendata-download-metobs.smhi.se/api/version/1.0/parameter/4/station/65090/period/latest-hour/data.json",
         "forecast_url": "https://opendata-download-metfcst.smhi.se/api/category/snow1g/version/1/geotype/point/lon/15.589/lat/56.15/data.json?parameters=air_temperature,symbol_code,wind_from_direction,wind_speed&timeseries=8",
         "no_significant_weather": "Inget signifikant väder observerat",
-        "compass": ["N", "NO", "O", "SO", "S", "SV", "V", "NV"],
+        "compass": ["↑", "↗", "→", "↘", "↓", "↙", "←", "↖"],
         "symbols": {
             "1": "klart",
             "2": "nästan klart",

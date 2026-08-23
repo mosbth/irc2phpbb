@@ -292,7 +292,7 @@ def marvinSun(row):
 
 def windDirectionToCompass(degrees):
     """
-    Convert a wind direction in degrees to a compass direction (N, NO, O, ...).
+    Convert a wind direction in degrees to a compass arrow (↑, ↗, →, ...).
     """
     compass = getString("smhi")["compass"]
     index = round(degrees / (360 / len(compass))) % len(compass)
