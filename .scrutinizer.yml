@@ -1,0 +1,15 @@
+build:
+    environment:
+        python: '3.12'
+
+    dependencies:
+        before:
+            - curl -LsSf https://astral.sh/uv/install.sh | sh
+            - uv sync
+
+    tests:
+        override:
+            - command: uv run pytest --cov=irc2phpbb --cov-report=xml
+              coverage:
+                  file: coverage.xml
+                  format: py-cc
