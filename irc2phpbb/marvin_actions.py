@@ -343,7 +343,7 @@ def marvinWeather(row):
             current = ". ".join(parts)
 
             forecast = getWeatherForecast()
-            msg = f"{current} - {forecast}." if forecast else f"{current}."
+            msg = f"{current} · {forecast}." if forecast else f"{current}."
 
         except Exception as e:
             LOG.error("Failed to get weather: %s", e)
@@ -376,7 +376,7 @@ def getWeatherForecast():
         steps.append(f"{local_time:%H:%M} {temperature}° {symbol} "
                      f"{wind_speed} m/s {wind_direction}")
 
-    return " - ".join(steps)
+    return " · ".join(steps)
 
 
 def marvinStrip(row):
