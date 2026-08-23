@@ -99,8 +99,10 @@ The rfc for the irc protocol is quite helpful: http://www.irchelp.org/irchelp/rf
 Customized for dbwebb.se
 ----------------------------
 
-The bot is created for use in irc://irc.bsnet.se/#db-o-webb which is an irc channel for 
-teaching & learning HTML, CSS, JavaScript, PHP, SQL and Unix. The forum is http://dbwebb.se/forum. 
+The bot was initially created for use in irc://irc.bsnet.se/#db-o-webb which is an irc channel for 
+teaching & learning programming and web technologies.
+
+Years later it was further developed to work within Discord as a bot, still in a teaching and learning environment.
 
 This means that the code contains some settings to work in that environment and can therefore
 not just be cloned and installed. Modifications are needed. The script may anyhow be useful 
