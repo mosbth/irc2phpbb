@@ -2,24 +2,25 @@ build:
     environment:
         python: '3.12'
 
-    dependencies:
-        before: &dependencies
-            - pip install uv coverage
-            - uv sync
+    nodes:
+        analysis:
+            dependencies:
+                before: &dependencies
+                    - pip install uv coverage
+                    - uv sync
 
-    tests:
-        override: &tests_override
-            - command: uv run pytest --cov=irc2phpbb
-              coverage:
-                  file: .coverage
-                  format: py-cc
+        tests:
+            dependencies:
+                before: *dependencies
+            tests:
+                override: &tests_override
+                    - command: uv run pytest --cov=irc2phpbb
+                      coverage:
+                          file: .coverage
+                          format: py-cc
 
-# Scrutinizer runs "coverage" as its own separate build node, independent of the
-# "build" node above. Without an explicit override here it falls back to its
-# legacy stored config, which predates the uv migration.
-coverage:
-    dependencies:
-        before: *dependencies
-
-    tests:
-        override: *tests_override
+        coverage:
+            dependencies:
+                before: *dependencies
+            tests:
+                override: *tests_override
