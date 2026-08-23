@@ -335,7 +335,7 @@ def marvinWeather(row):
         try:
             temperature, wind_speed, compass_direction, observation = getCurrentWeather()
 
-            parts = [f"Karlskrona just nu: {temperature} °C, vind {wind_speed} m/s "
+            parts = [f"Karlskrona: {temperature} °C, vind {wind_speed} m/s "
                      f"från {compass_direction}."]
 
             if observation and observation != getString("smhi", "no_significant_weather"):
