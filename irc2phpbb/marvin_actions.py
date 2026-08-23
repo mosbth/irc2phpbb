@@ -289,36 +289,86 @@ def marvinSun(row):
     return msg
 
 
+def windDirectionToCompass(degrees):
+    """
+    Convert a wind direction in degrees to a compass direction (N, NO, O, ...).
+    """
+    compass = getString("smhi")["compass"]
+    index = round(degrees / (360 / len(compass))) % len(compass)
+    return compass[index]
+
+
+def getCurrentWeather():
+    """
+    Fetch the current temperature, wind and weather observation for Karlskrona.
+    """
+    station_req = requests.get(getString("smhi", "station_url"), timeout=5)
+    weather_code: int = int(station_req.json().get("value")[0].get("value"))
+
+    weather_codes_req = requests.get(getString("smhi", "weather_codes_url"), timeout=5)
+    weather_codes_arr: list = weather_codes_req.json().get("entry")
+
+    current_weather_req = requests.get(getString("smhi", "current_weather_url"), timeout=5)
+    temperature: str = current_weather_req.json().get("value")[0].get("value")
+
+    wind_direction_req = requests.get(getString("smhi", "wind_direction_url"), timeout=5)
+    wind_direction: float = float(wind_direction_req.json().get("value")[0].get("value"))
+
+    wind_speed_req = requests.get(getString("smhi", "wind_speed_url"), timeout=5)
+    wind_speed: str = wind_speed_req.json().get("value")[0].get("value")
+
+    observation = ""
+    for code in weather_codes_arr:
+        if code.get("key") == weather_code:
+            observation = code.get("value")
+
+    return temperature, wind_speed, windDirectionToCompass(wind_direction), observation
+
+
 def marvinWeather(row):
     """
     Check what the weather prognosis looks like.
     """
     msg = ""
     if any(r in row for r in ["väder", "vädret", "prognos", "prognosen", "smhi"]):
-        temperature = ""
-        observation = ""
-
         try:
-            station_req = requests.get(getString("smhi", "station_url"), timeout=5)
-            weather_code: int = int(station_req.json().get("value")[0].get("value"))
+            temperature, wind_speed, compass_direction, observation = getCurrentWeather()
 
-            weather_codes_req = requests.get(getString("smhi", "weather_codes_url"), timeout=5)
-            weather_codes_arr: list = weather_codes_req.json().get("entry")
+            parts = [f"Karlskrona just nu: {temperature} °C, vind {wind_speed} m/s "
+                     f"från {compass_direction}."]
 
-            current_weather_req = requests.get(getString("smhi", "current_weather_url"), timeout=5)
-            temperature: str = current_weather_req.json().get("value")[0].get("value")
+            if observation and observation != getString("smhi", "no_significant_weather"):
+                parts.append(f"{observation}.")
 
-            for code in weather_codes_arr:
-                if code.get("key") == weather_code:
-                    observation = code.get("value")
+            forecast = getWeatherForecast()
+            if forecast:
+                parts.append(f"Kommande timmar: {forecast}.")
 
-            msg = f"Karlskrona just nu: {temperature} °C. {observation}."
+            msg = " ".join(parts)
 
         except Exception as e:
             LOG.error("Failed to get weather: %s", e)
             msg: str = getString("smhi", "failed")
 
     return msg
+
+
+def getWeatherForecast():
+    """
+    Get a short summary of the weather forecast for the coming hours.
+    """
+    symbols = getString("smhi")["symbols"]
+    forecast_req = requests.get(getString("smhi", "forecast_url"), timeout=5)
+    time_series = forecast_req.json().get("timeSeries")
+
+    steps = []
+    for step in time_series:
+        data = step.get("data")
+        temperature = data.get("air_temperature")
+        symbol = symbols.get(str(data.get("symbol_code")))
+        steps.append(f"{temperature}°C {symbol}")
+
+    return ", ".join(steps)
 
 
 def marvinStrip(row):

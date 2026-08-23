@@ -1,0 +1,34 @@
+{
+  "createdTime": "2026-08-23T21:15:00Z",
+  "referenceTime": "2026-08-23T21:15:00Z",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [[15.589, 56.15]]
+  },
+  "timeSeries": [
+    {
+      "time": "2026-08-23T22:00:00Z",
+      "intervalParametersStartTime": "2026-08-23T21:00:00Z",
+      "data": {
+        "air_temperature": 15.8,
+        "symbol_code": 4
+      }
+    },
+    {
+      "time": "2026-08-23T23:00:00Z",
+      "intervalParametersStartTime": "2026-08-23T22:00:00Z",
+      "data": {
+        "air_temperature": 15.2,
+        "symbol_code": 5
+      }
+    },
+    {
+      "time": "2026-08-24T00:00:00Z",
+      "intervalParametersStartTime": "2026-08-23T23:00:00Z",
+      "data": {
+        "air_temperature": 14.6,
+        "symbol_code": 6
+      }
+    }
+  ]
+}
