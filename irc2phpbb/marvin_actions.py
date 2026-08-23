@@ -11,6 +11,7 @@ import json
 import logging
 import random
 import re
+import zoneinfo
 
 from importlib import resources as impresources
 
@@ -289,36 +290,97 @@ def marvinSun(row):
     return msg
 
 
+def windDirectionToCompass(degrees):
+    """
+    Convert a wind direction in degrees to a compass arrow (↑, ↗, →, ...).
+    """
+    compass = getString("smhi")["compass"]
+    index = round(degrees / (360 / len(compass))) % len(compass)
+    return compass[index]
+
+
+def getCurrentWeather():
+    """
+    Fetch the current temperature, wind and weather observation for Karlskrona.
+    """
+    station_req = requests.get(getString("smhi", "station_url"), timeout=5)
+    weather_code: int = int(station_req.json().get("value")[0].get("value"))
+
+    weather_codes_req = requests.get(getString("smhi", "weather_codes_url"), timeout=5)
+    weather_codes_arr: list = weather_codes_req.json().get("entry")
+
+    current_weather_req = requests.get(getString("smhi", "current_weather_url"), timeout=5)
+    temperature: str = current_weather_req.json().get("value")[0].get("value")
+
+    wind_direction_req = requests.get(getString("smhi", "wind_direction_url"), timeout=5)
+    wind_direction: float = float(wind_direction_req.json().get("value")[0].get("value"))
+
+    wind_speed_req = requests.get(getString("smhi", "wind_speed_url"), timeout=5)
+    wind_speed: str = wind_speed_req.json().get("value")[0].get("value")
+
+    observation = ""
+    for code in weather_codes_arr:
+        if code.get("key") == weather_code:
+            observation = code.get("value")
+
+    return temperature, wind_speed, windDirectionToCompass(wind_direction), observation
+
+
 def marvinWeather(row):
     """
     Check what the weather prognosis looks like.
     """
     msg = ""
     if any(r in row for r in ["väder", "vädret", "prognos", "prognosen", "smhi"]):
-        temperature = ""
-        observation = ""
-
         try:
-            station_req = requests.get(getString("smhi", "station_url"), timeout=5)
-            weather_code: int = int(station_req.json().get("value")[0].get("value"))
+            temperature, wind_speed, compass_direction, observation = getCurrentWeather()
+            current_symbol, forecast = getWeatherForecast()
 
-            weather_codes_req = requests.get(getString("smhi", "weather_codes_url"), timeout=5)
-            weather_codes_arr: list = weather_codes_req.json().get("entry")
+            parts = [f"Karlskrona {temperature}° {current_symbol} "
+                     f"{wind_speed} m/s {compass_direction}"]
 
-            current_weather_req = requests.get(getString("smhi", "current_weather_url"), timeout=5)
-            temperature: str = current_weather_req.json().get("value")[0].get("value")
+            if observation and observation != getString("smhi", "no_significant_weather"):
+                parts.append(observation)
 
-            for code in weather_codes_arr:
-                if code.get("key") == weather_code:
-                    observation = code.get("value")
+            current = ". ".join(parts)
 
-            msg = f"Karlskrona just nu: {temperature} °C. {observation}."
+            msg = f"{current} · {forecast}." if forecast else f"{current}."
 
         except Exception as e:
             LOG.error("Failed to get weather: %s", e)
             msg: str = getString("smhi", "failed")
 
     return msg
+
+
+def getWeatherForecast():
+    """
+    Get the current sky symbol plus a short summary of the weather forecast
+    for the coming hours.
+    """
+    symbols = getString("smhi")["symbols"]
+    forecast_req = requests.get(getString("smhi", "forecast_url"), timeout=5)
+    time_series = forecast_req.json().get("timeSeries")
+
+    current_symbol = symbols.get(str(time_series[0].get("data").get("symbol_code")))
+
+    # Pick two points a few hours apart instead of showing every hour.
+    step_indices = [3, 7]
+    selected_steps = [time_series[i] for i in step_indices if i < len(time_series)]
+
+    stockholm = zoneinfo.ZoneInfo("Europe/Stockholm")
+    steps = []
+    for step in selected_steps:
+        data = step.get("data")
+        local_time = datetime.datetime.fromisoformat(step.get("time")).astimezone(stockholm)
+        temperature = data.get("air_temperature")
+        symbol = symbols.get(str(data.get("symbol_code")))
+        wind_speed = data.get("wind_speed")
+        wind_direction = windDirectionToCompass(data.get("wind_from_direction"))
+        steps.append(f"{local_time:%H:%M} {temperature}° {symbol} "
+                     f"{wind_speed} m/s {wind_direction}")
+
+    return current_symbol, " · ".join(steps)
 
 
 def marvinStrip(row):

@@ -1,0 +1,40 @@
+{
+  "updated": 1729620000000,
+  "parameter": {
+    "key": "13",
+    "name": "Rådande väder",
+    "summary": "momentanvärde, 1 gång/tim resp 8 gånger/dygn",
+    "unit": "kod"
+  },
+  "station": {
+    "key": "65090",
+    "name": "Karlskrona-Söderstjerna",
+    "owner": "Försvarsmakten",
+    "ownerCategory": "CLIMATE",
+    "measuringStations": "CORE",
+    "height": 2.0
+  },
+  "period": {
+    "key": "latest-hour",
+    "from": 1729616401000,
+    "to": 1729620000000,
+    "summary": "Data från senaste timmen",
+    "sampling": "Ej angivet"
+  },
+  "position": [
+    {
+      "from": 1267401600000,
+      "to": 1729621220000,
+      "height": 2.4,
+      "latitude": 56.15,
+      "longitude": 15.589
+    }
+  ],
+  "value": [
+    {
+      "date": 1729620000000,
+      "value": "68",
+      "quality": "G"
+    }
+  ]
+}

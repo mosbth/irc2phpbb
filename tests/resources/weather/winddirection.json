@@ -1,0 +1,40 @@
+{
+  "updated": 1787346000000,
+  "parameter": {
+    "key": "3",
+    "name": "Vindriktning",
+    "summary": "medelvärde 10 min, 1 gång/tim",
+    "unit": "grader"
+  },
+  "station": {
+    "key": "65090",
+    "name": "Karlskrona-Söderstjerna",
+    "owner": "Försvarsmakten",
+    "ownerCategory": "CLIMATE",
+    "measuringStations": "CORE",
+    "height": 10.0
+  },
+  "period": {
+    "key": "latest-hour",
+    "from": 1787342401000,
+    "to": 1787346000000,
+    "summary": "Data från senaste timmen",
+    "sampling": "10 minuter"
+  },
+  "position": [
+    {
+      "from": 1267401600000,
+      "to": 1787347212000,
+      "height": 10.0,
+      "latitude": 56.15,
+      "longitude": 15.589
+    }
+  ],
+  "value": [
+    {
+      "date": 1787346000000,
+      "value": "225",
+      "quality": "G"
+    }
+  ]
+}
