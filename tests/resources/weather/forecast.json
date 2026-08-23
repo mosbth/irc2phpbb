@@ -20,6 +20,26 @@
       "time": "2026-08-23T23:00:00Z",
       "intervalParametersStartTime": "2026-08-23T22:00:00Z",
       "data": {
+        "air_temperature": 15.5,
+        "symbol_code": 4,
+        "wind_from_direction": 335,
+        "wind_speed": 2.8
+      }
+    },
+    {
+      "time": "2026-08-24T00:00:00Z",
+      "intervalParametersStartTime": "2026-08-23T23:00:00Z",
+      "data": {
+        "air_temperature": 15.3,
+        "symbol_code": 4,
+        "wind_from_direction": 330,
+        "wind_speed": 3.0
+      }
+    },
+    {
+      "time": "2026-08-24T01:00:00Z",
+      "intervalParametersStartTime": "2026-08-24T00:00:00Z",
+      "data": {
         "air_temperature": 15.2,
         "symbol_code": 5,
         "wind_from_direction": 320,
@@ -27,8 +47,38 @@
       }
     },
     {
-      "time": "2026-08-24T00:00:00Z",
-      "intervalParametersStartTime": "2026-08-23T23:00:00Z",
+      "time": "2026-08-24T02:00:00Z",
+      "intervalParametersStartTime": "2026-08-24T01:00:00Z",
+      "data": {
+        "air_temperature": 15.0,
+        "symbol_code": 5,
+        "wind_from_direction": 315,
+        "wind_speed": 3.2
+      }
+    },
+    {
+      "time": "2026-08-24T03:00:00Z",
+      "intervalParametersStartTime": "2026-08-24T02:00:00Z",
+      "data": {
+        "air_temperature": 14.8,
+        "symbol_code": 6,
+        "wind_from_direction": 310,
+        "wind_speed": 3.3
+      }
+    },
+    {
+      "time": "2026-08-24T04:00:00Z",
+      "intervalParametersStartTime": "2026-08-24T03:00:00Z",
+      "data": {
+        "air_temperature": 14.7,
+        "symbol_code": 6,
+        "wind_from_direction": 305,
+        "wind_speed": 3.3
+      }
+    },
+    {
+      "time": "2026-08-24T05:00:00Z",
+      "intervalParametersStartTime": "2026-08-24T04:00:00Z",
       "data": {
         "air_temperature": 14.6,
         "symbol_code": 6,

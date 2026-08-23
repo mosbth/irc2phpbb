@@ -335,8 +335,7 @@ def marvinWeather(row):
         try:
             temperature, wind_speed, compass_direction, observation = getCurrentWeather()
 
-            parts = [f"Karlskrona: {temperature} °C, vind {wind_speed} m/s "
-                     f"från {compass_direction}."]
+            parts = [f"Karlskrona: {temperature} °C, {wind_speed} m/s {compass_direction}."]
 
             if observation and observation != getString("smhi", "no_significant_weather"):
                 parts.append(f"{observation}.")
@@ -362,8 +361,12 @@ def getWeatherForecast():
     forecast_req = requests.get(getString("smhi", "forecast_url"), timeout=5)
     time_series = forecast_req.json().get("timeSeries")
 
+    # Pick two points a few hours apart instead of showing every hour.
+    hours_ahead = [3, 7]
+    selected_steps = [time_series[hour] for hour in hours_ahead if hour < len(time_series)]
+
     steps = []
-    for step in time_series:
+    for step in selected_steps:
         data = step.get("data")
         time = datetime.datetime.fromisoformat(step.get("time"))
         local_time = time.astimezone(zoneinfo.ZoneInfo("Europe/Stockholm"))
